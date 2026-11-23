@@ -1,0 +1,2355 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#10243c"><meta name="description" content="Professional engineering trigonometry calculator with visual triangle solver."><link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="theme-color" content="#10243c"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"><title>TRIGONOMETRY PRO V13.2.2</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#0c192a;color:#edf4fc;font:15px system-ui,-apple-system,sans-serif;padding:12px}
+.hero{background:linear-gradient(120deg,#10243c,#1769a8);padding:18px;border-radius:16px;margin-bottom:12px}.hero small{letter-spacing:2px;color:#b8d9f5}.hero h1{font-size:24px;margin:5px 0}.hero p{margin:0;color:#c9e2f8;font-size:12px}
+.nav,.row{display:flex;gap:8px}.nav button,.tabs button{flex:1}.panel{background:#14263b;border:1px solid #29435e;border-radius:14px;padding:14px;margin:10px 0}
+button,select,input{font:inherit}button{border:1px solid #35516e;border-radius:10px;padding:11px;background:#1b3048;color:#eaf4ff}button.active,.primary{background:#176bb5;border-color:#176bb5;color:white;font-weight:700}.primary{width:100%;margin-top:12px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:10px}.fn{padding:9px 3px}.fn b{display:block;font-size:19px}
+input,select{width:100%;min-width:0;background:#0e1d2e;color:#f4f8ff;border:1px solid #36516d;border-radius:9px;padding:11px;margin-top:5px}
+label{font-size:12px;color:#b4c7d9}.fields{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:10px}
+.formula{background:#0e1d2e;border:1px solid #29435e;border-radius:11px;padding:14px;text-align:center;margin-top:10px}.formula strong{display:block;font-size:22px;color:#69b9ff;margin:7px 0}
+.term-opposite{color:#16a36a;font-weight:800}
+.term-adjacent{color:#e3a13a;font-weight:800}
+.term-hypotenuse{color:#a855f7;font-weight:800}
+
+svg{width:100%;height:auto;display:block;background:#0e1d2e;border-radius:10px;margin-top:10px}.muted{color:#a9bdcf;font-size:12px}.metricgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:10px}.metric{background:#0e1d2e;border:1px solid #29435e;padding:10px;border-radius:9px}.metric b{display:block;color:#69b9ff;font-size:18px;overflow-wrap:anywhere}
+.metric.side-opposite{background:rgba(22,163,106,.13);border:1px solid rgba(22,163,106,.72);box-shadow:inset 3px 0 0 #16a36a}
+.metric.side-opposite span,.metric.side-opposite b{color:#35d18e}
+.metric.side-adjacent{background:rgba(227,161,58,.13);border:1px solid rgba(227,161,58,.72);box-shadow:inset 3px 0 0 #e3a13a}
+.metric.side-adjacent span,.metric.side-adjacent b{color:#f2bd62}
+.metric.side-hypotenuse{background:rgba(168,85,247,.13);border:1px solid rgba(168,85,247,.72);box-shadow:inset 3px 0 0 #a855f7}
+.metric.side-hypotenuse span,.metric.side-hypotenuse b{color:#c58aff}
+.metric.side-angle{background:rgba(105,185,255,.10);border:1px solid rgba(105,185,255,.5)}
+.metric.side-angle span,.metric.side-angle b{color:#79bdff}
+
+.tri-result-list{display:grid;grid-template-columns:minmax(0,1fr);gap:12px;width:100%;min-width:0;margin-top:10px}
+.tri-result-card{width:100%;min-width:0;box-sizing:border-box;margin:0;padding:14px}
+.tri-result-card .tri-result-figure{width:100%;min-width:0;overflow:visible;padding:8px 0;box-sizing:border-box}
+.tri-result-card .tri-result-figure svg{width:100%;max-width:100%;height:auto;min-height:170px;object-fit:contain}.tri-result-card .tri-result-figure svg{overflow:visible;display:block}
+.tri-result-metrics{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;width:100%;min-width:0;margin-top:12px}
+.tri-result-metrics .metric{min-width:0;min-height:76px;box-sizing:border-box;display:flex;flex-direction:column;justify-content:space-between;gap:5px;padding:11px}
+.tri-result-metrics .metric b{font-size:clamp(17px,4.5vw,22px);line-height:1.25;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;overflow-wrap:normal;word-break:normal;font-variant-numeric:tabular-nums}
+.tri-result-heading{font-size:16px;font-weight:800;margin-bottom:8px}
+.altitude-control{margin-top:14px;padding:13px;border:1px solid rgba(121,189,255,.42);border-radius:13px;background:rgba(9,25,42,.72);display:grid;gap:9px}
+.altitude-control h4{margin:0;color:#79bdff;font-size:15px}
+.altitude-control p{margin:0;color:#b6c6d6;font-size:12px;line-height:1.55}
+.altitude-control label{display:grid;gap:5px;color:#cbd8e5;font-size:12px;font-weight:700}
+.altitude-control select,.altitude-control input{width:100%;min-width:0;box-sizing:border-box;background:#0d1e2e;color:#edf5ff;border:1px solid #38516a;border-radius:9px;padding:10px;font-size:14px}
+.altitude-input-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.altitude-answer{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px;border-radius:10px;background:rgba(105,185,255,.12);border:1px solid rgba(121,189,255,.45)}
+.altitude-answer span{font-size:12px;color:#c5d8e9}
+.altitude-answer b{font-size:23px;color:#79bdff;font-variant-numeric:tabular-nums}
+.altitude-steps{font-size:12px;line-height:1.7;color:#d2deea;overflow-wrap:anywhere}
+.altitude-steps strong{color:#79bdff}
+.altitude-mark{opacity:.22;transition:opacity .15s ease}
+.altitude-mark.is-selected{opacity:1}
+@media(max-width:380px){.altitude-input-grid{grid-template-columns:1fr}}
+
+/* Three learning sections use distinct colors, consistent with the triangle palette. */
+.topic-method{border-color:rgba(105,185,255,.62);box-shadow:inset 4px 0 0 #69b9ff}
+.topic-method> b{color:#79bdff}
+.topic-method .step{border-bottom-color:rgba(105,185,255,.24)}
+.topic-method .explain-block{border-color:rgba(105,185,255,.48);background:rgba(105,185,255,.07)}
+.topic-method .explain-block h4{color:#79bdff}
+.topic-method .explain-formula{color:#8ac9ff}
+.topic-trig-formulas{border-color:rgba(22,163,106,.68);box-shadow:inset 4px 0 0 #16a36a}
+.topic-trig-formulas> b{color:#35d18e}
+.topic-trig-formulas .step{color:#b9f0d6;border-bottom-color:rgba(22,163,106,.28)}
+.topic-arc-formulas{border-color:rgba(168,85,247,.68);box-shadow:inset 4px 0 0 #a855f7}
+.topic-arc-formulas> b{color:#c58aff}
+.topic-arc-formulas .step{color:#e0c5ff;border-bottom-color:rgba(168,85,247,.28)}
+
+@media(min-width:700px){.tri-result-metrics{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.step{border-bottom:1px solid #29435e;padding:10px 0;line-height:1.6}
+.explain-intro{color:#c6d8e9;line-height:1.65;margin:4px 0 10px}
+.explain-block{background:#0e1d2e;border:1px solid #29435e;border-radius:10px;padding:10px 12px;margin:9px 0}
+.explain-block h4{margin:0 0 6px;color:#eaf4ff;font-size:14px}
+.explain-formula{color:#79bdff;font-weight:800;line-height:1.7;overflow-wrap:anywhere}
+.explain-line{color:#d7e5f3;line-height:1.65;padding:4px 0;overflow-wrap:anywhere}
+.explain-line b{color:#f4c66a}
+.smart-given{border-left:4px solid #69b9ff;background:rgba(105,185,255,.055)}
+.smart-given h4{color:#79bdff}
+.smart-check{border-left:4px solid #35d18e;background:rgba(22,163,106,.055)}
+.smart-check h4{color:#35d18e}
+.smart-check .explain-result{color:#35d18e;font-weight:800}
+.explain-result{color:#9fe3c1;font-weight:800}
+.hidden{display:none!important}
+.nav button{font-size:13px;padding:10px 6px}
+.graph-label{fill:#a9bdcf;font-size:10px}
+.graph-axis{stroke:#8ba5bf;stroke-width:1.2}.graph-grid{stroke:#29435e;stroke-dasharray:3 4}.graph-curve{fill:none;stroke:#69b9ff;stroke-width:2.7;stroke-linejoin:round;stroke-linecap:round}.graph-marker{fill:#f4b942;stroke:#fff;stroke-width:1.5}
+.history-item{background:#0e1d2e;border:1px solid #29435e;border-radius:10px;padding:11px;margin:8px 0}
+.history-item b{color:#69b9ff}
+.graph-toggles{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:8px}
+.graph-toggles label{display:flex;align-items:center;gap:5px;background:#0e1d2e;border:1px solid #29435e;border-radius:8px;padding:8px;color:#eaf4ff}
+.graph-toggles input{width:auto;margin:0;accent-color:#69b9ff}
+.graph-svg{width:100%;height:auto;display:block;touch-action:pan-y;cursor:crosshair}
+.graph-legend{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+.graph-legend span{font-size:11px;color:#c5d5e5}
+.tri-live-svg{width:100%;max-height:290px;background:#0e1d2e;border-radius:10px}
+.tri-side-label{font-size:12px;font-weight:700;paint-order:stroke;stroke:#0e1d2e;stroke-width:3px;stroke-linejoin:round}
+.tri-angle-label{font-size:11px;fill:#f4f8ff;font-weight:700}
+.tri-vertex-label{font-size:12px;fill:#dbeafe;font-weight:700}
+.triangle-pin{position:absolute;transform:translate(-50%,-50%);width:76px;text-align:center;z-index:2}
+.triangle-pin label{display:block;color:var(--pin-color);font-size:11px;font-weight:800;line-height:1.25;margin-bottom:3px;text-shadow:0 1px 3px #071321}
+.triangle-pin input{width:100%;box-sizing:border-box;padding:8px 4px;text-align:center;font-size:14px;font-weight:700;color:#f4f8ff;background:#0e1d2e;border:1.5px solid var(--pin-color);border-radius:10px;outline:none;box-shadow:0 0 0 1px rgba(255,255,255,.025),0 3px 10px rgba(0,0,0,.18)}
+.triangle-pin input:focus{border-color:var(--pin-color);box-shadow:0 0 0 2px color-mix(in srgb,var(--pin-color) 28%,transparent),0 0 12px color-mix(in srgb,var(--pin-color) 35%,transparent)}
+.side-color-legend{display:flex;flex-wrap:wrap;gap:7px 12px;padding:9px 3px 2px;color:#c3d2e0;font-size:10px;line-height:1.5}
+.side-color-legend span{display:inline-flex;align-items:center;gap:5px}
+.side-color-legend i{display:inline-block;width:9px;height:9px;border-radius:50%;flex:0 0 auto}
+.legend-a{background:#16a36a;box-shadow:0 0 5px #16a36a}
+.legend-b{background:#e3a13a;box-shadow:0 0 5px #e3a13a}
+.legend-c{background:#a855f7;box-shadow:0 0 5px #a855f7}
+
+.smart-preview-empty,.smart-preview-pending{background:#0e1d2e;border:1px dashed #35516d;border-radius:11px;padding:14px;color:#a9bdcf;line-height:1.6}
+.smart-preview-pending b{display:block;color:#f4c66a;margin-bottom:5px}
+.smart-preview-pending small{display:block;margin-top:5px;color:#a9bdcf}
+.smart-preview-card{background:#0e1d2e;border:1px solid #29435e;border-radius:11px;padding:10px;margin:8px 0}
+.smart-preview-title{font-size:13px;font-weight:800;color:#79bdff;margin:0 0 6px}
+.smart-preview-card .tri-live-svg{max-height:250px}
+.smart-preview-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px;margin-top:8px}
+.smart-value{border-radius:8px;padding:7px 6px;background:#14263a;border:1px solid #29435e;min-width:0}
+.smart-value span{display:block;font-size:10px;color:#a9bdcf}
+.smart-value b{display:block;font-size:14px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.smart-value.side-a{border-color:#16a36a;background:rgba(22,163,106,.12)}.smart-value.side-a b{color:#35d18e}
+.smart-value.side-b{border-color:#e3a13a;background:rgba(227,161,58,.12)}.smart-value.side-b b{color:#f2bd62}
+.smart-value.side-c{border-color:#a855f7;background:rgba(168,85,247,.12)}.smart-value.side-c b{color:#c58aff}
+.smart-value.angle{border-color:#52718e}.smart-value.angle b{color:#79bdff}
+.tri-result-metrics .smart-side-a{background:rgba(22,163,106,.12);border-color:rgba(22,163,106,.72);box-shadow:inset 3px 0 0 #16a36a}
+.tri-result-metrics .smart-side-a span,.tri-result-metrics .smart-side-a b{color:#35d18e}
+.tri-result-metrics .smart-side-b{background:rgba(227,161,58,.12);border-color:rgba(227,161,58,.72);box-shadow:inset 3px 0 0 #e3a13a}
+.tri-result-metrics .smart-side-b span,.tri-result-metrics .smart-side-b b{color:#f2bd62}
+.tri-result-metrics .smart-side-c{background:rgba(168,85,247,.12);border-color:rgba(168,85,247,.72);box-shadow:inset 3px 0 0 #a855f7}
+.tri-result-metrics .smart-side-c span,.tri-result-metrics .smart-side-c b{color:#c58aff}
+.tri-result-metrics .smart-angle span,.tri-result-metrics .smart-angle b{color:#79bdff}
+.tri-result-metrics .smart-altitude{background:rgba(105,185,255,.10);border-color:rgba(105,185,255,.65);box-shadow:inset 3px 0 0 #79bdff}
+.tri-result-metrics .smart-altitude span,.tri-result-metrics .smart-altitude b{color:#79bdff}
+.tri-result-figure .tri-result-svg{width:100%;height:auto;display:block}
+
+
+.smart-preview-status{font-size:11px;color:#9fb4c8;margin:8px 2px;display:flex;align-items:center;gap:7px}
+.live-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:#35d18e;box-shadow:0 0 8px #35d18e;flex:0 0 auto}
+
+
+
+
+
+/* V11.3.0: altitude visualization and color key */
+.altitude-mark{opacity:.88!important}
+.altitude-mark text{font-size:10px;paint-order:stroke;stroke:#0e1d2e;stroke-width:2.5px;stroke-linejoin:round}
+.tri-result-figure svg,.smart-preview-card .tri-live-svg{overflow:visible;max-width:100%;height:auto}
+.triangle-diagram-key{display:flex;flex-wrap:wrap;gap:7px 12px;margin:8px 2px 4px;font-size:10px;color:#b9cadd}
+.triangle-diagram-key span{display:inline-flex;align-items:center;gap:5px}
+.triangle-diagram-key i{display:inline-block;width:9px;height:9px;border-radius:50%}
+.triangle-diagram-key .key-a{background:#16a36a}
+.triangle-diagram-key .key-b{background:#e3a13a}
+.triangle-diagram-key .key-c{background:#a855f7}
+.triangle-diagram-key .key-h{background:#79bdff}
+
+/* V11.4.0 — advanced triangle geometry laboratory */
+.geometry-lab-panel{margin-top:12px;padding:12px;border:1px solid #35516e;border-radius:12px;background:#102238}
+.geometry-lab-panel h4{margin:0 0 9px;color:#e6f2ff;font-size:14px}
+.geometry-lab-legend{display:flex;flex-wrap:wrap;gap:7px 12px;margin:8px 2px;font-size:10px;color:#c1d1e1}
+.geometry-lab-legend span{display:inline-flex;align-items:center;gap:5px}
+.geometry-lab-legend i{display:inline-block;width:10px;height:10px;border-radius:50%;flex:0 0 auto}
+.geometry-lab-legend .g-height{background:#79bdff}
+.geometry-lab-legend .g-centroid{background:#f7c65b}
+.geometry-lab-legend .g-incenter{background:#ffb86b}
+.geometry-lab-legend .g-circumcenter{background:#5cc8ff}
+.geometry-lab-legend .g-median{background:#f7c65b}
+.geometry-lab-legend .g-bisector{background:#ff8a65}
+.geometry-lab-values{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+.geometry-lab-values>div{min-width:0;border:1px solid #29435e;border-radius:9px;background:#0e1d2e;padding:8px;display:flex;flex-direction:column;gap:4px}
+.geometry-lab-values span{font-size:10px;color:#a9bdcf}
+.geometry-lab-values b{font-size:13px;color:#79bdff;overflow-wrap:anywhere}
+.geometry-lab-legend-top{padding:2px 0 4px}
+.tri-result-svg .median-lines,.tri-result-svg .bisector-lines{pointer-events:none}
+@media(max-width:380px){.geometry-lab-values{grid-template-columns:1fr}}
+
+/* V11.4.1 COLOR CLARITY — consistent line, point and legend colors */
+.tri-result-svg .altitude-mark path:not([stroke-dasharray="3 3"]),
+.tri-result-svg .altitude-mark path{stroke:#60A5FA!important;stroke-width:2.5!important}
+.tri-result-svg .altitude-mark circle{fill:#60A5FA!important}
+.tri-result-svg .altitude-mark text{fill:#60A5FA!important;font-weight:900!important}
+.tri-result-svg .median-lines path{stroke:#FACC15!important;stroke-width:2.5!important;stroke-dasharray:8 4!important}
+.tri-result-svg .bisector-lines path{stroke:#F472B6!important;stroke-width:2.7!important;stroke-dasharray:3 3 1 3!important}
+.tri-result-svg .circumcircle-line{stroke:#22D3EE!important;stroke-width:2.2!important;stroke-dasharray:10 5!important}
+.tri-result-svg .incircle-line{stroke:#FB923C!important;stroke-width:2.5!important}
+.geometry-lab-legend .g-height{background:#60A5FA!important}
+.geometry-lab-legend .g-centroid,.geometry-lab-legend .g-median{background:#FACC15!important}
+.geometry-lab-legend .g-incenter{background:#FB923C!important}
+.geometry-lab-legend .g-circumcenter{background:#22D3EE!important}
+.geometry-lab-legend .g-bisector{background:#F472B6!important}
+.geometry-lab-legend span:has(.g-height) i,
+.geometry-lab-legend span:has(.g-median) i,
+.geometry-lab-legend span:has(.g-bisector) i{width:19px;height:4px;border-radius:3px}
+.geometry-lab-legend span:has(.g-height) i{background:#60A5FA!important}
+.geometry-lab-legend span:has(.g-median) i{background:repeating-linear-gradient(90deg,#FACC15 0 6px,transparent 6px 9px)!important}
+.geometry-lab-legend span:has(.g-bisector) i{background:repeating-linear-gradient(90deg,#F472B6 0 3px,transparent 3px 5px)!important}
+.geometry-lab-legend span:has(.g-circumcenter) i{width:19px;height:4px;border-radius:3px;background:repeating-linear-gradient(90deg,#22D3EE 0 7px,transparent 7px 10px)!important}
+.geometry-lab-legend span:has(.g-incenter) i{width:19px;height:4px;border-radius:3px;background:#FB923C!important}
+
+/* V11.4.2 — computed values inherit the exact color of their diagram element */
+.tri-result-metrics .smart-side-a{border-color:rgba(22,163,106,.7)!important}
+.tri-result-metrics .smart-side-a span,.tri-result-metrics .smart-side-a b{color:#16A36A!important}
+.tri-result-metrics .smart-side-b{border-color:rgba(227,161,58,.72)!important}
+.tri-result-metrics .smart-side-b span,.tri-result-metrics .smart-side-b b{color:#E3A13A!important}
+.tri-result-metrics .smart-side-c{border-color:rgba(168,85,247,.72)!important}
+.tri-result-metrics .smart-side-c span,.tri-result-metrics .smart-side-c b{color:#A855F7!important}
+.tri-result-metrics .smart-altitude{border-color:rgba(96,165,250,.72)!important;background:rgba(96,165,250,.08)!important}
+.tri-result-metrics .smart-altitude span,.tri-result-metrics .smart-altitude b{color:#60A5FA!important}
+.altitude-answer{border-color:rgba(96,165,250,.68)!important;background:rgba(96,165,250,.10)!important}
+.altitude-answer span,.altitude-answer b{color:#60A5FA!important}
+.geometry-lab-values .geom-value{border-color:color-mix(in srgb,var(--geom-color) 55%,#29435e)!important;background:color-mix(in srgb,var(--geom-color) 9%,#0e1d2e)!important}
+.geometry-lab-values .geom-value span,.geometry-lab-values .geom-value b{color:var(--geom-color)!important}
+.geometry-lab-values .geom-incircle,.geometry-lab-values .geom-incenter{--geom-color:#FB923C}
+.geometry-lab-values .geom-circumcircle,.geometry-lab-values .geom-circumcenter{--geom-color:#22D3EE}
+.geometry-lab-values .geom-median,.geometry-lab-values .geom-centroid{--geom-color:#FACC15}
+.geometry-lab-values .geom-bisector{--geom-color:#F472B6}
+
+/* V11.4.3 — interactive geometry layer visibility controls */
+.geometry-layer-controls{margin:10px 0 8px;padding:10px;border:1px solid #35516e;border-radius:12px;background:#102238}
+.geometry-layer-heading{font-size:12px;font-weight:800;color:#e6f2ff;margin:0 0 8px}
+.geometry-layer-buttons{display:flex;flex-wrap:wrap;gap:7px}
+.geometry-layer-btn{appearance:none;border:1px solid #3b5672;border-radius:9px;background:#1b3048;color:#d8e6f4;padding:8px 10px;min-height:36px;font:inherit;font-size:11px;display:inline-flex;align-items:center;gap:7px;cursor:pointer;touch-action:manipulation}
+.geometry-layer-btn.is-on{background:#203d59;border-color:#5b86ad;color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.035)}
+.geometry-layer-btn.is-off{opacity:.58;background:#0e1d2e;border-style:dashed;color:#a5b4c5}
+.geometry-layer-btn:focus-visible{outline:2px solid #93c5fd;outline-offset:2px}
+.geometry-layer-btn.geometry-layer-all{border-color:#2478b9;background:#176bb5;color:#fff;font-weight:800}
+.layer-swatch{display:inline-block;width:16px;height:4px;border-radius:3px;flex:0 0 auto}
+.sw-height{background:#60A5FA}
+.sw-median{background:repeating-linear-gradient(90deg,#FACC15 0 6px,transparent 6px 9px)}
+.sw-bisector{background:repeating-linear-gradient(90deg,#F472B6 0 3px,transparent 3px 5px)}
+.sw-incircle{height:8px;border:2px solid #FB923C;border-radius:50%;background:transparent}
+.sw-circumcircle{height:8px;border:2px dashed #22D3EE;border-radius:50%;background:transparent}
+.sw-centroid{width:8px;height:8px;border-radius:50%;background:#FACC15}
+.tri-result-svg .layer-hidden{display:none!important}
+@media(max-width:390px){.geometry-layer-btn{padding:7px 8px;font-size:10px;min-height:34px}.geometry-layer-buttons{gap:6px}}
+
+/* V11.5.0 — tap-to-inspect geometry details */
+.inspect-hit{fill:none;stroke:transparent;stroke-width:18;stroke-linecap:round;stroke-linejoin:round;pointer-events:stroke;cursor:pointer}
+.inspect-hit-point{fill:transparent;stroke:transparent;stroke-width:1;pointer-events:all;cursor:pointer}
+.tri-result-svg [data-inspect-key]{cursor:pointer}
+.tri-result-svg .inspect-selected:not(.inspect-hit){filter:drop-shadow(0 0 5px currentColor);stroke-width:4!important}
+.tri-result-svg .inspect-hit.inspect-selected{stroke:rgba(255,255,255,.7);stroke-width:20}
+.geometry-inspector{margin:10px 0;padding:11px;border:1px solid #35516e;border-radius:12px;background:#0e1d2e}
+.geometry-inspector-title{font-size:13px;font-weight:800;color:#e6f2ff;margin-bottom:7px}
+.geometry-inspector-empty{font-size:11px;line-height:1.65;color:#aebfd0}
+.inspect-result-title{font-size:13px;font-weight:900;margin:0 0 8px}
+.inspect-result-row{display:flex;flex-direction:column;gap:3px;padding:7px 0;border-top:1px solid #263d56;font-size:11px;line-height:1.5}
+.inspect-result-row span{color:#9eb2c6}
+.inspect-result-row b{color:#e6f2ff;font-weight:600;overflow-wrap:anywhere}
+.inspect-result-answer{margin-top:7px;padding:9px;border:1px solid;border-radius:9px;background:#14283e;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.inspect-result-answer span{font-size:11px;color:#b6c7d8}
+.inspect-result-answer strong{font-size:19px;overflow-wrap:anywhere;text-align:right}
+.inspect-result-explain{font-size:11px;line-height:1.65;color:#c2d2e1;margin-top:8px}
+
+/* V11.6.0 — connected diagram/result highlighting */
+.tri-result-metrics .inspect-metric{width:100%;text-align:left;cursor:pointer;font:inherit;display:flex;flex-direction:column;gap:4px}
+.tri-result-metrics .inspect-metric:focus-visible,.geom-value[data-inspect-select]:focus-visible{outline:2px solid #93c5fd;outline-offset:2px}
+.geom-value[data-inspect-select]{cursor:pointer;transition:filter .15s,transform .15s}
+.geom-value[data-inspect-select]:active{transform:scale(.985)}
+.inspect-selected{filter:drop-shadow(0 0 6px rgba(255,255,255,.95))!important}
+.inspect-related{filter:drop-shadow(0 0 4px rgba(255,255,255,.55))!important}
+.tri-result-svg .triangle-edge.inspect-selected{stroke-width:7!important}
+.tri-result-svg .triangle-edge.inspect-related{stroke-width:6!important}
+.tri-result-svg .triangle-angle-arc.inspect-selected{stroke:#fff!important;stroke-width:4!important}
+.tri-result-svg .triangle-angle-arc.inspect-related{stroke:#cbd5e1!important;stroke-width:3!important}
+.tri-result-svg .altitude-mark .inspect-hit.inspect-selected,
+.tri-result-svg .median-lines .inspect-hit.inspect-selected,
+.tri-result-svg .bisector-lines .inspect-hit.inspect-selected{stroke:rgba(255,255,255,.85)!important;stroke-width:20!important}
+.geometry-inspector-title{transition:color .15s}
+
+/* V11.6.1 — live proportional input triangle */
+#inputdiagram svg{overflow:visible}
+#inputdiagram .input-outline{transition:d .16s ease}
+#inputdiagram .input-side-a,#inputdiagram .input-side-b,#inputdiagram .input-side-c{transition:d .16s ease}
+#inputdiagram .triangle-pin{transition:left .16s ease,top .16s ease}
+\n.geometry-layer-clear{border-color:#8b5362!important;color:#ffb4c2!important;background:rgba(139,83,98,.12)!important}\n
+/* V11.7.2 — reliable touch targets for every geometry line */
+.tri-result-svg .median-lines,
+.tri-result-svg .bisector-lines,
+.tri-result-svg .altitude-mark,
+.tri-result-svg .incircle-line,
+.tri-result-svg .circumcircle-line,
+.tri-result-svg .geom-point-centroid,
+.tri-result-svg .geom-point-incenter,
+.tri-result-svg .geom-point-circum{pointer-events:auto!important}
+.tri-result-svg .inspect-hit{pointer-events:stroke!important;stroke:transparent!important;stroke-width:22!important;fill:none!important;cursor:pointer}
+.tri-result-svg .inspect-hit-point{pointer-events:all!important}
+.tri-result-svg [data-inspect-key]{cursor:pointer}
+
+/* V11.9.0 — structured worked-solution steps in geometry inspector */
+.inspect-worked-steps{display:grid;gap:0;margin:12px 0}
+.inspect-worked-step{padding:11px 0;border-bottom:1px solid rgba(120,150,180,.22);display:grid;gap:6px;line-height:1.55}
+.inspect-worked-step b{color:#8fc5ff;font-size:.94em}
+.inspect-worked-step span{color:#e2edf8;overflow-wrap:anywhere}
+.inspect-result-answer{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:12px}
+.inspect-result-answer strong{font-size:1.25em;overflow-wrap:anywhere;text-align:right}
+
+/* V12.2.0 guided engineering layout */
+.eng-step-title{font-weight:750;font-size:1rem;color:var(--text,#eaf2fb);margin-top:4px}
+.eng-mode-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}
+.eng-mode-grid button{display:flex;flex-direction:column;align-items:flex-start;gap:4px;text-align:left;min-height:64px;padding:10px;border:1px solid rgba(130,160,190,.3);border-radius:12px}
+.eng-mode-grid button strong{font-size:.92rem}
+.eng-mode-grid button small{font-size:.76rem;opacity:.75}
+.eng-input-card{border:1px solid rgba(130,160,190,.24);border-radius:12px;padding:12px;margin-bottom:10px;background:rgba(30,55,82,.18)}
+.eng-input-heading{font-weight:800;margin-bottom:10px}
+.eng-input-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+.eng-field{min-width:0;display:flex;flex-direction:column;gap:5px}
+.eng-field label{font-size:.86rem;font-weight:650}
+.eng-field input{width:100%;min-width:0;box-sizing:border-box}
+.eng-field small{font-size:.7rem;opacity:.62}
+@media(max-width:380px){.eng-mode-grid{grid-template-columns:1fr}.eng-input-grid{grid-template-columns:1fr}}
+#geoInputs .triangle-pin{width:82px;z-index:3}
+#geoInputs .triangle-pin input{min-height:38px;font-size:14px}
+#geoInputs .triangle-pin label{font-size:10px;white-space:normal}
+#geoInputs > div:first-child{width:100%;max-width:520px;min-height:260px}
+#geoInputs svg{display:block;width:100%;height:auto;min-height:220px;max-height:260px}
+#geoInputs .side-color-legend{justify-content:center}
+
+/* V13.0.5: geometry input area spans the full available width */
+#geoInputs.fields{display:block!important;width:100%;min-width:0;box-sizing:border-box}
+#geoInputs > div:first-child{
+ width:100%!important;max-width:none!important;min-width:0;
+ height:300px;min-height:300px;box-sizing:border-box;
+ position:relative;display:block;margin-left:auto;margin-right:auto;
+}
+#geoInputs > div:first-child svg{
+ display:block;width:100%!important;height:100%!important;
+ min-height:0!important;max-height:none!important;
+}
+#geoInputs .side-color-legend{
+ display:flex;width:100%;box-sizing:border-box;justify-content:center;
+ margin-top:8px;text-align:center;
+}
+
+
+/* V13.0.6: place each dimension field beside its represented side */
+#geoInputs .triangle-pin{position:absolute;z-index:4;width:104px!important;max-width:30%;transform:translate(-50%,-50%)}
+#geoInputs .triangle-pin label{display:block;text-align:center;line-height:1.2;margin-bottom:4px;font-size:12px;font-weight:700;white-space:normal}
+#geoInputs .triangle-pin input{width:100%;min-width:0;box-sizing:border-box;min-height:42px;text-align:center;font-size:17px;font-weight:700}
+#geoInputs > div:first-child{overflow:visible}
+
+
+/* V13.0.8 — multi-unit result cards */
+.uc-all-results{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;margin-top:8px}
+.uc-result-card{min-width:0;background:#10243a;border:1px solid #304c68;border-radius:11px;padding:10px}
+.uc-result-card .uc-unit-name{font-size:12px;color:#aebfd1;line-height:1.4;min-height:32px}
+.uc-result-card strong{display:block;color:#75baff;font-size:17px;line-height:1.45;overflow-wrap:anywhere;margin-top:3px}
+.uc-result-card small{display:inline-block;margin-top:4px;color:#74d7b0;font-size:10px}
+.uc-result-card.uc-thai{border-color:#287b68;background:#102d31}
+.uc-result-card.uc-thai strong{color:#72d9b2}
+@media(min-width:620px){.uc-all-results{grid-template-columns:repeat(3,minmax(0,1fr))}}
+
+
+.uc-land-breakdown{display:none;margin-top:12px;padding:13px;border:1px solid #287b68;border-radius:12px;background:#102d31}
+.uc-land-breakdown .uc-land-title{font-size:13px;color:#8fe2c1;font-weight:700;margin-bottom:8px}
+.uc-land-breakdown .uc-land-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px}
+.uc-land-breakdown .uc-land-item{background:#163b3b;border-radius:9px;padding:9px 5px;text-align:center;min-width:0}
+.uc-land-breakdown .uc-land-item strong{display:block;font-size:20px;color:#8fe2c1;overflow-wrap:anywhere}
+.uc-land-breakdown .uc-land-item span{font-size:11px;color:#b7d8cd}
+.uc-land-breakdown .uc-land-total{margin-top:8px;font-size:13px;color:#e0f5ed;line-height:1.6}
+
+</style></head><body>
+<header class="hero"><small>PROFESSIONAL ENGINEERING</small><h1>TRIGONOMETRY PRO</h1><p>VERSION 13.2.2 • GLOBAL LENGTH UNIT SELECTOR • PROFESSIONAL ENGINEERING EDITION</p><p style="margin-top:9px">VISUAL CALCULATOR • FORMULA • STEP BY STEP</p></header>
+<div class="nav"><button id="navf" class="active">ฟังก์ชันตรีโกณมิติ</button><button id="navt">คำนวณสามเหลี่ยม</button></div>
+<div class="nav" style="margin-top:8px"><button id="navg">กราฟฟังก์ชัน</button><button id="navh">ประวัติ</button></div><div class="nav" style="margin-top:8px"><button id="nave">เครื่องมือวิศวกรรม 2D/3D</button></div><div class="nav" style="margin-top:8px"><button id="navgeo">เรขาคณิตและปริมาตร</button></div>
+<div class="nav" style="margin-top:8px"><button id="navunit">แปลงหน่วยไทยและสากล</button></div>
+<div class="nav" style="margin-top:8px"><button id="navbuild">คำนวณวัสดุก่อสร้าง</button></div>
+<section id="functions">
+<div class="panel"><b>เลือกหมวดฟังก์ชัน</b><div class="row tabs" style="margin-top:10px"><button class="active" data-group="basic">พื้นฐาน</button><button data-group="reciprocal">ส่วนกลับ</button><button data-group="arc">ฟังก์ชันอาร์ค</button></div><div class="grid3" id="fnlist"></div></div>
+<div class="panel"><b>สูตรและคำอธิบาย</b><div class="formula"><span class="muted" id="ftitle"></span><strong id="formula"></strong><span class="muted" id="eng"></span></div><p id="desc"></p></div>
+<div class="panel"><b>ภาพประกอบ</b><div id="diagram"></div><div class="muted" id="note"></div></div>
+<div class="panel"><b>กรอกข้อมูลเพื่อคำนวณ</b>
+<div class="row tabs" style="margin-top:10px"><button id="angleMode" class="active">กรอกมุม θ</button><button id="sideMode">กรอกความยาวด้าน</button></div>
+<div id="angleInputs" class="fields"><div><label id="inputlabel">มุม θ / ค่า X</label><input id="x" type="text" inputmode="text" autocomplete="off" autocapitalize="off" spellcheck="false" value="30" placeholder="เช่น 1/2 หรือ 2+3"></div><div><label>หน่วยมุม</label><select id="unit"><option value="deg">องศา °</option><option value="rad">เรเดียน rad</option></select></div><div class="muted" style="grid-column:1/-1">รองรับเศษส่วนและการคำนวณ เช่น 1/2, 2+3, 5-1, 2×3, (1+2)/4</div></div>
+<div id="sideInputs" class="hidden">
+ <p class="muted">กรอกความยาวด้านอย่างน้อย 2 ด้าน ระบบจะคำนวณอัตราส่วนของฟังก์ชันที่เลือกให้โดยตรง</p>
+ <div class="fields">
+  <div><label style="color:#16a36a">ด้านข้าม / ตรงข้าม</label><input id="sideOpp" type="number" min="0" step="any" placeholder="เช่น 3"></div>
+  <div><label style="color:#e3a13a">ด้านชิด / ประชิด</label><input id="sideAdj" type="number" min="0" step="any" placeholder="เช่น 4"></div>
+  <div style="grid-column:1/-1"><label style="color:#a855f7">ด้านฉาก</label><input id="sideHyp" type="number" min="0" step="any" placeholder="เช่น 5"></div>
+ </div>
+ <div class="muted" style="margin-top:7px">สีเขียว = ข้าม • สีส้ม = ชิด • สีม่วง = ฉาก</div>
+</div>
+<button class="primary" id="calc">คำนวณ</button></div>
+<div class="panel"><b>ผลการคำนวณ</b><div class="formula"><span class="muted">คำตอบ</span><strong id="answer">0.5</strong><span class="muted" id="answerunit"></span></div><div class="metricgrid" id="details"></div><div class="muted" style="margin-top:9px;line-height:1.8"><span style="color:#35d18e;font-weight:800">● ด้านข้าม</span> &nbsp; <span style="color:#f2bd62;font-weight:800">● ด้านชิด</span> &nbsp; <span style="color:#c58aff;font-weight:800">● ด้านฉาก</span></div>
+</div>
+<div class="panel topic-method"><b>วิธีทำทีละขั้นตอน</b><div id="steps"></div></div>
+<div class="panel topic-trig-formulas"><b>สูตรฟังก์ชันตรีโกณมิติ</b><div class="step">sin θ = ข้าม / ฉาก</div><div class="step">cos θ = ชิด / ฉาก</div><div class="step">tan θ = ข้าม / ชิด</div><div class="step">cosec θ = ฉาก / ข้าม</div><div class="step">sec θ = ฉาก / ชิด</div><div class="step">cot θ = ชิด / ข้าม</div></div>
+<div class="panel topic-arc-formulas"><b>สูตรฟังก์ชันอาร์ค</b><div class="step">arcsin(x) = θ เมื่อ sin θ = x</div><div class="step">arccos(x) = θ เมื่อ cos θ = x</div><div class="step">arctan(x) = θ เมื่อ tan θ = x</div><div class="step">arccosec(x) = arcsin(1/x)</div><div class="step">arcsec(x) = arccos(1/x)</div><div class="step">arccot(x) = arctan(1/x) ในช่วง (0, π)</div></div>
+</section>
+<section id="triangles" class="hidden">
+<div class="panel"><b>เลือกรูปแบบสามเหลี่ยม</b><div class="row" style="margin-top:10px"><button id="general" class="active">สามเหลี่ยมทั่วไป</button><button id="right">สามเหลี่ยมมุมฉาก</button></div><div id="methodbox"><label>รูปแบบข้อมูล</label><select id="method"><option value="SSS">SSS – ด้าน 3 ด้าน</option><option value="SAS">SAS – ด้าน 2 และมุมระหว่างกลาง</option><option value="ASA">ASA – มุม 2 และด้าน 1</option><option value="SSA">SSA – มุมและด้าน 2 ด้าน</option></select></div></div>
+<div class="panel"><b id="triheading">กรอกค่าบนรูปสามเหลี่ยมโดยตรง</b><div class="row" style="margin-top:8px"><button id="deg" class="active">องศา °</button><button id="rad">เรเดียน rad</button></div><div id="inputdiagram"></div>
+<div class="formula" style="text-align:left;margin-top:12px">
+ <b>ตัวอย่างรูปทรงตามข้อมูลที่กรอก</b>
+ <div id="triLivePreview"><span class="muted">กรอกข้อมูลเพื่อดูรูปสามเหลี่ยมตัวอย่าง</span></div>
+ <div class="muted">ภาพตัวอย่างจะปรับสัดส่วนตามความยาวด้านเมื่อมีข้อมูลเพียงพอ</div>
+</div>
+<p class="muted" id="hint"></p><button class="primary" id="tricalc">คำนวณสามเหลี่ยม</button><button id="clear" style="width:100%;margin-top:8px">ล้างข้อมูล</button></div>
+<div class="panel"><b>ผลลัพธ์การคำนวณ</b><div class="tri-result-list" id="triresults"></div></div>
+<div class="panel"><b>สูตรและวิธีทำ</b><div class="formula" id="triformula">รอการคำนวณ</div><div id="tristeps"></div></div>
+</section>
+ 
+<section id="graphs" class="hidden">
+ <div class="panel"><b>กราฟฟังก์ชันตรีโกณมิติ</b>
+  <div class="fields">
+   <div><label>เลือกฟังก์ชันหลัก</label><select id="graphFn"><option value="sin">sin(x)</option><option value="cos">cos(x)</option><option value="tan">tan(x)</option><option value="csc">cosec(x)</option><option value="sec">sec(x)</option><option value="cot">cot(x)</option></select></div>
+   <div><label>ช่วงมุมบนแกน X</label><select id="graphRange"><option value="90">−90° ถึง 90°</option><option value="180">−180° ถึง 180°</option><option value="360" selected>−360° ถึง 360°</option><option value="720">−720° ถึง 720°</option></select></div>
+  </div>
+  <div style="margin-top:10px">
+   <label>เปรียบเทียบกราฟเพิ่มเติม (เลือกได้หลายฟังก์ชัน)</label>
+   <div class="graph-toggles">
+    <label><input type="checkbox" class="graphCompare" value="sin"> sin</label>
+    <label><input type="checkbox" class="graphCompare" value="cos"> cos</label>
+    <label><input type="checkbox" class="graphCompare" value="tan"> tan</label>
+    <label><input type="checkbox" class="graphCompare" value="csc"> cosec</label>
+    <label><input type="checkbox" class="graphCompare" value="sec"> sec</label>
+    <label><input type="checkbox" class="graphCompare" value="cot"> cot</label>
+   </div>
+  </div>
+  <div class="metricgrid" style="margin:10px 0">
+   <div class="metric">ฟังก์ชัน<b id="graphFormula">y = sin(x)</b></div>
+   <div class="metric">ค่าปัจจุบัน<b id="graphCurrent">x = 0°</b></div>
+  </div>
+  <div id="graphPlot" style="width:100%;overflow:hidden;touch-action:pan-y"></div>
+  <div id="graphSteps" class="explain-block" aria-live="polite">
+   <h4>สูตรและวิธีอ่านค่าบนกราฟ</h4><div class="explain-line">เลือกฟังก์ชันและเลื่อนมุมเพื่อดูการแทนค่า</div>
+  </div>
+  <p class="muted">แตะหรือคลิกบนกราฟเพื่อเลือกมุม • ใช้แถบเลื่อนด้านล่างเพื่อปรับละเอียด</p>
+  <div style="margin-top:12px">
+   <label for="graphAngle">เลื่อนมุมเพื่อดูค่าบนกราฟ: <b id="graphAngleLabel">0°</b></label>
+   <input id="graphAngle" type="range" min="-360" max="360" step="1" value="0" style="width:100%">
+   <div class="fields">
+    <div class="metric">x (องศา)<b id="graphXValue">0°</b></div>
+    <div class="metric">y = f(x)<b id="graphYValue">0</b></div>
+   </div>
+  </div>
+  <div class="row" style="gap:14px;flex-wrap:wrap;margin-top:8px">
+   <span class="muted"><span style="color:#f4b942;font-weight:800">━</span> เส้นตั้ง = มุม X</span>
+   <span class="muted"><span style="color:#22d3ee;font-weight:800">━</span> เส้นนอน = ค่า Y</span>
+   <span class="muted"><span style="color:#f4b942;font-weight:800">●</span> จุดตัด = (X,Y)</span>
+  </div>
+  <p class="muted">แกน X ใช้องศา • เส้นนำสายตาทั้งสองตัดกันที่จุดบนกราฟ • เส้นขาดของกราฟคือจุดที่ฟังก์ชันไม่มีนิยามหรือมีค่าเกินช่วงแสดงผล</p>
+ </div>
+</section>
+<section id="history" class="hidden">
+ <div class="panel"><b>ประวัติการคำนวณ</b>
+  <div class="row" style="margin-top:10px"><button id="historyRefresh">รีเฟรช</button><button id="historyClear">ล้างประวัติ</button></div>
+  <div id="historyList" style="margin-top:10px"></div>
+ </div>
+
+</section>
+<section id="engineering" class="hidden">
+ <div class="panel">
+  <b>เครื่องมือคำนวณวิศวกรรม 2D / 3D</b>
+  <p class="muted">เลือกสิ่งที่ต้องการคำนวณก่อน จากนั้นดูภาพและกรอกค่าตามชื่อจุดหรือเวกเตอร์</p>
+  <div class="eng-step-title">1. เลือกการคำนวณ</div>
+  <div class="eng-mode-grid" style="margin-top:8px">
+   <button class="active" data-eng-mode="distance"><strong>ระยะทาง</strong><small>ระหว่างจุด P และ Q</small></button>
+   <button data-eng-mode="vector"><strong>ขนาดเวกเตอร์</strong><small>เวกเตอร์ u</small></button>
+   <button data-eng-mode="dot"><strong>Dot Product</strong><small>u · v</small></button>
+   <button data-eng-mode="angle"><strong>มุมระหว่างเวกเตอร์</strong><small>มุม θ ของ u และ v</small></button>
+   <button data-eng-mode="add"><strong>บวกเวกเตอร์</strong><small>w = u + v</small></button>
+   <button data-eng-mode="subtract"><strong>ลบเวกเตอร์</strong><small>w = u − v</small></button>
+   <button data-eng-mode="cross"><strong>Cross Product</strong><small>u × v (3D)</small></button>
+   <button data-eng-mode="projection"><strong>Vector Projection</strong><small>ฉาย u ลงบน v</small></button>
+  </div>
+  <div class="eng-step-title" style="margin-top:14px">2. เลือกหน่วยของข้อมูล</div>
+  <div class="eng-input-grid" style="margin-top:8px">
+   <div class="eng-field">
+    <label for="engInputUnit">หน่วยที่ใช้กรอกข้อมูล</label>
+    <select id="engInputUnit" style="width:100%;padding:10px;border-radius:10px">
+     <option value="m">เมตร (m)</option><option value="cm">เซนติเมตร (cm)</option>
+     <option value="mm">มิลลิเมตร (mm)</option><option value="km">กิโลเมตร (km)</option>
+     <option value="ft">ฟุต (ft)</option><option value="in">นิ้ว (in)</option>
+     <option value="หน่วย">หน่วยทั่วไป</option>
+    </select>
+   </div>
+   <div class="eng-field">
+    <label for="engOutputUnit">หน่วยที่ต้องการแสดงผล</label>
+    <select id="engOutputUnit" style="width:100%;padding:10px;border-radius:10px">
+     <option value="m">เมตร (m)</option><option value="cm">เซนติเมตร (cm)</option>
+     <option value="mm">มิลลิเมตร (mm)</option><option value="km">กิโลเมตร (km)</option>
+     <option value="ft">ฟุต (ft)</option><option value="in">นิ้ว (in)</option>
+     <option value="หน่วย">หน่วยทั่วไป</option>
+    </select>
+   </div>
+  </div>
+  <small class="muted">ระบบจะแปลงหน่วยให้อัตโนมัติก่อนคำนวณ ต้องเลือกหน่วยเดียวกันหากใช้ “หน่วยทั่วไป”</small>
+  <div class="eng-step-title" style="margin-top:14px">3. เลือกระบบพิกัด</div>
+  <div class="row tabs" style="margin-top:8px">
+   <button id="eng2d" class="active">2D · ระนาบ X,Y</button><button id="eng3d">3D · แกน X,Y,Z</button>
+  </div>
+  <div class="panel" style="margin-top:12px;background:rgba(30,55,82,.28)">
+   <div class="eng-step-title">4. ดูภาพประกอบ หรือแตะภาพเพื่อกำหนด X,Y</div>
+   <div class="muted" id="engTapHint" style="margin-top:5px">เลือกจุด P หรือ Q แล้วแตะตำแหน่งบนภาพได้</div>
+   <div id="engineeringVisual" style="margin-top:8px"></div>
+   <div class="row tabs" id="engVisualTargets" style="margin-top:8px;flex-wrap:wrap"></div>
+   <p class="muted" style="margin:6px 0 0">ไม่จำเป็นต้องแตะภาพก็ได้ คุณสามารถกรอกตัวเลขด้านล่างได้โดยตรงทุกครั้ง</p>
+  </div>
+  <div class="eng-step-title" style="margin-top:14px">5. กรอกค่าตัวเลข</div>
+  <div id="engineeringInputs" class="fields" style="margin-top:8px"></div>
+  <button class="primary" id="engineeringCalc" style="margin-top:14px">คำนวณผลลัพธ์</button>
+  <button id="engineeringClear" style="margin-top:8px">ล้างค่า</button>
+ </div>
+ <div class="panel">
+  <b>6. ผลการคำนวณและวิธีทำ</b>
+  <div id="engineeringResult" class="explain-block" aria-live="polite"><p class="muted">กรอกพิกัดหรือองค์ประกอบเวกเตอร์ แล้วกดคำนวณ</p></div>
+ </div>
+</section>
+<section id="solidGeometry" class="hidden">
+ <div class="panel">
+  <b>คำนวณรูปเรขาคณิตและปริมาตร</b>
+  <p class="muted">เลือกรูปทรง 2D/3D คำนวณพื้นที่ เส้นรอบรูป เส้นทแยงมุม พื้นที่ผิว และปริมาตร พร้อมสูตรและวิธีทำ</p>
+  <div class="eng-step-title">1. เลือกมิติและรูปทรง</div>
+  <div class="row tabs" style="margin-top:8px">
+   <button id="geo2d" class="active">2D · รูปแบน</button><button id="geo3d">3D · รูปทรงตัน</button>
+  </div>
+  <div class="eng-field" style="margin-top:10px">
+   <label for="geoShape">เลือกรูปเรขาคณิต</label>
+   <select id="geoShape" style="width:100%;padding:10px;border-radius:10px"></select>
+  </div>
+  <div class="eng-input-grid" style="margin-top:10px">
+   <div class="eng-field"><label for="geoInputUnit">หน่วยที่กรอก</label><select id="geoInputUnit" style="width:100%;padding:10px"><option value="m">m</option><option value="cm">cm</option><option value="mm">mm</option><option value="km">km</option><option value="ft">ft</option><option value="in">in</option></select></div>
+   <div class="eng-field"><label for="geoOutputUnit">หน่วยผลลัพธ์</label><select id="geoOutputUnit" style="width:100%;padding:10px"><option value="m">m</option><option value="cm">cm</option><option value="mm">mm</option><option value="km">km</option><option value="ft">ft</option><option value="in">in</option></select></div>
+  </div>
+  <div class="eng-step-title" style="margin-top:14px">2. กรอกขนาด</div>
+  <div id="geoInputs" class="fields" style="margin-top:8px"></div>
+  <button class="primary" id="geoCalc" style="margin-top:14px">คำนวณรูปเรขาคณิต</button>
+  <button id="geoClear" style="margin-top:8px">ล้างค่า</button>
+ </div>
+ <div class="panel">
+  <b>ภาพประกอบรูปทรง</b>
+  <div id="geoDiagram"></div>
+ </div>
+ <div class="panel">
+  <b>ผลลัพธ์และวิธีทำ</b>
+  <div id="geoResult" class="explain-block" aria-live="polite"><p class="muted">เลือกชนิดรูปทรงและกรอกขนาดเพื่อเริ่มคำนวณ</p></div>
+ </div>
+</section>
+
+<section id="unitConverter" class="hidden">
+ <div class="panel">
+  <b>ระบบแปลงหน่วยมาตรฐานไทยและสากล</b>
+  <p class="muted">แปลงหน่วยได้ทันที รองรับหน่วยไทยที่ใช้ในชีวิตประจำวันและงานก่อสร้าง รวมถึงหน่วย SI และหน่วยสากล</p>
+  <div class="eng-step-title">1. เลือกหมวดหน่วย</div>
+  <select id="ucCategory" style="width:100%;padding:12px;margin-top:8px"></select>
+  <div class="eng-step-title" style="margin-top:14px">2. กรอกค่าและเลือกหน่วย</div>
+  <label for="ucValue">ค่าที่ต้องการแปลง</label>
+  <input id="ucValue" type="number" step="any" inputmode="decimal" value="1" placeholder="กรอกตัวเลข">
+  <div class="fields" style="margin-top:10px">
+   <div><label for="ucFrom">แปลงจาก</label><select id="ucFrom"></select></div>
+   <div><label for="ucTo">แปลงเป็น</label><select id="ucTo"></select></div>
+  </div>
+  <div class="row" style="margin-top:10px">
+   <button id="ucSwap" style="flex:1">⇄ สลับหน่วย</button>
+   <button id="ucClear" style="flex:1">ล้างค่า</button>
+  </div>
+ </div>
+ <div class="panel">
+  <b>ผลการแปลงหน่วย</b>
+  <div class="formula">
+   <span class="muted">คำตอบ</span>
+   <strong id="ucResult" aria-live="polite">1</strong>
+   <span id="ucResultUnit" class="muted"></span>
+  </div>
+  <div id="ucEquation" class="explain-block" style="margin-top:10px">เลือกหน่วยเพื่อดูวิธีแปลง</div>
+  <div class="muted" id="ucInfo" style="line-height:1.7;margin-top:8px"></div>
+ </div>
+ <div class="panel">
+  <b>ผลลัพธ์เทียบหน่วยอื่นทั้งหมด</b>
+  <p class="muted" style="margin:6px 0 10px">แสดงค่าที่เทียบเท่าทุกหน่วยในหมวดที่เลือก พร้อมกันโดยอัตโนมัติ</p>
+  <div id="ucAllResults" class="uc-all-results" aria-live="polite"></div>
+  <div id="ucThaiLandBreakdown" class="uc-land-breakdown" aria-live="polite"></div>
+ </div>
+ <div class="panel" id="ucLandPricePanel">
+  <b>เครื่องคำนวณราคาที่ดิน</b>
+  <p class="muted" style="margin:6px 0 10px">คำนวณราคารวมจากพื้นที่ที่กรอกด้านบน โดยเลือกราคาต่อไร่ งาน ตารางวา หรือตารางเมตร</p>
+  <label for="ucLandPrice">ราคาต่อหน่วย (บาท)</label>
+  <input id="ucLandPrice" type="number" min="0" step="any" inputmode="decimal" placeholder="เช่น 25000">
+  <label for="ucLandPriceUnit" style="display:block;margin-top:10px">คิดราคาต่อ</label>
+  <select id="ucLandPriceUnit" style="width:100%;padding:12px">
+   <option value="1600">ไร่</option><option value="400">งาน</option><option value="4" selected>ตารางวา</option><option value="1">ตารางเมตร</option>
+  </select>
+  <div class="formula" style="margin-top:12px">
+   <span class="muted">ราคารวมโดยประมาณ</span>
+   <strong id="ucLandTotal">กรอกราคาต่อหน่วย</strong>
+   <span id="ucLandPriceDetail" class="muted"></span>
+  </div>
+  <div class="muted" style="font-size:11px;margin-top:8px">คำนวณจากพื้นที่ในช่องแปลงหน่วยด้านบน × ราคาต่อหน่วยที่กำหนด ไม่รวมค่าธรรมเนียม ภาษี หรือค่าใช้จ่ายอื่น</div>
+ </div>
+ <div class="panel">
+  <b>ตารางหน่วยอ้างอิง</b>
+  <div id="ucReference" style="margin-top:8px"></div>
+ </div>
+</section>
+
+
+<section id="constructionCalc" class="hidden">
+ <div class="panel">
+  <b>เครื่องคำนวณวัสดุก่อสร้าง</b>
+  <p class="muted">กรอกขนาดความยาวทุกช่องเป็นเมตร (m) เหมือนกันทั้งหมด ระบบจะแปลงและคำนวณให้อัตโนมัติ เป็นการประมาณวัสดุเบื้องต้น ไม่ใช้แทนการออกแบบโครงสร้าง</p>
+  <div class="eng-step-title" style="margin-top:12px">หน่วยความยาวสำหรับกรอกข้อมูลทั้งหมด</div>
+  <select id="ccLengthUnit" style="width:100%;padding:12px;margin-top:6px">
+   <option value="m" selected>เมตร (m)</option>
+   <option value="cm">เซนติเมตร (cm)</option>
+   <option value="mm">มิลลิเมตร (mm)</option>
+  </select>
+  <p class="muted" style="font-size:11px;margin-top:6px">เปลี่ยนหน่วยได้ทั้งชุด ระบบจะแปลงค่าที่กรอกไว้ให้อัตโนมัติ โดยคงขนาดจริงเดิม</p>
+  <label for="ccType">เลือกประเภทงาน</label>
+  <select id="ccType" style="width:100%;padding:12px">
+   <option value="concrete">คอนกรีตพื้น / คาน / ฐานราก</option>
+   <option value="block">ผนังก่ออิฐ / บล็อก</option>
+   <option value="tile">กระเบื้องปูพื้น</option>
+  </select>
+ </div>
+ <div class="panel" id="ccConcrete">
+  <b>1. คำนวณคอนกรีตและส่วนผสม</b>
+  <div class="fields">
+   <div><label for="ccLength">ความยาว (เมตร)</label><input id="ccLength" type="number" min="0" step="any" value="5" inputmode="decimal"></div>
+   <div><label for="ccWidth">ความกว้าง (เมตร)</label><input id="ccWidth" type="number" min="0" step="any" value="4" inputmode="decimal"></div>
+   <div><label for="ccThick">ความหนา (เมตร)</label><input id="ccThick" type="number" min="0" step="any" value="0.10" inputmode="decimal"></div>
+   <div><label for="ccWaste">เผื่อสูญเสีย (%)</label><input id="ccWaste" type="number" min="0" max="100" step="any" value="5" inputmode="decimal"></div>
+  </div>
+  <div class="eng-step-title" style="margin-top:12px">อัตราส่วนผสมโดยปริมาตร</div>
+  <div class="fields">
+   <div><label for="ccCementPart">ปูนซีเมนต์ (ส่วน)</label><input id="ccCementPart" type="number" min="0.01" step="any" value="1"></div>
+   <div><label for="ccSandPart">ทราย (ส่วน)</label><input id="ccSandPart" type="number" min="0" step="any" value="2"></div>
+   <div><label for="ccStonePart">หิน (ส่วน)</label><input id="ccStonePart" type="number" min="0" step="any" value="4"></div>
+   <div><label for="ccBagKg">น้ำหนักปูนต่อถุง (กก.)</label><input id="ccBagKg" type="number" min="1" step="any" value="50"></div>
+  </div>
+  <div class="muted" style="font-size:11px;margin-top:8px">ใช้ตัวคูณปริมาตรแห้งประมาณ 1.54 และความหนาแน่นปูนซีเมนต์ประมาณ 1,440 กก./ม³ เพื่อประมาณจำนวนถุง</div>
+ </div>
+ <div class="panel hidden" id="ccBlock">
+  <b>2. คำนวณจำนวนอิฐหรือบล็อก</b>
+  <div class="fields">
+   <div><label for="ccWallLength">ความยาวผนัง (เมตร)</label><input id="ccWallLength" type="number" min="0" step="any" value="5"></div>
+   <div><label for="ccWallHeight">ความสูงผนัง (เมตร)</label><input id="ccWallHeight" type="number" min="0" step="any" value="3"></div>
+   <div><label for="ccBlockLength">ความยาวก้อน (เมตร)</label><input id="ccBlockLength" type="number" min="0.01" step="any" value="0.39"></div>
+   <div><label for="ccBlockHeight">ความสูงก้อน (เมตร)</label><input id="ccBlockHeight" type="number" min="0.01" step="any" value="0.19"></div>
+   <div><label for="ccOpening">พื้นที่ช่องเปิด (ตร.ม.)</label><input id="ccOpening" type="number" min="0" step="any" value="0"></div>
+   <div><label for="ccBlockWaste">เผื่อแตก/สูญเสีย (%)</label><input id="ccBlockWaste" type="number" min="0" max="100" step="any" value="5"></div>
+  </div>
+  <p class="muted" style="font-size:11px">กรอกขนาดผนังและขนาดก้อนเป็นเมตรทั้งหมด เช่น 0.39 m × 0.19 m ไม่รวมความหนาร่องปูนแยกต่างหาก</p>
+ </div>
+ <div class="panel hidden" id="ccTile">
+  <b>3. คำนวณกระเบื้องปูพื้น</b>
+  <div class="fields">
+   <div><label for="ccFloorLength">ความยาวพื้นที่ (เมตร)</label><input id="ccFloorLength" type="number" min="0" step="any" value="5"></div>
+   <div><label for="ccFloorWidth">ความกว้างพื้นที่ (เมตร)</label><input id="ccFloorWidth" type="number" min="0" step="any" value="4"></div>
+   <div><label for="ccTileLength">ด้านยาวกระเบื้อง (เมตร)</label><input id="ccTileLength" type="number" min="0.01" step="any" value="0.60"></div>
+   <div><label for="ccTileWidth">ด้านกว้างกระเบื้อง (เมตร)</label><input id="ccTileWidth" type="number" min="0.01" step="any" value="0.60"></div>
+   <div><label for="ccTileWaste">เผื่อแตก/ตัด (%)</label><input id="ccTileWaste" type="number" min="0" max="100" step="any" value="10"></div>
+  </div>
+ </div>
+ <div class="panel">
+  <b>ผลการประมาณวัสดุ</b>
+  <div id="ccResults" aria-live="polite" class="uc-all-results"></div>
+  <div id="ccFormula" class="explain-block" style="margin-top:10px"></div>
+ </div>
+</section>
+
+<script>
+const colorTerms=(s)=>String(s).replace(/ตรงข้าม|ประชิด|ข้าม|ฉาก|ชิด/g, t => {
+ const cls = (t==="ตรงข้าม"||t==="ข้าม") ? "term-opposite" : (t==="ประชิด"||t==="ชิด") ? "term-adjacent" : "term-hypotenuse";
+ return `<span class="${cls}">${t}</span>`;
+});
+const $=id=>document.getElementById(id),fmt=n=>Number.isFinite(n)?String(Number((Math.abs(n)<1e-11?0:n).toFixed(7))):"ไม่กำหนด",R=n=>n*Math.PI/180,D=n=>n*180/Math.PI;
+const data={sin:["ไซน์ (Sine)","sin θ = ข้าม / ฉาก","Sine = Opposite / Hypotenuse","อัตราส่วนด้านตรงข้ามมุม θ ต่อด้านฉาก","opp","hyp"],cos:["คอไซน์ (Cosine)","cos θ = ชิด / ฉาก","Cosine = Adjacent / Hypotenuse","อัตราส่วนด้านประชิดมุม θ ต่อด้านฉาก","adj","hyp"],tan:["แทนเจนต์ (Tangent)","tan θ = ข้าม / ชิด","Tangent = Opposite / Adjacent","อัตราส่วนด้านตรงข้ามต่อด้านประชิด","opp","adj"],csc:["โคซีแคนต์","cosec θ = ฉาก / ข้าม","Hypotenuse / Opposite","ส่วนกลับของไซน์","hyp","opp"],sec:["ซีแคนต์","sec θ = ฉาก / ชิด","Hypotenuse / Adjacent","ส่วนกลับของคอไซน์","hyp","adj"],cot:["โคแทนเจนต์","cot θ = ชิด / ข้าม","Adjacent / Opposite","ส่วนกลับของแทนเจนต์","adj","opp"],asin:["อาร์คไซน์","θ = sin⁻¹(x)","Inverse Sine","หามุมจากค่าไซน์"],acos:["อาร์คคอไซน์","θ = cos⁻¹(x)","Inverse Cosine","หามุมจากค่าคอไซน์"],atan:["อาร์คแทนเจนต์","θ = tan⁻¹(x)","Inverse Tangent","หามุมจากค่าแทนเจนต์"],acsc:["อาร์คโคซีแคนต์","θ = sin⁻¹(1/x)","Inverse Cosecant","หามุมจากค่าโคซีแคนต์ โดย |x| ≥ 1"],asec:["อาร์คซีแคนต์","θ = cos⁻¹(1/x)","Inverse Secant","หามุมจากค่าซีแคนต์ โดย |x| ≥ 1"],acot:["อาร์คโคแทนเจนต์","θ = arccot(x)","Inverse Cotangent","หามุมหลักในช่วง (0, π)"]};
+let fn="sin",grp="basic",tri="right",tu="deg";
+const isArc=()=>fn.startsWith("a");
+function updateSideDiagramHighlight(){
+ const diagram=$("diagram");
+ if(!diagram||!diagram.querySelector("[data-side]"))return;
+ const sideMode=!$("sideInputs").classList.contains("hidden");
+ const pairs={
+  sin:["opposite","hypotenuse"],csc:["opposite","hypotenuse"],
+  cos:["adjacent","hypotenuse"],sec:["adjacent","hypotenuse"],
+  tan:["opposite","adjacent"],cot:["opposite","adjacent"]
+ };
+ const active=pairs[fn]||[];
+ const colors={opposite:"#16a36a",adjacent:"#e3a13a",hypotenuse:"#a855f7"};
+ diagram.querySelectorAll("[data-side]").forEach(el=>{
+  const on=active.includes(el.dataset.side);
+  const color=colors[el.dataset.side];
+  el.style.stroke=color;
+  el.style.opacity=on?"1":".16";
+  el.style.strokeWidth=on?"10":"2.5";
+  el.style.filter=on
+   ?"drop-shadow(0 0 2px "+color+") drop-shadow(0 0 6px "+color+")"
+   :"none";
+  el.style.strokeLinecap="round";
+  el.style.transition="opacity .18s ease, stroke-width .18s ease, filter .18s ease";
+ });
+ diagram.querySelectorAll("[data-side-label]").forEach(el=>{
+  const key=el.dataset.sideLabel,on=active.includes(key),color=colors[key];
+  el.style.fill=color;
+  el.style.opacity=on?"1":".18";
+  el.style.fontWeight=on?"900":"500";
+  el.style.fontSize=on?"15px":"11px";
+  el.style.paintOrder="stroke";
+  el.style.stroke="#0e1d2e";
+  el.style.strokeWidth=on?"3px":"2px";
+  el.style.filter=on?"drop-shadow(0 0 4px "+color+")":"none";
+  el.style.transition="opacity .18s ease, font-size .18s ease, filter .18s ease";
+ });
+ const values={
+  opposite:$("sideOpp").value.trim(),adjacent:$("sideAdj").value.trim(),hypotenuse:$("sideHyp").value.trim()
+ };
+ diagram.querySelectorAll("[data-side-label]").forEach(el=>{
+  const k=el.dataset.sideLabel,thai=k==="opposite"?"ข้าม":k==="adjacent"?"ชิด":"ฉาก";
+  el.textContent=thai+(sideMode&&values[k]?` ${values[k]}`:"");
+ });
+}
+function groupSet(g){grp=g;document.querySelectorAll("[data-group]").forEach(b=>b.classList.toggle("active",b.dataset.group===g));let ks={basic:["sin","cos","tan"],reciprocal:["csc","sec","cot"],arc:["asin","acos","atan","acsc","asec","acot"]}[g];$("fnlist").innerHTML=ks.map(k=>`<button class="fn ${fn===k?"active":""}" data-f="${k}"><b>${({asin:"sin⁻¹",acos:"cos⁻¹",atan:"tan⁻¹",acsc:"cosec⁻¹",asec:"sec⁻¹",acot:"cot⁻¹"})[k]||k}</b><small>${k}</small></button>`).join("");document.querySelectorAll("[data-f]").forEach(b=>b.onclick=()=>selectFn(b.dataset.f))}
+function selectFn(k){fn=k;document.querySelectorAll("[data-f]").forEach(b=>b.classList.toggle("active",b.dataset.f===k));$("x").value=isArc()?".5":"30";$("inputlabel").textContent=isArc()?"ค่าอัตราส่วน X":"มุม θ";if(isArc())$("angleMode").click();updateSideDiagramHighlight();calc()}
+
+function parseArithmetic(input){
+ const src=String(input).replace(/[×✕]/g,"*").replace(/[÷]/g,"/").replace(/[−–]/g,"-").replace(/\s+/g,"");
+ if(!src)throw Error("กรุณากรอกค่า X");
+ let pos=0;
+ function expr(){let v=term();while(src[pos]==="+"||src[pos]==="-"){let op=src[pos++],n=term();v=op==="+"?v+n:v-n;}return v;}
+ function term(){let v=factor();while(src[pos]==="*"||src[pos]==="/"){let op=src[pos++],n=factor();if(op==="/"&&n===0)throw Error("ไม่สามารถหารด้วยศูนย์ได้");v=op==="*"?v*n:v/n;}return v;}
+ function factor(){
+  if(src[pos]==="+"){pos++;return factor();}
+  if(src[pos]==="-"){pos++;return -factor();}
+  if(src[pos]==="("){pos++;let v=expr();if(src[pos]!==")")throw Error("วงเล็บไม่ครบ");pos++;return v;}
+  let m=src.slice(pos).match(/^(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?/);
+  if(!m)throw Error("รูปแบบไม่ถูกต้อง ใช้ตัวเลข + - * / และวงเล็บได้");
+  pos+=m[0].length;return Number(m[0]);
+ }
+ let value=expr();
+ if(pos!==src.length)throw Error("ตรวจพบเครื่องหมายหรือตัวเลขที่ไม่ถูกต้อง");
+ if(!Number.isFinite(value))throw Error("ผลลัพธ์ไม่ใช่ตัวเลขที่ถูกต้อง");
+ return value;
+}
+
+function calc(){try{
+ const u=$("unit").value,arc=isArc(),d=data[fn],ans0=0;
+ let ans,r,steps=[],rows=[],thetaLabel="",explainIntro="",formulaUsed=d[1];
+ const showAngle=(rad)=>u==="deg"?`${fmt(D(rad))}°`:`${fmt(rad)} rad`;
+ const ratioExpr=(name,so,sa,sh)=>({
+  sin:`${fmt(so)} ÷ ${fmt(sh)}`,cos:`${fmt(sa)} ÷ ${fmt(sh)}`,tan:`${fmt(so)} ÷ ${fmt(sa)}`,
+  csc:`${fmt(sh)} ÷ ${fmt(so)}`,sec:`${fmt(sh)} ÷ ${fmt(sa)}`,cot:`${fmt(sa)} ÷ ${fmt(so)}`
+ })[name];
+ if(!arc){
+  const sideMode=!$("sideInputs").classList.contains("hidden");
+  let s,c,so=NaN,sa=NaN,sh=NaN;
+  if(sideMode){
+   so=$("sideOpp").value.trim()===""?NaN:Number($("sideOpp").value);
+   sa=$("sideAdj").value.trim()===""?NaN:Number($("sideAdj").value);
+   sh=$("sideHyp").value.trim()===""?NaN:Number($("sideHyp").value);
+   const count=[so,sa,sh].filter(Number.isFinite).length;
+   if(count<2)throw Error("กรุณากรอกความยาวด้านอย่างน้อย 2 ด้าน");
+   if([so,sa,sh].some(v=>Number.isFinite(v)&&v<=0))throw Error("ความยาวด้านต้องมากกว่า 0");
+   let sideDerivation="";
+   if(!Number.isFinite(sh)&&Number.isFinite(so)&&Number.isFinite(sa)){
+    sh=Math.hypot(so,sa);
+    sideDerivation=`ด้านฉาก c = √(ข้าม² + ชิด²) = √(${fmt(so)}² + ${fmt(sa)}²) = ${fmt(sh)}`;
+   }else if(!Number.isFinite(sa)&&Number.isFinite(so)&&Number.isFinite(sh)){
+    if(sh<=so)throw Error("ด้านฉากต้องยาวกว่าด้านข้าม");
+    sa=Math.sqrt(sh*sh-so*so);
+    sideDerivation=`ด้านชิด = √(ฉาก² − ข้าม²) = √(${fmt(sh)}² − ${fmt(so)}²) = ${fmt(sa)}`;
+   }else if(!Number.isFinite(so)&&Number.isFinite(sa)&&Number.isFinite(sh)){
+    if(sh<=sa)throw Error("ด้านฉากต้องยาวกว่าด้านชิด");
+    so=Math.sqrt(sh*sh-sa*sa);
+    sideDerivation=`ด้านข้าม = √(ฉาก² − ชิด²) = √(${fmt(sh)}² − ${fmt(sa)}²) = ${fmt(so)}`;
+   }
+   const diff=Math.abs(so*so+sa*sa-sh*sh);
+   if(diff>1e-8*Math.max(1,sh*sh))throw Error("ความยาวด้านไม่สอดคล้องกับทฤษฎีพีทาโกรัส");
+   const ratios={sin:so/sh,cos:sa/sh,tan:so/sa,csc:sh/so,sec:sh/sa,cot:sa/so};
+   ans=ratios[fn];
+   if(!Number.isFinite(ans))throw Error("ไม่สามารถคำนวณฟังก์ชันนี้จากด้านที่กรอกได้");
+   s=so/sh;c=sa/sh;r=Math.atan2(so,sa);
+   const top=fn==="sin"||fn==="csc"?"ด้านข้ามและด้านฉาก":fn==="cos"||fn==="sec"?"ด้านชิดและด้านฉาก":"ด้านข้ามและด้านชิด";
+   const numerator=fn==="sin"?so:fn==="cos"?sa:fn==="tan"?so:fn==="csc"?sh:fn==="sec"?sh:sa;
+   const denominator=fn==="sin"?sh:fn==="cos"?sh:fn==="tan"?sa:fn==="csc"?so:fn==="sec"?sa:so;
+   explainIntro=`โหมดกรอกความยาวด้าน: ใช้ ${top} ตามนิยามของ ${fn} โดยอาศัยทฤษฎีพีทาโกรัสตรวจสอบว่าด้านทั้งสามสอดคล้องกัน`;
+   steps=[
+    `ข้อมูลที่กำหนด: ด้านข้าม = ${fmt(so)}, ด้านชิด = ${fmt(sa)}, ด้านฉาก = ${fmt(sh)}`,
+    ...(sideDerivation?[`หาด้านที่ยังไม่ทราบ: ${sideDerivation}`]:[]),
+    `สูตรที่ใช้: ${d[1]}`,
+    `ระบุค่าจากรูป: ตัวเศษ = ${fmt(numerator)} และตัวส่วน = ${fmt(denominator)}`,
+    `แทนค่า: ${fn} θ = ${ratioExpr(fn,so,sa,sh)}`,
+    `คำนวณ: ${fmt(numerator)} ÷ ${fmt(denominator)} = ${fmt(ans)}`,
+    `หามุมจากด้าน: θ = tan⁻¹(ด้านข้าม ÷ ด้านชิด) = tan⁻¹(${fmt(so)} ÷ ${fmt(sa)}) = ${fmt(D(r))}°`,
+    `ตรวจสอบพีทาโกรัส: ${fmt(so)}² + ${fmt(sa)}² = ${fmt(so*so+sa*sa)} และด้านฉาก² = ${fmt(sh*sh)}`,
+    `สรุป: ${fn} θ = ${fmt(ans)}`
+   ];
+   rows=[["ด้านข้าม",so],["ด้านชิด",sa],["ด้านฉาก",sh],["มุม θ (องศา)",D(r)],["มุม θ (เรเดียน)",r],
+    ["sin θ",ratios.sin],["cos θ",ratios.cos],["tan θ",ratios.tan],["cosec θ",ratios.csc],["sec θ",ratios.sec],["cot θ",ratios.cot]];
+   thetaLabel=`คำนวณจากความยาวด้าน • มุม θ = ${fmt(D(r))}°`;
+  }else{
+   const raw=$("x").value,x=parseArithmetic(raw);
+   r=u==="deg"?R(x):x;s=Math.sin(r);c=Math.cos(r);
+   const v={sin:s,cos:c,tan:Math.tan(r),csc:1/s,sec:1/c,cot:c/s};
+   ans=v[fn];
+   if(!Number.isFinite(ans))throw Error("ฟังก์ชันนี้ไม่มีค่าที่มุมดังกล่าว");
+   const radText=u==="deg"?`${fmt(x)} × π / 180 = ${fmt(r)} เรเดียน`:`${fmt(x)} เรเดียน (ใช้ค่าเดิม)`;
+   const numerator=fn==="sin"?fmt(s):fn==="cos"?fmt(c):fn==="tan"?fmt(s):fn==="csc"?"1":fn==="sec"?"1":fmt(c);
+   const denominator=fn==="sin"?"1":fn==="cos"?"1":fn==="tan"?fmt(c):fn==="csc"?fmt(s):fn==="sec"?fmt(c):fmt(s);
+   explainIntro=`คำนวณ ${d[0]} จากมุม θ โดยแปลงหน่วยมุมก่อน (ถ้าเลือกองศา) แล้วแทนค่าลงในอัตราส่วนตรีโกณมิติ`;
+   steps=[
+    `ข้อมูลที่กำหนด: θ = ${raw} ${u==="deg"?"องศา":"เรเดียน"}${raw!==String(x)?` (คำนวณนิพจน์ได้ ${fmt(x)})`:""}`,
+    `แปลงหน่วยมุม: ${radText}`,
+    `สูตรที่ใช้: ${d[1]}`,
+    `ค่าพื้นฐานที่เกี่ยวข้อง: sin θ = ${fmt(s)} และ cos θ = ${fmt(c)}`,
+    `แทนค่าในสูตร ${fn}: ${fn==="sin"?`sin θ = ${fmt(s)}`:fn==="cos"?`cos θ = ${fmt(c)}`:fn==="tan"?`tan θ = ${fmt(s)} ÷ ${fmt(c)}`:fn==="csc"?`cosec θ = 1 ÷ ${fmt(s)}`:fn==="sec"?`sec θ = 1 ÷ ${fmt(c)}`:`cot θ = ${fmt(c)} ÷ ${fmt(s)}`}`,
+    `คำนวณผลลัพธ์: ${fmt(ans)}`,
+    `ตรวจสอบเอกลักษณ์: sin²θ + cos²θ = ${fmt(s*s+c*c)} (ควรได้ 1)`,
+    `สรุป: ${fn} θ = ${fmt(ans)}`
+   ];
+   rows=[["มุม θ (องศา)",D(r)],["มุม θ (เรเดียน)",r],["sin θ",s],["cos θ",c],["tan θ",v.tan],["cosec θ",v.csc],["sec θ",v.sec],["cot θ",v.cot]];
+   thetaLabel=`มุม θ = ${x} ${u}`;
+  }
+  $("diagram").innerHTML=`<svg viewBox="0 0 340 245">
+   <path d="M45 185 L285 185 L285 35 Z" fill="#176bb5" fill-opacity=".10" stroke="none"/>
+   <path data-side="opposite" d="M285 185L285 35" fill="none" stroke="#16a36a" stroke-width="${["sin","tan","csc","cot"].includes(fn)?7:4}" stroke-linecap="round"/>
+   <path data-side="adjacent" d="M45 185L285 185" fill="none" stroke="#e3a13a" stroke-width="${["cos","tan","sec","cot"].includes(fn)?7:4}" stroke-linecap="round"/>
+   <path data-side="hypotenuse" d="M45 185L285 35" fill="none" stroke="#a855f7" stroke-width="${["sin","cos","csc","sec"].includes(fn)?7:4}" stroke-linecap="round"/>
+   <path d="M267 185V167H285" fill="none" stroke="#e3a13a" stroke-width="2.5"/>
+   <path d="M90 185A45 45 0 0 0 ${45+45*Math.cos(r)} ${185-45*Math.sin(r)}" fill="none" stroke="#e3a13a" stroke-width="3"/>
+   <text x="94" y="169" fill="#e3a13a" font-weight="bold" font-size="13">θ ${fmt(D(r))}°</text>
+   <text data-side-label="opposite" x="292" y="108" fill="#16a36a" font-size="13" font-weight="bold">ข้าม ${sideMode?fmt(so):""}</text>
+   <text data-side-label="adjacent" x="165" y="207" fill="#e3a13a" text-anchor="middle" font-size="13" font-weight="bold">ชิด ${sideMode?fmt(sa):""}</text>
+   <text data-side-label="hypotenuse" x="145" y="98" fill="#a855f7" font-size="13" font-weight="bold">ฉาก ${sideMode?fmt(sh):""}</text>
+   <text x="170" y="20" text-anchor="middle" fill="#79bdff" font-size="12" font-weight="bold">${fn} θ = ${fmt(ans)}</text></svg>`;
+  $("note").textContent=thetaLabel+" • สีเขียว=ข้าม • สีส้ม=ชิด • สีม่วง=ฉาก";
+  updateSideDiagramHighlight();
+ }else{
+  const raw=$("x").value,x=parseArithmetic(raw);
+  if(["asin","acos"].includes(fn)&&Math.abs(x)>1)throw Error("ค่า x ต้องอยู่ระหว่าง -1 ถึง 1");
+  if(["acsc","asec"].includes(fn)&&Math.abs(x)<1)throw Error("|x| ต้องไม่น้อยกว่า 1");
+  const op={asin:Math.asin,acos:Math.acos,atan:Math.atan,acsc:z=>Math.asin(1/z),asec:z=>Math.acos(1/z),acot:z=>Math.atan2(1,z)<0?Math.atan2(1,z)+Math.PI:Math.atan2(1,z)};
+  r=op[fn](x);ans=u==="deg"?D(r):r;
+  const invFormula={asin:"θ = sin⁻¹(x)",acos:"θ = cos⁻¹(x)",atan:"θ = tan⁻¹(x)",acsc:"θ = sin⁻¹(1/x)",asec:"θ = cos⁻¹(1/x)",acot:"θ = arccot(x) = atan2(1,x)"}[fn];
+  explainIntro=`ฟังก์ชัน ${d[0]} เป็นฟังก์ชันผกผัน ใช้หามุม θ จากค่า x ที่กำหนด โดยคำตอบอยู่ในช่วงมุมหลักของฟังก์ชันนั้น`;
+  let substitution=fn==="asin"?`θ = sin⁻¹(${fmt(x)})`:fn==="acos"?`θ = cos⁻¹(${fmt(x)})`:fn==="atan"?`θ = tan⁻¹(${fmt(x)})`:fn==="acsc"?`θ = sin⁻¹(1 ÷ ${fmt(x)}) = sin⁻¹(${fmt(1/x)})`:fn==="asec"?`θ = cos⁻¹(1 ÷ ${fmt(x)}) = cos⁻¹(${fmt(1/x)})`:`θ = arccot(${fmt(x)}) = atan2(1, ${fmt(x)})`;
+  steps=[
+   `ข้อมูลที่กำหนด: x = ${raw}${raw!==String(x)?` โดยนิพจน์มีค่า ${fmt(x)}`:""}`,
+   `สูตรที่ใช้: ${invFormula}`,
+   `แทนค่า: ${substitution}`,
+   `คำนวณมุมเป็นเรเดียน: θ = ${fmt(r)} rad`,
+   `แปลงหน่วย: θ = ${fmt(r)} × 180 ÷ π = ${fmt(D(r))}°`,
+   `เลือกหน่วยแสดงผล: ${fmt(ans)} ${u==="deg"?"องศา":"เรเดียน"}`,
+   `สรุป: ${d[0]}(${fmt(x)}) = ${fmt(ans)} ${u==="deg"?"°":"rad"}`
+  ];
+  $("diagram").innerHTML=`<svg viewBox="0 0 340 220"><circle cx="170" cy="105" r="78" fill="none" stroke="#69b9ff" stroke-width="2.5"/><path d="M35 105H305M170 12V205" stroke="#8198ae"/><path d="M170 105L${170+78*Math.cos(r)} ${105-78*Math.sin(r)}" stroke="#16c58b" stroke-width="3"/><circle cx="${170+78*Math.cos(r)}" cy="${105-78*Math.sin(r)}" r="5" fill="#e3a13a"/><text x="170" y="17" text-anchor="middle" fill="#79bdff" font-size="12" font-weight="bold">${d[0]} = ${fmt(ans)} ${u==="deg"?"°":"rad"}</text><text x="170" y="210" text-anchor="middle" fill="#a9bdcf">วงกลมหนึ่งหน่วย</text></svg>`;
+  $("note").textContent="วงกลมหนึ่งหน่วยแสดงตำแหน่งมุมคำตอบ";
+  rows=[["ค่า x",x],["มุม (เรเดียน)",r],["มุม (องศา)",D(r)]];
+ }
+ $("ftitle").textContent=d[0];$("formula").innerHTML=colorTerms(formulaUsed);$("eng").textContent=d[2];$("desc").innerHTML=colorTerms(d[3]);
+ $("answer").textContent=fmt(ans)+(arc?(u==="deg"?"°":" rad"):"");$("answerunit").textContent=arc?"มุมคำตอบ":"ค่าฟังก์ชัน";
+ $("details").innerHTML=rows.map(z=>{
+  const label=String(z[0]),lower=label.toLowerCase();
+  const cls=lower.includes("ด้านข้าม")||lower.includes("ตรงข้าม")?"side-opposite":
+   lower.includes("ด้านชิด")||lower.includes("ประชิด")?"side-adjacent":
+   lower.includes("ด้านฉาก")?"side-hypotenuse":
+   lower.includes("มุม")?"side-angle":"";
+  return `<div class="metric ${cls}"><span>${label}</span><b>${typeof z[1]==="number"?fmt(z[1])+(label.includes("องศา")?"°":""):z[1]}</b></div>`;
+ }).join("");
+ $("steps").innerHTML=`<div class="explain-intro">${explainIntro}</div><div class="explain-block"><h4>สูตรที่ใช้</h4><div class="explain-formula">${colorTerms(formulaUsed)}</div></div>`+steps.map((s,i)=>`<div class="step"><b>ขั้น ${i+1}:</b> ${s}</div>`).join("");
+ saveHistory({title:"ฟังก์ชัน "+d[0],result:$("answer").textContent+(arc?" • ค่า X = "+fmt(parseArithmetic($("x").value)):" • "+thetaLabel)});
+ }catch(e){$("answer").textContent="—";$("details").textContent=e.message;$("steps").textContent=e.message}}
+
+function pin(k,x,y,label){
+ const color=({a:"#16a36a",b:"#e3a13a",c:"#a855f7",A:"#79bdff",B:"#79bdff",C:"#f4b942"})[k]||"#dbeafe";
+ return `<div class="triangle-pin" style="--pin-color:${color};left:${x}%;top:${y}%" id="p${k}">
+  <label for="${k}">${label}</label>
+  <input type="number" inputmode="decimal" step="any" id="${k}" placeholder="${k}" aria-label="${label}" autocomplete="off">
+ </div>`;
+}
+
+function triangleGeometry(a,b,c){
+ if(![a,b,c].every(v=>Number.isFinite(v)&&v>0))return null;
+ if(a+b<=c||a+c<=b||b+c<=a)return null;
+ // Match the input diagram orientation exactly:
+ // A = bottom-left, B = top-right, C = bottom-right.
+ // Standard side mapping: a=BC, b=CA (horizontal base), c=AB (hypotenuse).
+ const x=(b*b+c*c-a*a)/(2*b);
+ const y2=c*c-x*x;
+ if(y2<=0)return null;
+ const y=Math.sqrt(y2);
+ const raw=[{x:0,y:0},{x,y},{x:b,y:0}]; // A, B, C
+ const minX=Math.min(...raw.map(p=>p.x)),maxX=Math.max(...raw.map(p=>p.x));
+ const minY=Math.min(...raw.map(p=>p.y)),maxY=Math.max(...raw.map(p=>p.y));
+ const width=maxX-minX,height=maxY-minY;
+ if(width<=0||height<=0)return null;
+ // Keep true side proportions; place the baseline low and apex high in the viewBox.
+ const scale=Math.min(250/width,150/height);
+ const ox=(340-width*scale)/2,top=24;
+ return raw.map(p=>({x:ox+(p.x-minX)*scale,y:top+(maxY-p.y)*scale}));
+}
+function triangleSvg(a,b,c,A,B,C,cls="tri-live-svg"){
+ const pts=triangleGeometry(a,b,c);
+ if(!pts)return `<div class="muted">ข้อมูลด้านไม่สามารถสร้างสามเหลี่ยมได้</div>`;
+ const [pa,pb,pc]=pts;
+ const centroid={x:(pa.x+pb.x+pc.x)/3,y:(pa.y+pb.y+pc.y)/3};
+ const norm=v=>{const n=Math.hypot(v.x,v.y)||1;return {x:v.x/n,y:v.y/n}};
+ const angleLabel=p=>{const d=norm({x:p.x-centroid.x,y:p.y-centroid.y});return {x:p.x+d.x*23,y:p.y+d.y*23}};
+ const sideLabel=(p,q,label,color)=>{
+  const mid={x:(p.x+q.x)/2,y:(p.y+q.y)/2},d=norm({x:mid.x-centroid.x,y:mid.y-centroid.y});
+  return {x:mid.x+d.x*15,y:mid.y+d.y*15,text:label,color};
+ };
+ const lA=angleLabel(pa),lB=angleLabel(pb),lC=angleLabel(pc);
+ const makeSide=(p,q,key,text,color)=>{
+  const mid={x:(p.x+q.x)/2,y:(p.y+q.y)/2},d=norm({x:mid.x-centroid.x,y:mid.y-centroid.y});
+  return {p,q,key,text,color,labelX:mid.x+d.x*15,labelY:mid.y+d.y*15};
+ };
+ const sides=[
+  makeSide(pb,pc,"a","a = "+fmt(a),"#16a36a"),
+  makeSide(pc,pa,"b","b = "+fmt(b),"#e3a13a"),
+  makeSide(pa,pb,"c","c = "+fmt(c),"#a855f7")
+ ];
+ const altitudeDefs=[
+  {vertex:pa,start:pb,end:pc,label:"hₐ",key:"a"},
+  {vertex:pb,start:pc,end:pa,label:"hᵦ",key:"b"},
+  {vertex:pc,start:pa,end:pb,label:"h꜀",key:"c"}
+ ];
+ const midpoint=(p,q)=>({x:(p.x+q.x)/2,y:(p.y+q.y)/2});
+ const lerp=(p,q,t)=>({x:p.x+(q.x-p.x)*t,y:p.y+(q.y-p.y)*t});
+ const centroidPoint={x:(pa.x+pb.x+pc.x)/3,y:(pa.y+pb.y+pc.y)/3};
+ // Incenter is the side-length-weighted average of the three vertices.
+ const incenterPoint={x:(a*pa.x+b*pb.x+c*pc.x)/(a+b+c),y:(a*pa.y+b*pb.y+c*pc.y)/(a+b+c)};
+ const distPointLine=(p,q,r)=>Math.abs((r.x-q.x)*(q.y-p.y)-(q.x-p.x)*(r.y-q.y))/Math.hypot(r.x-q.x,r.y-q.y);
+ const inradiusPx=distPointLine(incenterPoint,pa,pb);
+ // Circumcenter from the intersection of perpendicular bisectors.
+ const d=2*(pa.x*(pb.y-pc.y)+pb.x*(pc.y-pa.y)+pc.x*(pa.y-pb.y));
+ const circumcenterPoint=d===0?centroidPoint:{
+  x:((pa.x*pa.x+pa.y*pa.y)*(pb.y-pc.y)+(pb.x*pb.x+pb.y*pb.y)*(pc.y-pa.y)+(pc.x*pc.x+pc.y*pc.y)*(pa.y-pb.y))/d,
+  y:((pa.x*pa.x+pa.y*pa.y)*(pc.x-pb.x)+(pb.x*pb.x+pb.y*pb.y)*(pa.x-pc.x)+(pc.x*pc.x+pc.y*pc.y)*(pb.x-pa.x))/d
+ };
+ const circumradiusPx=Math.hypot(circumcenterPoint.x-pa.x,circumcenterPoint.y-pa.y);
+ const medianTargets=[midpoint(pb,pc),midpoint(pc,pa),midpoint(pa,pb)];
+ // Angle-bisector foot on the opposite side, weighted by adjacent side lengths.
+ const bisectorTargets=[
+  lerp(pb,pc,c/(b+c)),
+  lerp(pc,pa,a/(a+c)),
+  lerp(pa,pb,b/(a+b))
+ ];
+ const geometryOverlay=cls.includes("tri-result-svg")?`
+  <g class="median-lines" fill="none" stroke="#FACC15" stroke-width="2.4" stroke-dasharray="8 4" stroke-linecap="round" opacity="1">
+   ${medianTargets.map((m,i)=>`<path data-inspect-key="median${i}" d="M${[pa,pb,pc][i].x},${[pa,pb,pc][i].y} L${m.x},${m.y}"/><path class="inspect-hit" data-inspect-key="median${i}" d="M${[pa,pb,pc][i].x},${[pa,pb,pc][i].y} L${m.x},${m.y}"/>`).join("")}
+  </g>
+  <g class="bisector-lines" fill="none" stroke="#F472B6" stroke-width="2.5" stroke-dasharray="3 3 1 3" stroke-linecap="round" opacity="1">
+   ${bisectorTargets.map((m,i)=>`<path data-inspect-key="bisector${i}" d="M${[pa,pb,pc][i].x},${[pa,pb,pc][i].y} L${m.x},${m.y}"/><path class="inspect-hit" data-inspect-key="bisector${i}" d="M${[pa,pb,pc][i].x},${[pa,pb,pc][i].y} L${m.x},${m.y}"/>`).join("")}
+  </g>
+  <circle class="circumcircle-line" data-inspect-key="circumcircle" cx="${circumcenterPoint.x}" cy="${circumcenterPoint.y}" r="${circumradiusPx}" fill="none" stroke="#22D3EE" stroke-width="2.1" stroke-dasharray="10 5" opacity="1"/>
+  <circle class="incircle-line" data-inspect-key="incircle" cx="${incenterPoint.x}" cy="${incenterPoint.y}" r="${inradiusPx}" fill="none" stroke="#FB923C" stroke-width="2.4" opacity="1"/>
+  <g class="geom-point-centroid" data-inspect-key="centroid"><circle cx="${centroidPoint.x}" cy="${centroidPoint.y}" r="4.2" fill="#FACC15" stroke="#0e1d2e" stroke-width="1.2"/><text x="${centroidPoint.x+6}" y="${centroidPoint.y-6}" fill="#FACC15" font-size="10" font-weight="900" paint-order="stroke" stroke="#0e1d2e" stroke-width="2.8">G</text></g>
+  <g class="geom-point-incenter" data-inspect-key="incenter"><circle cx="${incenterPoint.x}" cy="${incenterPoint.y}" r="4.2" fill="#FB923C" stroke="#0e1d2e" stroke-width="1.2"/><text x="${incenterPoint.x+6}" y="${incenterPoint.y+12}" fill="#FB923C" font-size="10" font-weight="900" paint-order="stroke" stroke="#0e1d2e" stroke-width="2.8">I</text></g>
+  <g class="geom-point-circum" data-inspect-key="circumcenter"><circle cx="${circumcenterPoint.x}" cy="${circumcenterPoint.y}" r="4.2" fill="#22D3EE" stroke="#0e1d2e" stroke-width="1.2"/><text x="${circumcenterPoint.x+6}" y="${circumcenterPoint.y-7}" fill="#22D3EE" font-size="10" font-weight="900" paint-order="stroke" stroke="#0e1d2e" stroke-width="2.8">O</text></g>
+ `:"";
+ const feet=altitudeDefs.map(d=>{
+  const v={x:d.end.x-d.start.x,y:d.end.y-d.start.y},den=v.x*v.x+v.y*v.y;
+  const t=((d.vertex.x-d.start.x)*v.x+(d.vertex.y-d.start.y)*v.y)/den;
+  const foot={x:d.start.x+t*v.x,y:d.start.y+t*v.y};
+  const mid={x:(d.vertex.x+foot.x)/2,y:(d.vertex.y+foot.y)/2};
+  const toward=norm({x:d.vertex.x-foot.x,y:d.vertex.y-foot.y});
+  const along=norm(v);
+  const z=7;
+  const q1={x:foot.x+toward.x*z,y:foot.y+toward.y*z};
+  const q2={x:q1.x+along.x*z,y:q1.y+along.y*z};
+  const q3={x:foot.x+along.x*z,y:foot.y+along.y*z};
+  const labelPos={x:mid.x+toward.x*7+5,y:mid.y+toward.y*7-4};
+  const extension=t<0?`<path d="M${foot.x},${foot.y} L${d.start.x},${d.start.y}" stroke="#60A5FA" stroke-width="1.8" stroke-dasharray="4 3" opacity=".65"/>`
+   :t>1?`<path d="M${d.end.x},${d.end.y} L${foot.x},${foot.y}" stroke="#60A5FA" stroke-width="1.8" stroke-dasharray="4 3" opacity=".65"/>`:"";
+  return {...d,foot,mid,labelPos,extension,rightMark:`<path d="M${q1.x},${q1.y} L${q2.x},${q2.y} L${q3.x},${q3.y}" fill="none" stroke="#60A5FA" stroke-width="2"/>`};
+ });
+ const angleArc=(p,q,r,key)=>{
+  const u=norm({x:q.x-p.x,y:q.y-p.y}),v=norm({x:r.x-p.x,y:r.y-p.y});
+  const p1={x:p.x+u.x*17,y:p.y+u.y*17},p2={x:p.x+v.x*17,y:p.y+v.y*17};
+  const cross=u.x*v.y-u.y*v.x;
+  return `<path class="triangle-angle-arc" data-inspect-key="vertex${key}" d="M${p1.x},${p1.y} A17 17 0 0 ${cross>0?1:0} ${p2.x},${p2.y}" fill="none" stroke="#dbeafe" stroke-width="1.5"/>`;
+ };
+ const rightMarker=(p,q,r,ang)=>{
+  if(!Number.isFinite(ang)||Math.abs(ang-90)>0.05)return "";
+  const u=norm({x:q.x-p.x,y:q.y-p.y}),v=norm({x:r.x-p.x,y:r.y-p.y}),z=11;
+  const p1={x:p.x+u.x*z,y:p.y+u.y*z},p2={x:p1.x+v.x*z,y:p1.y+v.y*z},p3={x:p.x+v.x*z,y:p.y+v.y*z};
+  return `<path d="M${p1.x},${p1.y} L${p2.x},${p2.y} L${p3.x},${p3.y}" fill="none" stroke="#f4b942" stroke-width="2"/>`;
+ };
+ const angleText=v=>Number.isFinite(v)?fmt(v)+"°":"—";
+ const xs=[pa.x,pb.x,pc.x,lA.x,lB.x,lC.x,...sides.flatMap(s=>[s.p.x,s.q.x,s.labelX]),...feet.flatMap(f=>[f.foot.x,f.labelPos.x])];
+ const ys=[pa.y,pb.y,pc.y,lA.y,lB.y,lC.y,...sides.map(s=>s.labelY),...feet.flatMap(f=>[f.foot.y,f.labelPos.y])];
+ const circleBounds=cls.includes("tri-result-svg")?[circumcenterPoint.x-circumradiusPx,circumcenterPoint.x+circumradiusPx,circumcenterPoint.y-circumradiusPx,circumcenterPoint.y+circumradiusPx]:[];
+ const minX=Math.min(...xs,...circleBounds.slice(0,2))-28,maxX=Math.max(...xs,...circleBounds.slice(0,2))+28,minY=Math.min(...ys,...circleBounds.slice(2,4))-28,maxY=Math.max(...ys,...circleBounds.slice(2,4))+28;
+ const viewBox=`${minX} ${minY} ${Math.max(340,maxX-minX)} ${Math.max(220,maxY-minY)}`;
+ const altitudeSvg=feet.map(f=>`<g class="altitude-mark" data-altitude="${f.key}">
+  ${f.extension}
+  <path data-inspect-key="altitude${f.key}" d="M${f.vertex.x},${f.vertex.y} L${f.foot.x},${f.foot.y}" fill="none" stroke="#60A5FA" stroke-width="2.5" stroke-dasharray="7 4"/>
+  <path class="inspect-hit" data-inspect-key="altitude${f.key}" d="M${f.vertex.x},${f.vertex.y} L${f.foot.x},${f.foot.y}"/>
+  ${f.rightMark}
+  <circle cx="${f.foot.x}" cy="${f.foot.y}" r="2.6" fill="#79bdff"/>
+  <text x="${f.labelPos.x}" y="${f.labelPos.y}" fill="#79bdff" font-size="10" font-weight="800" paint-order="stroke" stroke="#0e1d2e" stroke-width="2.5">${f.label}</text>
+ </g>`).join("");
+ return `<svg class="${cls}" data-a="${a}" data-b="${b}" data-c="${c}" data-angle-a="${A}" data-angle-b="${B}" data-angle-c="${C}" viewBox="${viewBox}" preserveAspectRatio="xMidYMid meet" role="img" aria-label="สามเหลี่ยม A B C พร้อมเส้นความสูงตั้งฉากทั้งสามเส้น ด้าน a ${fmt(a)} b ${fmt(b)} c ${fmt(c)} มุม A ${angleText(A)} B ${angleText(B)} C ${angleText(C)}">
+ <path d="M${pa.x},${pa.y} L${pb.x},${pb.y} L${pc.x},${pc.y} Z" fill="#176bb5" fill-opacity=".13" stroke="#52718e" stroke-width="1.4"/>
+ <path class="triangle-edge edge-a" data-inspect-key="sidea" d="M${pb.x},${pb.y}L${pc.x},${pc.y}" fill="none" stroke="#16a36a" stroke-width="4.5" stroke-linecap="round"/>
+ <path class="triangle-edge edge-b" data-inspect-key="sideb" d="M${pc.x},${pc.y}L${pa.x},${pa.y}" fill="none" stroke="#e3a13a" stroke-width="4.5" stroke-linecap="round"/>
+ <path class="triangle-edge edge-c" data-inspect-key="sidec" d="M${pa.x},${pa.y}L${pb.x},${pb.y}" fill="none" stroke="#a855f7" stroke-width="4.5" stroke-linecap="round"/>
+ <g class="inspect-side-hits"><path class="inspect-hit" data-inspect-key="sidea" d="M${pb.x},${pb.y}L${pc.x},${pc.y}"/><path class="inspect-hit" data-inspect-key="sideb" d="M${pc.x},${pc.y}L${pa.x},${pa.y}"/><path class="inspect-hit" data-inspect-key="sidec" d="M${pa.x},${pa.y}L${pb.x},${pb.y}"/></g>
+ ${altitudeSvg}
+ ${geometryOverlay}
+ ${angleArc(pa,pb,pc,"A")}${angleArc(pb,pc,pa,"B")}${angleArc(pc,pa,pb,"C")}
+ ${rightMarker(pa,pb,pc,A)}${rightMarker(pb,pc,pa,B)}${rightMarker(pc,pa,pb,C)}
+ <circle cx="${pa.x}" cy="${pa.y}" r="3.5" fill="#f4f8ff"/><circle cx="${pb.x}" cy="${pb.y}" r="3.5" fill="#f4f8ff"/><circle cx="${pc.x}" cy="${pc.y}" r="3.5" fill="#f4f8ff"/>
+ <g class="inspect-vertex-hits"><circle class="inspect-hit-point" data-inspect-key="vertexA" cx="${pa.x}" cy="${pa.y}" r="13"/><circle class="inspect-hit-point" data-inspect-key="vertexB" cx="${pb.x}" cy="${pb.y}" r="13"/><circle class="inspect-hit-point" data-inspect-key="vertexC" cx="${pc.x}" cy="${pc.y}" r="13"/></g>
+ <text x="${pa.x-9}" y="${pa.y+17}" class="tri-vertex-label">A</text><text x="${pb.x+8}" y="${pb.y+17}" class="tri-vertex-label">B</text><text x="${pc.x+8}" y="${pc.y-8}" class="tri-vertex-label">C</text>
+ ${sides.map(s=>`<text x="${s.labelX}" y="${s.labelY}" text-anchor="middle" dominant-baseline="middle" class="tri-side-label" fill="${s.color}">${s.text}</text>`).join("")}
+ <text x="${lA.x}" y="${lA.y}" text-anchor="middle" class="tri-angle-label">A ${angleText(A)}</text>
+ <text x="${lB.x}" y="${lB.y}" text-anchor="middle" class="tri-angle-label">B ${angleText(B)}</text>
+ <text x="${lC.x}" y="${lC.y}" text-anchor="middle" class="tri-angle-label">C ${angleText(C)}</text>
+ </svg>`;
+}
+function updateLiveTrianglePreview(){
+ const host=$("triLivePreview");if(!host)return;
+ const keys=["a","b","c","A","B","C"];
+ const entered=keys.filter(k=>Number.isFinite(val(k)));
+ if(!entered.length){
+  host.innerHTML='<div class="smart-preview-empty">กรอกค่าลงบนรูปสามเหลี่ยม แล้วภาพและค่าที่คำนวณได้จะแสดงที่นี่โดยอัตโนมัติ</div>';
+  return;
+ }
+ try{
+  // Use the same validated solver as the Calculate button to avoid preview/result disagreement.
+  const solved=solveTri();
+  const makeCard=(item,title)=>{
+   const svg=triangleSvg(item.a,item.b,item.c,item.A,item.B,item.C);
+   const vals=[
+    ["ด้าน a",item.a,"side-a"],["ด้าน b",item.b,"side-b"],["ด้าน c",item.c,"side-c"],
+    ["มุม A",item.A,"angle"],["มุม B",item.B,"angle"],["มุม C",item.C,"angle"]
+   ];
+   return `<div class="smart-preview-card">
+    ${title?`<div class="smart-preview-title">${title}</div>`:""}
+    ${svg}
+    <div class="smart-preview-values">${vals.map(v=>`<div class="smart-value ${v[2]}"><span>${v[0]}</span><b>${fmt(v[1])}${v[2]==="angle"?"°":""}</b></div>`).join("")}</div>
+   </div>`;
+  };
+  const alt=solved.alternate;
+  host.innerHTML=makeCard(solved,alt?"รูปที่เป็นไปได้ 1":"ภาพปรับตามข้อมูลล่าสุด")+
+   (alt?makeCard(alt,"รูปที่เป็นไปได้ 2 — กรณี SSA"):"")+
+   `<div class="triangle-diagram-key"><span><i class="key-a"></i> a: สีเขียว</span><span><i class="key-b"></i> b: สีส้ม</span><span><i class="key-c"></i> c: สีม่วง</span><span><i class="key-h"></i> ความสูง: เส้นประสีฟ้า</span></div>
+   <div class="smart-preview-status"><span class="live-dot"></span> อัปเดตอัตโนมัติจากข้อมูล ${entered.join(", ")} • แสดงความสูงตั้งฉากทั้งสามด้าน</div>`;
+ }catch(err){
+  const labels=entered.map(k=>({a:"ด้าน a",b:"ด้าน b",c:"ด้าน c",A:"มุม A",B:"มุม B",C:"มุม C"})[k]).join(" • ");
+  const hint=tri==="right"
+   ?"สามเหลี่ยมมุมฉาก: กรอกข้อมูลให้ครบตามคู่ค่าที่ใช้คำนวณ เช่น a กับ b, a กับ c หรือ a กับ A"
+   :`สามเหลี่ยมทั่วไป ${$("method").value}: กรอกค่าตามรูปแบบที่เลือกเพื่อให้ระบบสร้างรูปทรงตามสัดส่วนจริง`;
+  host.innerHTML=`<div class="smart-preview-pending"><b>กำลังรอข้อมูลที่เพียงพอ</b><div>${labels}</div><small>${err.message}</small><small>${hint}</small></div>`;
+ }
+}
+function renderTri(){
+ const host=$("inputdiagram");
+ if(tri==="right"){
+  // Restore the original right-triangle input layout:
+  // A bottom-left, B top-right, C bottom-right; C is always 90 degrees.
+  host.innerHTML=`
+   <div class="right-triangle-entry" style="position:relative">
+    <svg viewBox="0 0 340 230" role="img" aria-label="สามเหลี่ยมมุมฉาก A B C โดยมุม C เท่ากับ 90 องศา" style="display:block;width:100%;height:auto;background:#0e1d2e;border-radius:10px">
+     <path class="input-outline" d="M55 185 L275 35 L275 185 Z" fill="#176bb5" fill-opacity=".10" stroke="#52718e" stroke-width="1.4"/>
+     <path class="input-side-a" d="M275 35L275 185" stroke="#16a36a" stroke-width="4.5" stroke-linecap="round"/>
+     <path class="input-side-b" d="M55 185L275 185" stroke="#e3a13a" stroke-width="4.5" stroke-linecap="round"/>
+     <path class="input-side-c" d="M55 185L275 35" stroke="#a855f7" stroke-width="4.5" stroke-linecap="round"/>
+     <path class="input-right-angle" d="M255 185 L255 165 L275 165" stroke="#f4b942" fill="none" stroke-width="2.5"/>
+     <text class="input-label-A" x="38" y="204" fill="#eaf4ff" font-size="14">A</text>
+     <text class="input-label-B" x="280" y="30" fill="#eaf4ff" font-size="14">B</text>
+     <text class="input-label-C" x="282" y="204" fill="#eaf4ff" font-size="14">C</text>
+     <text x="284" y="174" fill="#f4b942" font-size="13" font-weight="700">90°</text>
+    </svg>
+    ${pin("a",84,48,"ด้าน a (BC)")}
+    ${pin("b",46,84,"ด้าน b (CA)")}
+    ${pin("c",47,42,"ด้าน c (AB)")}
+    ${pin("A",14,70,"มุม A")}
+    ${pin("B",83,15,"มุม B")}
+   </div>
+   <div class="side-color-legend"><span><i class="legend-a"></i> a = ด้านตรงข้ามมุม A</span><span><i class="legend-b"></i> b = ด้านตรงข้ามมุม B</span><span><i class="legend-c"></i> c = ด้านตรงข้ามมุม C</span></div>
+   <div class="metric" style="margin-top:10px">มุม C = 90° (กำหนดให้อัตโนมัติ)</div>`;
+  $("hint").textContent="ด้าน a = BC (ด้านตั้ง) • ด้าน b = CA (ด้านฐาน) • ด้าน c = AB (ด้านฉาก) • มุม C = 90°";
+ }else{
+  host.innerHTML=`<div style="position:relative"><svg viewBox="0 0 340 230" style="display:block;width:100%;height:auto;background:#0e1d2e;border-radius:10px"><path class="input-outline" d="M45 185L170 30L295 185Z" fill="#176bb5" fill-opacity=".10" stroke="#52718e" stroke-width="1.4"/><path class="input-side-a" d="M170 30L295 185" stroke="#16a36a" stroke-width="4.5" stroke-linecap="round"/><path class="input-side-b" d="M295 185L45 185" stroke="#e3a13a" stroke-width="4.5" stroke-linecap="round"/><path class="input-side-c" d="M45 185L170 30" stroke="#a855f7" stroke-width="4.5" stroke-linecap="round"/><text class="input-label-A" x="25" y="205" fill="#eaf4ff">A</text><text class="input-label-B" x="170" y="22" fill="#eaf4ff">B</text><text class="input-label-C" x="300" y="205" fill="#eaf4ff">C</text></svg>${pin("a",76,43,"ด้าน a")}${pin("b",50,88,"ด้าน b")}${pin("c",24,43,"ด้าน c")}${pin("A",12,75,"มุม A")}${pin("B",50,12,"มุม B")}${pin("C",88,75,"มุม C")}</div><div class="side-color-legend"><span><i class="legend-a"></i> a = ด้านตรงข้ามมุม A</span><span><i class="legend-b"></i> b = ด้านตรงข้ามมุม B</span><span><i class="legend-c"></i> c = ด้านตรงข้ามมุม C</span></div>`;
+  $("hint").textContent="แตะช่องตัวเลขที่วางบนรูปสามเหลี่ยมเพื่อกรอกค่าโดยตรง เลือกวิธี SSS, SAS, ASA หรือ SSA ให้ตรงกับข้อมูลโจทย์";
+ }
+ const keys=tri==="right"?["a","b","c","A","B"]:({SSS:["a","b","c"],SAS:["a","b","C"],ASA:["A","B","c"],SSA:["A","a","b"]}[$("method").value]);
+ ["a","b","c","A","B","C"].forEach(k=>{const el=$("p"+k);if(el)el.classList.toggle("hidden",!keys.includes(k))});
+ updateLiveTrianglePreview();
+}
+function val(k){let e=$(k);return e&&e.value.trim()!==""?Number(e.value):NaN}
+
+function validateTriangleResult(s){
+ const vals=[s.a,s.b,s.c,s.A,s.B,s.C,s.area];
+ if(!vals.every(Number.isFinite))throw Error("ผลคำนวณมีค่าที่ไม่ใช่ตัวเลข กรุณาตรวจสอบข้อมูลที่กรอก");
+ const {a,b,c,A,B,C,area}=s;
+ const scale=Math.max(a,b,c,1),tol=1e-7*scale;
+ if(Math.min(a,b,c)<=0||a+b<=c+tol*1e-4||a+c<=b+tol*1e-4||b+c<=a+tol*1e-4)
+  throw Error("ด้านที่คำนวณได้ไม่เป็นไปตามเงื่อนไขสามเหลี่ยม");
+ if(Math.min(A,B,C)<=0||Math.max(A,B,C)>=180||Math.abs(A+B+C-180)>1e-6)
+  throw Error("มุมภายในต้องเป็นบวกและมีผลรวมเท่ากับ 180°");
+ const hs=(a+b+c)/2,heronK=Math.sqrt(Math.max(0,hs*(hs-a)*(hs-b)*(hs-c)));
+ if(!(area>0)||Math.abs(area-heronK)>1e-6*Math.max(1,heronK))
+  throw Error("พื้นที่ไม่สอดคล้องกับความยาวด้าน กรุณาตรวจสอบข้อมูล");
+ const ac=x=>D(Math.acos(Math.max(-1,Math.min(1,x))));
+ const angles=[ac((b*b+c*c-a*a)/(2*b*c)),ac((a*a+c*c-b*b)/(2*a*c)),ac((a*a+b*b-c*c)/(2*a*b))];
+ if([A-angles[0],B-angles[1],C-angles[2]].some(v=>Math.abs(v)>1e-5))
+  throw Error("ค่ามุมไม่สอดคล้องกับความยาวด้าน กรุณาตรวจสอบข้อมูล");
+ return s;
+}
+
+function solveTri(){
+ const a0=val("a"),b0=val("b"),c0=val("c");
+ let a=a0,b=b0,c=c0,A=val("A"),B=val("B"),C=val("C");
+ const steps=[],radMode=tu==="rad";let formula="";
+ if(radMode){if(Number.isFinite(A))A=D(A);if(Number.isFinite(B))B=D(B);if(Number.isFinite(C))C=D(C)}
+ const positiveSide=v=>!Number.isFinite(v)||v>0;
+ const near=(x,y)=>Math.abs(x-y)<=1e-7*Math.max(1,Math.abs(y));
+ const acosSafe=x=>Math.acos(Math.max(-1,Math.min(1,x)));
+ if(![a,b,c].every(positiveSide))throw Error("ความยาวด้านต้องมากกว่า 0");
+ if(tri==="right"){
+  if([A,B].some(v=>Number.isFinite(v)&&(v<=0||v>=90)))throw Error("มุม A และ B ของสามเหลี่ยมมุมฉากต้องอยู่ระหว่าง 0° ถึง 90°");
+  if(Number.isFinite(C)&&Math.abs(C-90)>1e-7)throw Error("สามเหลี่ยมมุมฉากต้องมีมุม C = 90°");
+  if(Number.isFinite(a)&&Number.isFinite(b)){
+   c=Math.hypot(a,b);A=D(Math.atan2(a,b));B=90-A;
+   steps.push(`c = √(a² + b²) = ${fmt(c)}`,`A = tan⁻¹(a/b) = ${fmt(A)}°`,`B = 90° − A = ${fmt(B)}°`);
+  }else if(Number.isFinite(a)&&Number.isFinite(c)){
+   if(c<=a)throw Error("ด้านฉาก c ต้องยาวกว่าด้าน a");
+   b=Math.sqrt(Math.max(0,c*c-a*a));A=D(Math.asin(a/c));B=90-A;
+   steps.push(`b = √(c² − a²) = ${fmt(b)}`,`A = sin⁻¹(a/c) = ${fmt(A)}°`,`B = 90° − A = ${fmt(B)}°`);
+  }else if(Number.isFinite(b)&&Number.isFinite(c)){
+   if(c<=b)throw Error("ด้านฉาก c ต้องยาวกว่าด้าน b");
+   a=Math.sqrt(Math.max(0,c*c-b*b));A=D(Math.acos(b/c));B=90-A;
+   steps.push(`a = √(c² − b²) = ${fmt(a)}`,`A = cos⁻¹(b/c) = ${fmt(A)}°`,`B = 90° − A = ${fmt(B)}°`);
+  }else if(Number.isFinite(a)&&Number.isFinite(A)){
+   b=a/Math.tan(R(A));c=a/Math.sin(R(A));B=90-A;
+   steps.push(`b = a/tan A = ${fmt(b)}`,`c = a/sin A = ${fmt(c)}`,`B = 90° − A = ${fmt(B)}°`);
+  }else if(Number.isFinite(a)&&Number.isFinite(B)){
+   b=a*Math.tan(R(B));c=a/Math.cos(R(B));A=90-B;
+   steps.push(`b = a tan B = ${fmt(b)}`,`c = a/cos B = ${fmt(c)}`,`A = 90° − B = ${fmt(A)}°`);
+  }else if(Number.isFinite(b)&&Number.isFinite(A)){
+   a=b*Math.tan(R(A));c=b/Math.cos(R(A));B=90-A;
+   steps.push(`a = b tan A = ${fmt(a)}`,`c = b/cos A = ${fmt(c)}`,`B = 90° − A = ${fmt(B)}°`);
+  }else if(Number.isFinite(b)&&Number.isFinite(B)){
+   a=b/Math.tan(R(B));c=b/Math.sin(R(B));A=90-B;
+   steps.push(`a = b/tan B = ${fmt(a)}`,`c = b/sin B = ${fmt(c)}`,`A = 90° − B = ${fmt(A)}°`);
+  }else if(Number.isFinite(c)&&Number.isFinite(A)){
+   a=c*Math.sin(R(A));b=c*Math.cos(R(A));B=90-A;
+   steps.push(`a = c sin A = ${fmt(a)}`,`b = c cos A = ${fmt(b)}`,`B = 90° − A = ${fmt(B)}°`);
+  }else if(Number.isFinite(c)&&Number.isFinite(B)){
+   b=c*Math.sin(R(B));a=c*Math.cos(R(B));A=90-B;
+   steps.push(`b = c sin B = ${fmt(b)}`,`a = c cos B = ${fmt(a)}`,`A = 90° − B = ${fmt(A)}°`);
+  }else throw Error("กรอกข้อมูลอิสระอย่างน้อย 2 ค่า เช่น ด้าน 2 ด้าน หรือด้าน 1 ด้านร่วมกับมุม A หรือ B");
+  C=90;
+  const rawA=val("A"),rawB=val("B");
+  for(const [key,input,solved] of [["a",a0,a],["b",b0,b],["c",c0,c],
+    ["A",Number.isFinite(rawA)?(radMode?D(rawA):rawA):NaN,A],
+    ["B",Number.isFinite(rawB)?(radMode?D(rawB):rawB):NaN,B]]){
+   if(Number.isFinite(input)&&!near(input,solved))throw Error(`ข้อมูล ${key} ไม่สอดคล้องกับคำตอบที่คำนวณได้ กรุณาตรวจสอบค่าที่กรอก`);
+  }
+  formula="a² + b² = c² • sin A = a/c • cos A = b/c • tan A = a/b";
+ }else{
+  const m=$("method").value;
+  if(m==="SSS"){
+   if(![a,b,c].every(Number.isFinite)||Math.min(a,b,c)<=0||a+b<=c||a+c<=b||b+c<=a)throw Error("ด้านทั้งสามไม่สามารถสร้างสามเหลี่ยมได้");
+   A=D(acosSafe((b*b+c*c-a*a)/(2*b*c)));B=D(acosSafe((a*a+c*c-b*b)/(2*a*c)));C=180-A-B;
+   formula="cos A = (b² + c² − a²) / 2bc";
+   steps.push(`A = cos⁻¹((b² + c² − a²)/(2bc)) = ${fmt(A)}°`,`B = cos⁻¹((a² + c² − b²)/(2ac)) = ${fmt(B)}°`,`C = 180° − A − B = ${fmt(C)}°`);
+  }else if(m==="SAS"){
+   if(![a,b,C].every(Number.isFinite)||a<=0||b<=0||C<=0||C>=180)throw Error("กรอกด้าน a, ด้าน b และมุม C (0° ถึง 180°)");
+   const c2=a*a+b*b-2*a*b*Math.cos(R(C));if(c2<=0)throw Error("ข้อมูล SAS ไม่สามารถสร้างสามเหลี่ยมที่มีพื้นที่ได้");
+   c=Math.sqrt(c2);A=D(acosSafe((b*b+c*c-a*a)/(2*b*c)));B=180-A-C;
+   formula="c² = a² + b² − 2ab cos C";
+   steps.push(`c = √(a² + b² − 2ab cos C) = ${fmt(c)}`,`A = cos⁻¹((b² + c² − a²)/(2bc)) = ${fmt(A)}°`,`B = 180° − A − C = ${fmt(B)}°`);
+  }else if(m==="ASA"){
+   if(![A,B,c].every(Number.isFinite)||A<=0||B<=0||A+B>=180||c<=0)throw Error("กรอกมุม A, มุม B และด้าน c โดย A + B ต้องน้อยกว่า 180°");
+   C=180-A-B;a=c*Math.sin(R(A))/Math.sin(R(C));b=c*Math.sin(R(B))/Math.sin(R(C));
+   formula="a/sin A = b/sin B = c/sin C";
+   steps.push(`C = 180° − A − B = ${fmt(C)}°`,`a = c sin A / sin C = ${fmt(a)}`,`b = c sin B / sin C = ${fmt(b)}`);
+  }else{
+   if(![A,a,b].every(Number.isFinite)||A<=0||A>=180||a<=0||b<=0)throw Error("กรอกมุม A (0° ถึง 180°) และด้าน a, b");
+   let q=b*Math.sin(R(A))/a;if(q>1+1e-10)throw Error("ไม่มีสามเหลี่ยมที่เป็นไปได้จากข้อมูลนี้ เพราะ sin B มีค่ามากกว่า 1");
+   q=Math.max(-1,Math.min(1,q));
+   const baseB=D(Math.asin(q)),opts=[baseB,180-baseB].filter((v,i,arr)=>180-A-v>1e-8&&arr.findIndex(x=>Math.abs(x-v)<1e-8)===i);
+   if(!opts.length)throw Error("ไม่มีสามเหลี่ยมที่เป็นไปได้จากข้อมูล SSA");
+   const build=angleB=>{const angleC=180-A-angleB,sideC=a*Math.sin(R(angleC))/Math.sin(R(A)),area=.5*a*b*Math.sin(R(angleC));return {a,b,c:sideC,A,B:angleB,C:angleC,area,perimeter:a+b+sideC,semiperimeter:(a+b+sideC)/2}};
+   const first=build(opts[0]),second=opts.length>1?build(opts[1]):null;
+   formula="sin B = b sin A / a (กรณี SSA อาจมีคำตอบได้ 2 รูปสามเหลี่ยม)";
+   steps.push(`sin B = b sin A / a = ${fmt(q)}`,`B₁ = ${fmt(first.B)}°`,...(second?[`B₂ = ${fmt(second.B)}°`]:[]),`C = 180° − A − B`,`คำนวณด้าน c ด้วยกฎไซน์`);
+   first.alternate=second;validateTriangleResult(first);if(second)validateTriangleResult(second);return first;
+  }
+ }
+ const area=.5*a*b*Math.sin(R(C)),out={a,b,c,A,B,C,area,perimeter:a+b+c,semiperimeter:(a+b+c)/2,steps,formula};
+ if(![out.a,out.b,out.c,out.A,out.B,out.C,out.area].every(Number.isFinite)||![a,b,c].every(v=>v>0)||area<=0)throw Error("ไม่สามารถคำนวณผลลัพธ์ที่ถูกต้องได้ กรุณาตรวจสอบข้อมูล");
+ if(Math.abs(A+B+C-180)>1e-6)throw Error("ผลรวมมุมไม่เท่ากับ 180° กรุณาตรวจสอบข้อมูล");
+ return validateTriangleResult(out);
+}
+function triangleResultCard(s,title="ผลลัพธ์"){
+ const show=n=>Number.isFinite(n)?(Math.abs(n-Math.round(n))<1e-9?String(Math.round(n)):String(Number(n.toFixed(3)))):"—";
+ const ha=2*s.area/s.a,hb=2*s.area/s.b,hc=2*s.area/s.c;
+ const gx=(s.b*s.b+s.c*s.c-s.a*s.a)/(2*s.b),gy=Math.sqrt(Math.max(0,s.c*s.c-gx*gx));
+ const Gx=(s.b+gx)/3,Gy=gy/3;
+ const Ix=(s.b*gx+s.c*s.b)/(s.a+s.b+s.c),Iy=(s.b*gy)/(s.a+s.b+s.c);
+ const Ox=s.b/2,Oy=(gx*gx+gy*gy-s.b*gx)/(2*gy);
+ const items=[["ด้าน a",show(s.a)],["ด้าน b",show(s.b)],["ด้าน c",show(s.c)],
+ ["มุม A",show(s.A)+"°"],["มุม B",show(s.B)+"°"],["มุม C",show(s.C)+"°"],
+ ["ความสูง hₐ ⟂ a",show(ha)],["ความสูง hᵦ ⟂ b",show(hb)],["ความสูง h꜀ ⟂ c",show(hc)],
+ ["พื้นที่",show(s.area)],["เส้นรอบรูป",show(s.perimeter??(s.a+s.b+s.c))],
+ ["กึ่งเส้นรอบรูป",show(s.semiperimeter??((s.a+s.b+s.c)/2))],
+ ["มัธยฐาน mₐ",show(.5*Math.sqrt(Math.max(0,2*s.b*s.b+2*s.c*s.c-s.a*s.a)))],
+ ["มัธยฐาน mᵦ",show(.5*Math.sqrt(Math.max(0,2*s.a*s.a+2*s.c*s.c-s.b*s.b)))],
+ ["มัธยฐาน m꜀",show(.5*Math.sqrt(Math.max(0,2*s.a*s.a+2*s.b*s.b-s.c*s.c)))],
+ ["เส้นแบ่งครึ่งมุม tₐ",show(Math.sqrt(Math.max(0,s.b*s.c*((s.b+s.c)**2-s.a*s.a)))/(s.b+s.c))],
+ ["เส้นแบ่งครึ่งมุม tᵦ",show(Math.sqrt(Math.max(0,s.a*s.c*((s.a+s.c)**2-s.b*s.b)))/(s.a+s.c))],
+ ["เส้นแบ่งครึ่งมุม t꜀",show(Math.sqrt(Math.max(0,s.a*s.b*((s.a+s.b)**2-s.c*s.c)))/(s.a+s.b))],
+ ["รัศมีวงกลมแนบใน r",show(s.area/(s.semiperimeter??((s.a+s.b+s.c)/2)))],
+ ["รัศมีวงกลมล้อมรอบ R",show((s.a*s.b*s.c)/(4*s.area))],
+ ["พิกัดจุดศูนย์ถ่วง G",`(${show(Gx)}, ${show(Gy)})`],
+ ["พิกัดจุดศูนย์กลางวงกลมแนบใน I",`(${show(Ix)}, ${show(Iy)})`],
+ ["พิกัดจุดศูนย์กลางวงกลมล้อมรอบ O",`(${show(Ox)}, ${show(Oy)})`]];
+ return `<div class="panel tri-result-card">
+ <div class="tri-result-heading">${title}</div>
+ <div class="tri-result-figure">${triangleSvg(s.a,s.b,s.c,s.A,s.B,s.C,"tri-result-svg")}</div>
+ <section class="geometry-inspector" aria-live="polite">
+  <div class="geometry-inspector-title">แตะเส้นหรือจุดบนภาพเพื่อดูรายละเอียด</div>
+  <div class="geometry-inspector-empty">เลือกด้าน มุม เส้นความสูง เส้นมัธยฐาน เส้นแบ่งครึ่งมุม หรือจุดศูนย์กลาง เพื่อดูสูตร การแทนค่า และคำอธิบาย</div>
+  <div class="geometry-inspector-content" hidden></div>
+ </section>
+ <div class="geometry-layer-controls" role="group" aria-label="เลือกแสดงหรือซ่อนเส้นและจุดบนภาพสามเหลี่ยม">
+  <div class="geometry-layer-heading">เลือกแสดงเส้นและจุดบนภาพ</div>
+  <div class="geometry-layer-buttons">
+   <button type="button" class="geometry-layer-btn is-on" data-layer-toggle="height" aria-pressed="true"><i class="layer-swatch sw-height"></i>ความสูง</button>
+   <button type="button" class="geometry-layer-btn is-on" data-layer-toggle="median" aria-pressed="true"><i class="layer-swatch sw-median"></i>มัธยฐาน</button>
+   <button type="button" class="geometry-layer-btn is-on" data-layer-toggle="bisector" aria-pressed="true"><i class="layer-swatch sw-bisector"></i>แบ่งครึ่งมุม</button>
+   <button type="button" class="geometry-layer-btn is-on" data-layer-toggle="incircle" aria-pressed="true"><i class="layer-swatch sw-incircle"></i>วงกลมแนบใน I</button>
+   <button type="button" class="geometry-layer-btn is-on" data-layer-toggle="circumcircle" aria-pressed="true"><i class="layer-swatch sw-circumcircle"></i>วงกลมล้อมรอบ O</button>
+   <button type="button" class="geometry-layer-btn is-on" data-layer-toggle="centroid" aria-pressed="true"><i class="layer-swatch sw-centroid"></i>จุดศูนย์ถ่วง G</button>
+   <button type="button" class="geometry-layer-btn geometry-layer-all" data-layer-all>แสดงทั้งหมด</button>
+   <button type="button" class="geometry-layer-btn geometry-layer-clear" data-layer-clear>ปิดการแสดงทั้งหมด</button>
+  </div>
+ </div>
+ <div class="geometry-lab-legend geometry-lab-legend-top">
+  <span><i class="g-height"></i> ความสูงตั้งฉาก</span><span><i class="g-median"></i> มัธยฐาน</span><span><i class="g-bisector"></i> แบ่งครึ่งมุม</span><span><i class="g-circumcenter"></i> วงกลมล้อมรอบ</span><span><i class="g-incenter"></i> วงกลมแนบใน</span>
+ </div>
+ <div class="tri-result-metrics">${items.map((z,i)=>`<button type="button" class="metric inspect-metric ${i===0?"smart-side-a":i===1?"smart-side-b":i===2?"smart-side-c":i<6?"smart-angle":i<9?"smart-altitude":""}" data-inspect-select="${["sidea","sideb","sidec","vertexA","vertexB","vertexC","altitudea","altitudeb","altitudec"][i]||""}"><span>${z[0]}</span><b title="${z[1]}">${z[1]}</b></button>`).join("")}</div>
+ <section class="altitude-control" data-a="${s.a}" data-b="${s.b}" data-c="${s.c}" data-area="${s.area}">
+  <h4>คำนวณความสูงจากฐานและพื้นที่</h4>
+  <p>เลือกด้านที่จะใช้เป็นฐาน แล้วกรอกความยาวฐานและพื้นที่เพื่อหาความสูงที่ตั้งฉากกับฐานนั้น</p>
+  <label>เลือกด้านฐาน</label>
+  <select class="alt-base-select"><option value="a">ด้าน a (BC) — สีเขียว</option><option value="b">ด้าน b (CA) — สีส้ม</option><option value="c">ด้าน c (AB) — สีม่วง</option></select>
+  <div class="altitude-input-grid">
+   <label>ความยาวฐาน<input class="alt-base-value" type="number" min="0" step="any" value="${s.a}" inputmode="decimal"></label>
+   <label>พื้นที่สามเหลี่ยม<input class="alt-area-value" type="number" min="0" step="any" value="${s.area}" inputmode="decimal"></label>
+  </div>
+  <div class="altitude-answer" aria-live="polite"><span>ความสูงที่คำนวณได้</span><b class="alt-height-value">${show(2*s.area/s.a)}</b></div>
+  <div class="altitude-steps"></div>
+ </section>
+ <section class="geometry-lab-panel">
+  <h4>จุดสำคัญและเส้นพิเศษของสามเหลี่ยม</h4>
+  <div class="geometry-lab-legend">
+   <span><i class="g-centroid"></i> จุดศูนย์ถ่วง G</span>
+   <span><i class="g-incenter"></i> จุดศูนย์กลางวงกลมแนบใน I</span>
+   <span><i class="g-circumcenter"></i> จุดศูนย์กลางวงกลมล้อมรอบ O</span>
+   <span><i class="g-median"></i> เส้นมัธยฐาน</span>
+   <span><i class="g-bisector"></i> เส้นแบ่งครึ่งมุม</span>
+  </div>
+  <div class="geometry-lab-values">
+   <div class="geom-value geom-incircle" data-inspect-select="incircle"><span>รัศมีวงกลมแนบใน r</span><b>${show(s.area/s.semiperimeter)}</b></div>
+   <div class="geom-value geom-circumcircle" data-inspect-select="circumcircle"><span>รัศมีวงกลมล้อมรอบ R</span><b>${show(s.a*s.b*s.c/(4*s.area))}</b></div>
+   <div class="geom-value geom-median" data-inspect-select="median0"><span>มัธยฐานจาก A (mₐ)</span><b>${show(.5*Math.sqrt(Math.max(0,2*s.b*s.b+2*s.c*s.c-s.a*s.a)))}</b></div>
+   <div class="geom-value geom-median" data-inspect-select="median1"><span>มัธยฐานจาก B (mᵦ)</span><b>${show(.5*Math.sqrt(Math.max(0,2*s.a*s.a+2*s.c*s.c-s.b*s.b)))}</b></div>
+   <div class="geom-value geom-median" data-inspect-select="median2"><span>มัธยฐานจาก C (m꜀)</span><b>${show(.5*Math.sqrt(Math.max(0,2*s.a*s.a+2*s.b*s.b-s.c*s.c)))}</b></div>
+   <div class="geom-value geom-centroid" data-inspect-select="centroid"><span>จุดศูนย์ถ่วง G (พิกัด)</span><b>(${show(Gx)}, ${show(Gy)})</b></div>
+   <div class="geom-value geom-incenter" data-inspect-select="incenter"><span>จุดศูนย์กลางวงกลมแนบใน I</span><b>(${show(Ix)}, ${show(Iy)})</b></div>
+   <div class="geom-value geom-circumcenter" data-inspect-select="circumcenter"><span>จุดศูนย์กลางวงกลมล้อมรอบ O</span><b>(${show(Ox)}, ${show(Oy)})</b></div>
+   <div class="geom-value geom-bisector" data-inspect-select="bisector0"><span>เส้นแบ่งครึ่งมุม tₐ</span><b>${show(Math.sqrt(Math.max(0,s.b*s.c*((s.b+s.c)**2-s.a*s.a)))/(s.b+s.c))}</b></div>
+   <div class="geom-value geom-bisector" data-inspect-select="bisector1"><span>เส้นแบ่งครึ่งมุม tᵦ</span><b>${show(Math.sqrt(Math.max(0,s.a*s.c*((s.a+s.c)**2-s.b*s.b)))/(s.a+s.c))}</b></div>
+   <div class="geom-value geom-bisector" data-inspect-select="bisector2"><span>เส้นแบ่งครึ่งมุม t꜀</span><b>${show(Math.sqrt(Math.max(0,s.a*s.b*((s.a+s.b)**2-s.c*s.c)))/(s.a+s.b))}</b></div>
+  </div>
+ </section>
+ </div>`;
+}
+function triangleDetailedHTML(s,given){
+ const n=v=>fmt(v),parts=[];
+ const g=given;
+ const title=tri==="right"?"สามเหลี่ยมมุมฉาก":`สามเหลี่ยมทั่วไป (${ $("method").value })`;
+ const add=(head,formula,sub,why)=>parts.push(`<div class="explain-block"><h4>${head}</h4><div class="explain-formula">${formula}</div><div class="explain-line"><b>แทนค่า:</b> ${sub}</div><div class="explain-line">${why}</div></div>`);
+ const givenLabels={a:"ด้าน a",b:"ด้าน b",c:"ด้าน c",A:"มุม A",B:"มุม B",C:"มุม C"};
+ const givenRows=Object.entries(g).filter(([k,v])=>Number.isFinite(v)).map(([k,v])=>`${givenLabels[k]} = ${n(v)}${k.length===1&&k===k.toUpperCase()?"°":""}`);
+ const method=$("method").value;
+ const reason=tri==="right"
+  ?"เป็นสามเหลี่ยมมุมฉาก จึงใช้ทฤษฎีพีทาโกรัสและอัตราส่วน sin, cos หรือ tan ตามข้อมูลด้าน/มุมที่ทราบ"
+  :({SSS:"ทราบด้านทั้งสาม จึงใช้กฎโคไซน์เพื่อหามุมแต่ละมุม",SAS:"ทราบด้านสองด้านและมุมระหว่างด้าน จึงใช้กฎโคไซน์หาด้านที่สาม แล้วหามุมที่เหลือ",ASA:"ทราบมุมสองมุมและด้านหนึ่งด้าน จึงหามุมที่สามจากผลรวม 180° แล้วใช้กฎไซน์หาด้านที่เหลือ",SSA:"ทราบมุมหนึ่งมุมและด้านสองด้าน จึงใช้กฎไซน์ และตรวจสอบกรณีคำตอบกำกวม 0, 1 หรือ 2 รูป"}[method]||"เลือกสูตรให้สอดคล้องกับข้อมูลที่กำหนด");
+ parts.push(`<div class="explain-block smart-given"><h4>ข้อมูลจากโจทย์</h4><div class="explain-line">${givenRows.join(" • ")||"ไม่มีข้อมูล"}</div><div class="explain-line"><b>เหตุผลที่เลือกวิธี:</b> ${reason}</div></div>`);
+ if(tri==="right"){
+  add("หลักการ","a² + b² = c² • A + B = 90°","C = 90° (มุมฉาก)","ด้าน c เป็นด้านฉาก ส่วน a และ b เป็นด้านประกอบมุมฉาก");
+  if(Number.isFinite(g.a)&&Number.isFinite(g.b)){
+   add("หาด้านฉาก c","c = √(a² + b²)",`c = √(${n(g.a)}² + ${n(g.b)}²) = ${n(s.c)}`,"ใช้ทฤษฎีพีทาโกรัสเมื่อทราบด้านประกอบมุมฉากทั้งสองด้าน");
+   add("หามุม A และ B","tan A = a/b • B = 90° − A",`A = tan⁻¹(${n(g.a)} ÷ ${n(g.b)}) = ${n(s.A)}° • B = 90° − ${n(s.A)}° = ${n(s.B)}°`,"ใช้แทนเจนต์เพราะทราบด้านข้ามและด้านชิดของมุม A");
+  }else if(Number.isFinite(g.a)&&Number.isFinite(g.c)){
+   add("หาด้าน b","b = √(c² − a²)",`b = √(${n(g.c)}² − ${n(g.a)}²) = ${n(s.b)}`,"ย้ายข้างจากทฤษฎีพีทาโกรัสเพื่อหาด้านประกอบมุมฉากที่ขาด");
+   add("หามุม A และ B","sin A = a/c • B = 90° − A",`A = sin⁻¹(${n(g.a)} ÷ ${n(g.c)}) = ${n(s.A)}° • B = ${n(s.B)}°`,"ใช้ไซน์จากด้านข้ามหารด้านฉาก");
+  }else if(Number.isFinite(g.b)&&Number.isFinite(g.c)){
+   add("หาด้าน a","a = √(c² − b²)",`a = √(${n(g.c)}² − ${n(g.b)}²) = ${n(s.a)}`,"ใช้ทฤษฎีพีทาโกรัสหาด้านประกอบมุมฉากที่ขาด");
+   add("หามุม A และ B","cos A = b/c • B = 90° − A",`A = cos⁻¹(${n(g.b)} ÷ ${n(g.c)}) = ${n(s.A)}° • B = ${n(s.B)}°`,"ใช้คอไซน์จากด้านชิดหารด้านฉาก");
+  }else if(Number.isFinite(g.a)&&Number.isFinite(g.A)){
+   add("หาด้าน b และ c","tan A = a/b • sin A = a/c",`b = ${n(g.a)} ÷ tan(${n(g.A)}°) = ${n(s.b)} • c = ${n(g.a)} ÷ sin(${n(g.A)}°) = ${n(s.c)}`,"ใช้ความสัมพันธ์ตรีโกณมิติของมุม A เพื่อหาด้านที่เหลือ");
+  }else if(Number.isFinite(g.c)&&Number.isFinite(g.A)){
+   add("หาด้าน a และ b","sin A = a/c • cos A = b/c",`a = ${n(g.c)} × sin(${n(g.A)}°) = ${n(s.a)} • b = ${n(g.c)} × cos(${n(g.A)}°) = ${n(s.b)}`,"คูณด้านฉากด้วยค่าไซน์และคอไซน์เพื่อหาด้านข้ามและด้านชิด");
+  }else if(Number.isFinite(g.b)&&Number.isFinite(g.A)){
+   add("หาด้าน a และ c","tan A = a/b • cos A = b/c",`a = ${n(g.b)} × tan(${n(g.A)}°) = ${n(s.a)} • c = ${n(g.b)} ÷ cos(${n(g.A)}°) = ${n(s.c)}`,"ใช้ด้านชิดที่ทราบเพื่อคำนวณด้านข้ามและด้านฉาก");
+  }
+ }else{
+  const m=$("method").value;
+  if(m==="SSS"){
+   add("กฎโคไซน์หามุม A","cos A = (b² + c² − a²) / 2bc",`cos A = (${n(g.b)}² + ${n(g.c)}² − ${n(g.a)}²) ÷ (2 × ${n(g.b)} × ${n(g.c)}) • A = ${n(s.A)}°`,"ใช้กฎโคไซน์เมื่อทราบความยาวด้านทั้งสาม");
+   add("หามุม B และ C","cos B = (a² + c² − b²) / 2ac • C = 180° − A − B",`B = ${n(s.B)}° • C = 180° − ${n(s.A)}° − ${n(s.B)}° = ${n(s.C)}°`,"หามุมที่เหลือจากกฎโคไซน์และผลรวมมุมภายในสามเหลี่ยม");
+  }else if(m==="SAS"){
+   add("กฎโคไซน์หาด้าน c","c² = a² + b² − 2ab cos C",`c² = ${n(g.a)}² + ${n(g.b)}² − 2 × ${n(g.a)} × ${n(g.b)} × cos(${n(g.C)}°) • c = ${n(s.c)}`,"ใช้เมื่อทราบด้านสองด้านและมุมระหว่างด้าน");
+   add("หามุม A และ B","cos A = (b² + c² − a²) / 2bc • B = 180° − A − C",`A = ${n(s.A)}° • B = 180° − ${n(s.A)}° − ${n(g.C)}° = ${n(s.B)}°`,"คำนวณมุม A แล้วใช้ผลรวมมุม 180° เพื่อหามุม B");
+  }else if(m==="ASA"){
+   add("หามุม C","C = 180° − A − B",`C = 180° − ${n(g.A)}° − ${n(g.B)}° = ${n(s.C)}°`,"ผลรวมมุมภายในสามเหลี่ยมเท่ากับ 180°");
+   add("กฎไซน์หาด้าน a และ b","a/sin A = b/sin B = c/sin C",`a = ${n(g.c)} × sin(${n(g.A)}°) ÷ sin(${n(s.C)}°) = ${n(s.a)} • b = ${n(g.c)} × sin(${n(g.B)}°) ÷ sin(${n(s.C)}°) = ${n(s.b)}`,"เมื่อทราบด้าน c และมุมทั้งสาม ใช้กฎไซน์หาด้านที่เหลือ");
+  }else{
+   const q=g.b*Math.sin(R(g.A))/g.a;
+   add("กฎไซน์หามุม B","sin B / b = sin A / a",`sin B = (${n(g.b)} × sin(${n(g.A)}°)) ÷ ${n(g.a)} = ${n(q)}`,"กรณี SSA อาจมีคำตอบได้ 0, 1 หรือ 2 รูป ต้องตรวจสอบมุมที่เป็นไปได้");
+   add("พิจารณาคำตอบของมุม B","B₁ = sin⁻¹(q) • B₂ = 180° − B₁",`B₁ = ${n(s.B)}°${s.alternate?` • B₂ = ${n(s.alternate.B)}°`:""}`,"เลือกเฉพาะมุมที่ทำให้ A + B น้อยกว่า 180°");
+   add("หามุม C และด้าน c","C = 180° − A − B • c/sin C = a/sin A",`C = ${n(s.C)}° • c = ${n(g.a)} × sin(${n(s.C)}°) ÷ sin(${n(g.A)}°) = ${n(s.c)}`,"ใช้ผลรวมมุมและกฎไซน์หาด้านสุดท้าย");
+  }
+ }
+ const ha=2*s.area/s.a,hb=2*s.area/s.b,hc=2*s.area/s.c;
+ add("คำนวณความสูงตั้งฉากกับด้าน a","hₐ = 2K / a",`hₐ = (2 × ${n(s.area)}) ÷ ${n(s.a)} = ${n(ha)}`,"ลากเส้นจากจุดยอด A ลงมาตั้งฉากกับด้าน a (BC) ความสูงนี้เป็นระยะสั้นที่สุดจากจุด A ถึงแนวฐาน BC");
+ add("คำนวณความสูงตั้งฉากกับด้าน b","hᵦ = 2K / b",`hᵦ = (2 × ${n(s.area)}) ÷ ${n(s.b)} = ${n(hb)}`,"ลากเส้นจากจุดยอด B ลงมาตั้งฉากกับด้าน b (CA)");
+ add("คำนวณความสูงตั้งฉากกับด้าน c","h꜀ = 2K / c",`h꜀ = (2 × ${n(s.area)}) ÷ ${n(s.c)} = ${n(hc)}`,"ลากเส้นจากจุดยอด C ลงมาตั้งฉากกับด้าน c (AB)");
+ add("คำนวณพื้นที่","K = ½ × ฐาน × ความสูง",`K = ½ × ${n(s.a)} × ${n(ha)} = ${n(s.area)} (เลือกด้าน a เป็นฐาน)`,`ตรวจสอบซ้ำได้จาก K = ½ × b × hᵦ = ${n(.5*s.b*hb)} และ K = ½ × c × h꜀ = ${n(.5*s.c*hc)}`);
+ add("คำนวณเส้นรอบรูป","P = a + b + c",`P = ${n(s.a)} + ${n(s.b)} + ${n(s.c)} = ${n(s.perimeter)}`,"นำความยาวด้านทั้งสามมาบวกกัน");
+ // Advanced geometry: incircle, circumcircle, medians and angle bisectors.
+ const semi=s.semiperimeter??(s.a+s.b+s.c)/2;
+ const inradius=s.area/semi,circumradius=s.a*s.b*s.c/(4*s.area);
+ const medianA=.5*Math.sqrt(Math.max(0,2*s.b*s.b+2*s.c*s.c-s.a*s.a));
+ const medianB=.5*Math.sqrt(Math.max(0,2*s.a*s.a+2*s.c*s.c-s.b*s.b));
+ const medianC=.5*Math.sqrt(Math.max(0,2*s.a*s.a+2*s.b*s.b-s.c*s.c));
+ const bisectorA=Math.sqrt(Math.max(0,s.b*s.c*((s.b+s.c)**2-s.a*s.a)))/(s.b+s.c);
+ const bisectorB=Math.sqrt(Math.max(0,s.a*s.c*((s.a+s.c)**2-s.b*s.b)))/(s.a+s.c);
+ const bisectorC=Math.sqrt(Math.max(0,s.a*s.b*((s.a+s.b)**2-s.c*s.c)))/(s.a+s.b);
+ add("รัศมีวงกลมแนบใน","r = K / s",`r = ${n(s.area)} ÷ ${n(semi)} = ${n(inradius)}`,"จุดศูนย์กลางวงกลมแนบในเป็นจุดตัดของเส้นแบ่งครึ่งมุมภายในทั้งสาม และระยะตั้งฉากจากจุดนี้ถึงทุกด้านเท่ากัน");
+ add("รัศมีวงกลมล้อมรอบ","R = abc / 4K",`R = (${n(s.a)} × ${n(s.b)} × ${n(s.c)}) ÷ (4 × ${n(s.area)}) = ${n(circumradius)}`,"จุดศูนย์กลางวงกลมล้อมรอบเป็นจุดตัดของเส้นตั้งฉากแบ่งครึ่งด้านทั้งสาม และอยู่ห่างจากจุดยอด A, B, C เท่ากัน");
+ add("ความยาวเส้นมัธยฐาน","mₐ = ½√(2b² + 2c² − a²) • mᵦ = ½√(2a² + 2c² − b²) • m꜀ = ½√(2a² + 2b² − c²)",`mₐ = ${n(medianA)} • mᵦ = ${n(medianB)} • m꜀ = ${n(medianC)}`,"เส้นมัธยฐานลากจากจุดยอดไปยังจุดกึ่งกลางของด้านตรงข้าม เส้นมัธยฐานทั้งสามตัดกันที่จุดศูนย์ถ่วง G ซึ่งแบ่งแต่ละเส้นในอัตราส่วน 2:1 จากจุดยอด");
+ add("ความยาวเส้นแบ่งครึ่งมุม","tₐ = √(bc[(b+c)²−a²])/(b+c) และใช้รูปแบบเดียวกันกับ tᵦ, t꜀",`tₐ = ${n(bisectorA)} • tᵦ = ${n(bisectorB)} • t꜀ = ${n(bisectorC)}`,"เส้นแบ่งครึ่งมุมแบ่งมุมภายในแต่ละมุมออกเป็นสองมุมที่มีขนาดเท่ากัน และทั้งสามเส้นตัดกันที่จุดศูนย์กลางวงกลมแนบใน");
+ const angleSum=s.A+s.B+s.C;
+ const angleCheck=Math.abs(angleSum-180);
+ const sideCheck=tri==="right"
+  ?`ตรวจสอบพีทาโกรัส: a² + b² = ${n(s.a*s.a)} + ${n(s.b*s.b)} = ${n(s.a*s.a+s.b*s.b)} และ c² = ${n(s.c*s.c)} (ผลต่าง ${n(Math.abs(s.a*s.a+s.b*s.b-s.c*s.c))})`
+  :`ตรวจสอบอสมการสามเหลี่ยม: a + b = ${n(s.a+s.b)} > c = ${n(s.c)} • a + c = ${n(s.a+s.c)} > b = ${n(s.b)} • b + c = ${n(s.b+s.c)} > a = ${n(s.a)}`;
+ const altCheck=s.alternate?`กรณี SSA มีคำตอบที่สอง: B₂ = ${n(s.alternate.B)}° • C₂ = ${n(s.alternate.C)}° • c₂ = ${n(s.alternate.c)}`:"";
+ parts.push(`<div class="explain-block smart-check"><h4>ตรวจสอบความถูกต้องของคำตอบ</h4><div class="explain-line">ผลรวมมุมภายใน = ${n(s.A)}° + ${n(s.B)}° + ${n(s.C)}° = ${n(angleSum)}° • ค่าคลาดเคลื่อนจาก 180° = ${n(angleCheck)}°</div><div class="explain-line">${sideCheck}</div>${altCheck?`<div class="explain-line">${altCheck}</div>`:""}<div class="explain-line explain-result">ผลการตรวจสอบ: ${angleCheck<1e-7&&Math.abs(s.area-.5*s.a*ha)<1e-7*Math.max(1,s.area)?"ผ่านเงื่อนไขผลรวมมุมและพื้นที่":"ควรตรวจสอบข้อมูล"} • คำนวณ ${title} เสร็จสมบูรณ์</div></div>`);
+ return `<div class="explain-intro">วิธีทำอย่างละเอียดสำหรับ${title} เริ่มจากข้อมูลที่กรอก เลือกสูตรให้ตรงกับข้อมูล แทนค่าตัวเลข คำนวณ และตรวจสอบคำตอบ</div>`+parts.join("");
+}
+function bindAltitudeControls(){
+ document.querySelectorAll(".altitude-control").forEach(panel=>{
+  const select=panel.querySelector(".alt-base-select");
+  const base=panel.querySelector(".alt-base-value");
+  const area=panel.querySelector(".alt-area-value");
+  const answer=panel.querySelector(".alt-height-value");
+  const steps=panel.querySelector(".altitude-steps");
+  const card=panel.closest(".tri-result-card");
+  const fmtAlt=v=>Number.isFinite(v)?String(Number(v.toFixed(6))):"—";
+  const update=()=>{
+   const key=select.value,sideName={a:"a (BC)",b:"b (CA)",c:"c (AB)"}[key];
+   const color={a:"#16a36a",b:"#e3a13a",c:"#a855f7"}[key];
+   const baseValue=Number(base.value),areaValue=Number(area.value);
+   const marks=card.querySelectorAll(".altitude-mark");
+   marks.forEach(el=>el.classList.toggle("is-selected",el.dataset.altitude===key));
+   if(!(baseValue>0)||!(areaValue>0)){
+    answer.textContent="—";steps.textContent="กรอกความยาวฐานและพื้นที่เป็นค่าบวก";
+    return;
+   }
+   const height=2*areaValue/baseValue;
+   answer.textContent=fmtAlt(height);
+   steps.innerHTML=`<div><strong>สูตร:</strong> h = 2K ÷ ฐาน</div><div>แทนค่า: h = (2 × ${fmtAlt(areaValue)}) ÷ ${fmtAlt(baseValue)}</div><div><strong>คำตอบ:</strong> h = ${fmtAlt(height)}</div><div>ตรวจสอบ: ½ × ${fmtAlt(baseValue)} × ${fmtAlt(height)} = ${fmtAlt(areaValue)} ตารางหน่วย</div><div style="color:${color}">เลือกฐานด้าน ${sideName} • เส้นความสูงตั้งฉากกับฐานนี้</div>`;
+  };
+  select.addEventListener("change",()=>{
+   const key=select.value;
+   base.value=panel.dataset[key];
+   update();
+  });
+  base.addEventListener("input",update);
+  area.addEventListener("input",update);
+  update();
+ });
+}
+function bindGeometryInspectors(){
+ const fmtInspect=n=>Number.isFinite(n)?String(Number(n.toFixed(6))):"—";
+ const names=["A","B","C"];
+ const sideKeys=["a","b","c"];
+ const colors={a:"#16A36A",b:"#E3A13A",c:"#A855F7",height:"#60A5FA",median:"#FACC15",bisector:"#F472B6",incircle:"#FB923C",circumcircle:"#22D3EE",centroid:"#FACC15"};
+ document.querySelectorAll(".tri-result-card").forEach(card=>{
+  const svg=card.querySelector(".tri-result-svg");
+  const content=card.querySelector(".geometry-inspector-content");
+  const empty=card.querySelector(".geometry-inspector-empty");
+  if(!svg||!content)return;
+  const a=Number(svg.dataset.a),b=Number(svg.dataset.b),c=Number(svg.dataset.c);
+  const A=Number(svg.dataset.angleA),B=Number(svg.dataset.angleB),C=Number(svg.dataset.angleC);
+  const semi=(a+b+c)/2,K=Math.sqrt(Math.max(0,semi*(semi-a)*(semi-b)*(semi-c)));
+  const x=(b*b+c*c-a*a)/(2*b),y=Math.sqrt(Math.max(0,c*c-x*x));
+  const show=(title,color,formula,sub,answer,explain)=>({title,color,formula,sub,answer,explain});
+  const details={
+   sidea:show("ด้าน a — ตรงข้ามมุม A",colors.a,"a = √(b² + c² − 2bc cos A)",`a = √(${b}² + ${c}² − 2(${b})(${c}) cos ${A}°)`,fmtInspect(a),"ด้าน a คือความยาวระหว่างจุด B และ C"),
+   sideb:show("ด้าน b — ตรงข้ามมุม B",colors.b,"b = √(a² + c² − 2ac cos B)",`b = √(${a}² + ${c}² − 2(${a})(${c}) cos ${B}°)`,fmtInspect(b),"ด้าน b คือความยาวระหว่างจุด C และ A"),
+   sidec:show("ด้าน c — ตรงข้ามมุม C",colors.c,"c = √(a² + b² − 2ab cos C)",`c = √(${a}² + ${b}² − 2(${a})(${b}) cos ${C}°)`,fmtInspect(c),"ด้าน c คือความยาวระหว่างจุด A และ B"),
+   altitudea:show("ความสูง hₐ ตั้งฉากกับด้าน a",colors.height,"hₐ = 2K ÷ a",`hₐ = (2 × ${fmtInspect(K)}) ÷ ${a}`,fmtInspect(2*K/a),"ลากจากจุด A ลงตั้งฉากกับฐาน BC"),
+   altitudeb:show("ความสูง hᵦ ตั้งฉากกับด้าน b",colors.height,"hᵦ = 2K ÷ b",`hᵦ = (2 × ${fmtInspect(K)}) ÷ ${b}`,fmtInspect(2*K/b),"ลากจากจุด B ลงตั้งฉากกับฐาน CA"),
+   altitudec:show("ความสูง h꜀ ตั้งฉากกับด้าน c",colors.height,"h꜀ = 2K ÷ c",`h꜀ = (2 × ${fmtInspect(K)}) ÷ ${c}`,fmtInspect(2*K/c),"ลากจากจุด C ลงตั้งฉากกับฐาน AB"),
+   median0:show("มัธยฐานจากจุด A (mₐ)",colors.median,"mₐ = ½√(2b² + 2c² − a²)",`mₐ = ½√(2(${b})² + 2(${c})² − ${a}²)`,fmtInspect(.5*Math.sqrt(Math.max(0,2*b*b+2*c*c-a*a))),"เส้นจาก A ไปยังกึ่งกลางของด้าน BC"),
+   median1:show("มัธยฐานจากจุด B (mᵦ)",colors.median,"mᵦ = ½√(2a² + 2c² − b²)",`mᵦ = ½√(2(${a})² + 2(${c})² − ${b}²)`,fmtInspect(.5*Math.sqrt(Math.max(0,2*a*a+2*c*c-b*b))),"เส้นจาก B ไปยังกึ่งกลางของด้าน CA"),
+   median2:show("มัธยฐานจากจุด C (m꜀)",colors.median,"m꜀ = ½√(2a² + 2b² − c²)",`m꜀ = ½√(2(${a})² + 2(${b})² − ${c}²)`,fmtInspect(.5*Math.sqrt(Math.max(0,2*a*a+2*b*b-c*c))),"เส้นจาก C ไปยังกึ่งกลางของด้าน AB"),
+   bisector0:show("เส้นแบ่งครึ่งมุม A (tₐ)",colors.bisector,"tₐ = √[bc((b+c)²−a²)] ÷ (b+c)",`tₐ = √[${b}×${c}((${b}+${c})²−${a}²)] ÷ (${b}+${c})`,fmtInspect(Math.sqrt(Math.max(0,b*c*((b+c)**2-a*a)))/(b+c)),"แบ่งมุม A ออกเป็นสองมุมที่เท่ากัน"),
+   bisector1:show("เส้นแบ่งครึ่งมุม B (tᵦ)",colors.bisector,"tᵦ = √[ac((a+c)²−b²)] ÷ (a+c)",`tᵦ = √[${a}×${c}((${a}+${c})²−${b}²)] ÷ (${a}+${c})`,fmtInspect(Math.sqrt(Math.max(0,a*c*((a+c)**2-b*b)))/(a+c)),"แบ่งมุม B ออกเป็นสองมุมที่เท่ากัน"),
+   bisector2:show("เส้นแบ่งครึ่งมุม C (t꜀)",colors.bisector,"t꜀ = √[ab((a+b)²−c²)] ÷ (a+b)",`t꜀ = √[${a}×${b}((${a}+${b})²−${c}²)] ÷ (${a}+${b})`,fmtInspect(Math.sqrt(Math.max(0,a*b*((a+b)**2-c*c)))/(a+b)),"แบ่งมุม C ออกเป็นสองมุมที่เท่ากัน"),
+   incircle:show("วงกลมแนบในและรัศมี r",colors.incircle,"r = K ÷ s,  s = (a+b+c)/2",`r = ${fmtInspect(K)} ÷ ((${a}+${b}+${c})÷2)`,fmtInspect(K/semi),"วงกลมแนบในสัมผัสกับด้านทั้งสามของสามเหลี่ยม"),
+   circumcircle:show("วงกลมล้อมรอบและรัศมี R",colors.circumcircle,"R = abc ÷ 4K",`R = (${a}×${b}×${c}) ÷ (4×${fmtInspect(K)})`,fmtInspect(a*b*c/(4*K)),"วงกลมล้อมรอบผ่านจุดยอด A, B และ C ทั้งสามจุด"),
+   centroid:show("จุดศูนย์ถ่วง G",colors.centroid,"G = ((xₐ+xᵦ+x꜀)/3, (yₐ+yᵦ+y꜀)/3)",`G = ((${b}+${fmtInspect(x)}+0)÷3, (0+${fmtInspect(y)}+0)÷3)`,`(${fmtInspect((b+x)/3)}, ${fmtInspect(y/3)})`,"จุดตัดของเส้นมัธยฐานทั้งสามเส้น"),
+   incenter:show("จุดศูนย์กลางวงกลมแนบใน I",colors.incircle,"I = (aA + bB + cC) ÷ (a+b+c)",`พิกัดคำนวณจากค่าเฉลี่ยถ่วงน้ำหนักด้วยความยาวด้าน`,`(${fmtInspect((b*x+c*b)/(a+b+c))}, ${fmtInspect(b*y/(a+b+c))})`,"จุดตัดของเส้นแบ่งครึ่งมุมภายในทั้งสาม"),
+   circumcenter:show("จุดศูนย์กลางวงกลมล้อมรอบ O",colors.circumcircle,"O = จุดตัดเส้นตั้งฉากแบ่งครึ่งด้าน",`กำหนด A=(0,0), C=(${b},0), B=(${fmtInspect(x)},${fmtInspect(y)})`,`(${fmtInspect(b/2)}, ${fmtInspect((x*x+y*y-b*x)/(2*y))})`,"จุดที่อยู่ห่างจาก A, B และ C เท่ากัน")
+  };
+  [["vertexA","จุดยอด A",A],["vertexB","จุดยอด B",B],["vertexC","จุดยอด C",C]].forEach(([key,label,ang])=>{
+   details[key]=show(label,"#E6F2FF","ผลรวมมุมภายในสามเหลี่ยม = 180°",`มุม ${label.slice(-1)} = ${fmtInspect(ang)}°`,`${fmtInspect(ang)}°`,"มุมภายในที่จุดยอดของสามเหลี่ยม")
+  });
+  const clearInspection=()=>{
+   empty.hidden=false;content.hidden=true;
+   card.querySelectorAll(".inspect-selected,.inspect-related").forEach(el=>el.classList.remove("inspect-selected","inspect-related"));
+   card.querySelectorAll("[data-inspect-select]").forEach(el=>el.classList.remove("inspect-selected"));
+   const heading=card.querySelector(".geometry-inspector-title");
+   if(heading)heading.textContent="แตะเส้นหรือจุดบนภาพเพื่อดูสูตรและรายละเอียด";
+  };
+  let activeInspectKey=null;
+  const render=key=>{
+   const d=details[key];if(!d)return;
+   if(activeInspectKey===key){activeInspectKey=null;clearInspection();return;}
+   activeInspectKey=key;
+   empty.hidden=true;content.hidden=false;
+   const stages=[
+    ["ขั้นที่ 1 ข้อมูลที่ใช้",`ใช้ค่าด้าน a = ${fmtInspect(a)}, b = ${fmtInspect(b)}, c = ${fmtInspect(c)} และพื้นที่ K = ${fmtInspect(K)} ตามผลคำนวณของสามเหลี่ยมนี้`],
+    ["ขั้นที่ 2 สูตรที่ใช้",d.formula],
+    ["ขั้นที่ 3 การแทนค่า",d.sub],
+    ["ขั้นที่ 4 คำนวณและสรุปผล",`ผลจากการคำนวณได้ ${d.answer}`],
+    ["ขั้นที่ 5 ความหมายทางเรขาคณิต",d.explain]
+   ];
+   content.innerHTML=`<div class="inspect-result-title" style="color:${d.color}">${d.title}</div><div class="inspect-worked-steps">${stages.map(([h,t])=>`<div class="inspect-worked-step"><b>${h}</b><span>${t}</span></div>`).join("")}</div><div class="inspect-result-answer" style="border-color:${d.color}"><span>คำตอบสุดท้าย</span><strong style="color:${d.color}">${d.answer}</strong></div>`;
+   card.querySelectorAll(".inspect-selected,.inspect-related").forEach(el=>{el.classList.remove("inspect-selected","inspect-related");});
+   const linked={
+    sidea:["sidea"],sideb:["sideb"],sidec:["sidec"],
+    vertexA:["vertexA","sideb","sidec"],vertexB:["vertexB","sidea","sidec"],vertexC:["vertexC","sidea","sideb"],
+    altitudea:["altitudea","sidea"],altitudeb:["altitudeb","sideb"],altitudec:["altitudec","sidec"],
+    median0:["median0"],median1:["median1"],median2:["median2"],
+    bisector0:["bisector0"],bisector1:["bisector1"],bisector2:["bisector2"],
+    incircle:["incircle","incenter"],circumcircle:["circumcircle","circumcenter"],
+    centroid:["centroid"],incenter:["incenter","incircle"],circumcenter:["circumcenter","circumcircle"]
+   };
+   const keys=linked[key]||[key];
+   keys.forEach((k,idx)=>card.querySelectorAll(`[data-inspect-key="${k}"]`).forEach(el=>el.classList.add(idx===0?"inspect-selected":"inspect-related")));
+   card.querySelectorAll(`[data-inspect-select="${key}"]`).forEach(el=>el.classList.add("inspect-selected"));
+   const heading=card.querySelector(".geometry-inspector-title");
+   if(heading)heading.textContent="กำลังแสดงความสัมพันธ์ของ: "+d.title;
+  };
+  svg.addEventListener("click",ev=>{
+   const target=ev.target.closest("[data-inspect-key]");
+   if(!target)return;
+   const key=target.dataset.inspectKey;
+   if(!details[key])return;
+   ev.preventDefault();
+   ev.stopPropagation();
+   render(key);
+  });
+  card.querySelectorAll("[data-inspect-select]").forEach(el=>{
+   el.addEventListener("click",()=>render(el.dataset.inspectSelect));
+   el.setAttribute("tabindex","0");
+   el.addEventListener("keydown",ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();render(el.dataset.inspectSelect);}});
+  });
+  // Keyboard activation for accessible SVG hit targets.
+  svg.querySelectorAll("[data-inspect-key]").forEach(el=>{
+   el.setAttribute("tabindex","0");el.setAttribute("role","button");
+   el.addEventListener("keydown",ev=>{if(ev.key==="Enter"||ev.key===" "){ev.preventDefault();render(el.dataset.inspectKey);}});
+  });
+ });
+}
+function bindGeometryLayerControls(){
+ const selectors={
+  height:".altitude-mark",
+  median:".median-lines",
+  bisector:".bisector-lines",
+  incircle:".incircle-line,.geom-point-incenter",
+  circumcircle:".circumcircle-line,.geom-point-circum",
+  centroid:".geom-point-centroid"
+ };
+ document.querySelectorAll(".tri-result-card").forEach(card=>{
+  const svg=card.querySelector(".tri-result-svg");
+  if(!svg)return;
+  const setLayer=(key,visible)=>{
+   (selectors[key]||"").split(",").forEach(sel=>{
+    svg.querySelectorAll(sel.trim()).forEach(el=>el.classList.toggle("layer-hidden",!visible));
+   });
+   const btn=card.querySelector(`[data-layer-toggle="${key}"]`);
+   if(btn){btn.classList.toggle("is-on",visible);btn.classList.toggle("is-off",!visible);btn.setAttribute("aria-pressed",String(visible));}
+  };
+  card.querySelectorAll("[data-layer-toggle]").forEach(btn=>{
+   btn.addEventListener("click",()=>{
+    const key=btn.dataset.layerToggle;
+    const visible=btn.getAttribute("aria-pressed")!=="true";
+    setLayer(key,visible);
+   });
+  });
+  const all=card.querySelector("[data-layer-all]");
+  if(all)all.addEventListener("click",()=>{
+   Object.keys(selectors).forEach(key=>setLayer(key,true));
+  });
+  const clear=card.querySelector("[data-layer-clear]");
+  if(clear)clear.addEventListener("click",()=>{
+   Object.keys(selectors).forEach(key=>setLayer(key,false));
+  });
+ });
+}
+function runTri(){
+ try{
+  const given={a:val("a"),b:val("b"),c:val("c"),A:val("A"),B:val("B"),C:val("C")};
+  if(tu==="rad"){["A","B","C"].forEach(k=>{if(Number.isFinite(given[k]))given[k]=D(given[k])})}
+  const s=solveTri(),alt=s.alternate;
+  $("triresults").innerHTML=triangleResultCard(s,alt?"คำตอบที่ 1":"ผลลัพธ์")+(alt?triangleResultCard(alt,"คำตอบที่ 2 — กรณี SSA มีได้สองรูป"):"");
+  bindAltitudeControls();
+  bindGeometryLayerControls();
+  bindGeometryInspectors();
+  $("triformula").textContent=s.formula;
+  $("tristeps").innerHTML=triangleDetailedHTML(s,given);
+  saveHistory({title:"คำนวณสามเหลี่ยม",result:`a=${fmt(s.a)}, b=${fmt(s.b)}, c=${fmt(s.c)} • A=${fmt(s.A)}°, B=${fmt(s.B)}°, C=${fmt(s.C)}°`});
+ }catch(e){
+  $("triresults").innerHTML=`<div class="metric">${e.message}</div>`;
+  $("triformula").textContent="ตรวจสอบข้อมูล";
+  $("tristeps").textContent=e.message;
+ }
+}
+function clearTri(){
+ ["a","b","c","A","B","C"].forEach(k=>{const el=$(k);if(el)el.value=""});
+ updateLiveTrianglePreview();
+ const results=$("triresults");if(results)results.innerHTML="";
+ const oldDiagram=$("resultdiagram");if(oldDiagram)oldDiagram.innerHTML="";
+ const formula=$("triformula");if(formula)formula.textContent="รอการคำนวณ";
+ const steps=$("tristeps");if(steps)steps.textContent="กรอกข้อมูลแล้วกดคำนวณ";
+}
+document.querySelectorAll("[data-group]").forEach(b=>b.onclick=()=>groupSet(b.dataset.group));$("calc").onclick=calc;
+$("angleMode").onclick=()=>{$("angleInputs").classList.remove("hidden");$("sideInputs").classList.add("hidden");$("angleMode").classList.add("active");$("sideMode").classList.remove("active");updateSideDiagramHighlight()};
+$("sideMode").onclick=()=>{if(isArc())return;$("sideInputs").classList.remove("hidden");$("angleInputs").classList.add("hidden");$("sideMode").classList.add("active");$("angleMode").classList.remove("active");updateSideDiagramHighlight()};
+["sideOpp","sideAdj","sideHyp"].forEach(id=>$(id).addEventListener("input",updateSideDiagramHighlight));
+["sideOpp","sideAdj","sideHyp"].forEach(id=>$(id).addEventListener("keydown",e=>{if(e.key==="Enter")calc()}));
+$("x").onkeydown=e=>{if(e.key==="Enter")calc()};$("unit").onchange=calc;
+
+// V12.6.0 Geometry and solid-volume calculator
+let geoDim=2;
+const geoShapes={
+ 2:[
+  ["rectangle","สี่เหลี่ยมผืนผ้า"],["square","สี่เหลี่ยมจัตุรัส"],["rhombus","สี่เหลี่ยมขนมเปียกปูน"],
+  ["parallelogram","สี่เหลี่ยมด้านขนาน"],["trapezoid","สี่เหลี่ยมคางหมู"],["kite","สี่เหลี่ยมรูปว่าว"],
+  ["irregularQuad","สี่เหลี่ยมด้านไม่เท่า"],["circle","วงกลม"],["triangle","สามเหลี่ยม (กำหนด 3 ด้าน)"],
+  ["pentagon","รูปห้าเหลี่ยมด้านเท่า"],["hexagon","รูปหกเหลี่ยมด้านเท่า"],["regularPolygon","รูปหลายเหลี่ยมด้านเท่า (กำหนด n ด้าน)"],
+  ["irregularPolygon","รูปหลายเหลี่ยมไม่สม่ำเสมอ (กำหนดพิกัดจุดยอด)"]
+ ],
+ 3:[["cube","ลูกบาศก์"],["cuboid","ทรงสี่เหลี่ยมมุมฉาก"],["cylinder","ทรงกระบอก"],["cone","ทรงกรวย"],["sphere","ทรงกลม"],["triPrism","ปริซึมฐานสามเหลี่ยม"]]
+};
+const geoDefs={
+ rectangle:[["กว้าง (w)","w"],["ยาว (l)","l"]],
+ square:[["ด้าน (a)","a"]],
+ circle:[["รัศมี (r)","r"]],
+ triangle:[["ด้าน a","a"],["ด้าน b","b"],["ด้าน c","c"]],
+ rhombus:[["ความยาวด้าน (a)","a"],["เส้นทแยงมุมที่ 1 (d₁)","d1"]],
+ parallelogram:[["ฐาน (a)","a"],["ด้านข้าง (b)","b"],["มุมระหว่างด้าน (องศา)","theta"]],
+ trapezoid:[["ฐานคู่ขนานด้านที่ 1 (a)","a"],["ฐานคู่ขนานด้านที่ 2 (b)","b"],["ความสูง (h)","h"],["ระยะเยื้องแนวนอน (x)","x"]],
+ kite:[["ด้านคู่ที่ 1 (a)","a"],["ด้านคู่ที่ 2 (b)","b"],["มุมระหว่างด้าน (องศา)","theta"]],
+ irregularQuad:[["ด้าน AB (a)","a"],["ด้าน BC (b)","b"],["ด้าน CD (c)","c"],["ด้าน DA (d)","d"],["เส้นทแยงมุม AC (e)","e"]],
+ pentagon:[["ความยาวด้าน (s)","s"]],
+ hexagon:[["ความยาวด้าน (s)","s"]],
+ regularPolygon:[["จำนวนด้าน (n ≥ 3)","n"],["ความยาวด้าน (s)","s"]],
+ irregularPolygon:[],
+ cube:[["ความยาวด้าน (a)","a"]],
+ cuboid:[["กว้าง (w)","w"],["ยาว (l)","l"],["สูง (h)","h"]],
+ cylinder:[["รัศมี (r)","r"],["สูง (h)","h"]],
+ cone:[["รัศมี (r)","r"],["สูง (h)","h"]],
+ sphere:[["รัศมี (r)","r"]],
+ triPrism:[["ด้านฐานสามเหลี่ยม a","a"],["ด้านฐานสามเหลี่ยม b","b"],["ด้านฐานสามเหลี่ยม c","c"],["ความยาวปริซึม (L)","L"]]
+};
+function geoRenderShapes(){
+ const list=geoShapes[geoDim];$("geoShape").innerHTML=list.map(([v,t])=>`<option value="${v}">${t}</option>`).join("");
+ geoRenderInputs();
+}
+function geoRenderInputs(){
+ const shape=$("geoShape").value||geoShapes[geoDim][0][0];
+ if(shape==="irregularPolygon"){
+  const priorN=$("geoVertexCount")?.value||"5";
+  const n=Number(priorN);
+  const countControl=`<div class="eng-field" style="margin-bottom:8px"><label for="geoVertexCount">จำนวนจุดยอด</label><select id="geoVertexCount" style="width:100%;padding:10px">${Array.from({length:10},(_,i)=>`<option value="${i+3}" ${n===i+3?"selected":""}>${i+3} จุดยอด</option>`).join("")}</select></div>`;
+  const coordFields=Array.from({length:n},(_,i)=>`<div class="eng-input-card" style="padding:8px;border:1px solid #42617c;border-radius:10px"><b style="color:#35c7ff">จุด ${String.fromCharCode(65+i)}</b><div class="eng-input-grid"><div><label>X</label><input id="geo_px${i}" type="number" step="any" inputmode="decimal" placeholder="X${i+1}"></div><div><label>Y</label><input id="geo_py${i}" type="number" step="any" inputmode="decimal" placeholder="Y${i+1}"></div></div></div>`).join("");
+  $("geoInputs").innerHTML=countControl+`<p class="muted">กรอกพิกัดของจุดยอดเรียงรอบรูป (A → B → C ...)</p><div class="eng-input-grid" style="grid-template-columns:repeat(2,minmax(0,1fr))">${coordFields}</div>`;
+  $("geoVertexCount").onchange=()=>geoRenderInputs();
+  $("geoDiagram").innerHTML="<div class='muted'>กรอกพิกัดเพื่อดูภาพแบบเรียลไทม์</div>";
+  updateGeoLivePreview();
+  return;
+ }
+ const defs=geoDefs[shape]||[];
+ const colors=["#16a36a","#e3a13a","#a855f7","#35c7ff","#ff6b8a","#b794f6"];
+ // Pin locations follow the actual side/measurement represented by each variable.
+ const sidePins={
+  rectangle:{w:[50,12],l:[88,50]}, square:{a:[50,12]}, circle:{r:[77,50]},
+  triangle:{a:[50,88],b:[18,50],c:[82,50]},
+  rhombus:{a:[83,50],d1:[50,50]},
+  parallelogram:{a:[50,88],b:[15,50],theta:[80,16]},
+  trapezoid:{a:[50,14],b:[50,86],h:[86,50],x:[14,50]},
+  kite:{a:[25,28],b:[75,28],theta:[50,88]},
+  irregularQuad:{a:[15,55],b:[50,12],c:[85,55],d:[50,88],e:[50,50]},
+  pentagon:{s:[85,52]},hexagon:{s:[85,52]},
+  regularPolygon:{n:[18,15],s:[82,15]},
+  cube:{a:[50,88]},cuboid:{w:[15,50],l:[50,88],h:[85,50]},
+  cylinder:{r:[78,17],h:[86,50]},cone:{r:[78,82],h:[50,14]},
+  sphere:{r:[78,50]},triPrism:{a:[18,68],b:[50,88],c:[82,68],L:[85,20]}
+ };
+ const fallback=[[50,12],[86,50],[50,88],[14,50],[25,20],[75,20]];
+ const pins=defs.map(([label,id],i)=>{const pos=sidePins[shape]?.[id]||fallback[i%fallback.length];return `<div class="triangle-pin" style="--pin-color:${colors[i%colors.length]};left:${pos[0]}%;top:${pos[1]}%;width:104px;transform:translate(-50%,-50%)"><label for="geo_${id}">${label}</label><input id="geo_${id}" type="number" min="0" step="any" inputmode="decimal" placeholder="${id}" aria-label="${label}" autocomplete="off"></div>`}).join("");
+ const diagrams={
+ rectangle:"<svg viewBox='0 0 300 150' style='width:100%;max-height:170px'><rect x='65' y='30' width='170' height='90' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><text x='150' y='22' fill='currentColor' text-anchor='middle'>กว้าง w</text><text x='245' y='78' fill='currentColor'>ยาว l</text></svg>",
+ square:"<svg viewBox='0 0 300 150' style='width:100%;max-height:170px'><rect x='85' y='20' width='110' height='110' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><text x='140' y='14' fill='currentColor' text-anchor='middle'>a</text></svg>",
+ circle:"<svg viewBox='0 0 300 150' style='width:100%;max-height:170px'><circle cx='150' cy='75' r='55' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><path d='M150 75 L205 75' stroke='#f4b942' stroke-width='3'/><text x='177' y='66' fill='currentColor'>r</text></svg>",
+ rhombus:"<svg viewBox='0 0 300 160' style='width:100%;max-height:180px'><path d='M150 15 L245 80 L150 145 L55 80 Z' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><path d='M55 80 H245 M150 15 V145' stroke='#f4b942' stroke-width='2' stroke-dasharray='5 3'/><text x='155' y='12' fill='currentColor'>d₁</text><text x='250' y='82' fill='currentColor'>a</text></svg>",
+ parallelogram:"<svg viewBox='0 0 300 160' style='width:100%;max-height:180px'><path d='M55 125 L225 125 L185 35 L15 35 Z' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><path d='M55 125 L185 35 M225 125 L15 35' stroke='#f4b942' stroke-width='2' stroke-dasharray='5 3'/><text x='130' y='145' fill='currentColor'>a</text><text x='10' y='78' fill='currentColor'>b</text></svg>",
+ trapezoid:"<svg viewBox='0 0 300 160' style='width:100%;max-height:180px'><path d='M90 30 L210 30 L260 130 L40 130 Z' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><path d='M90 30 L260 130 M210 30 L40 130' stroke='#f4b942' stroke-width='2' stroke-dasharray='5 3'/><text x='145' y='22' fill='currentColor'>a</text><text x='145' y='148' fill='currentColor'>b</text></svg>",
+ kite:"<svg viewBox='0 0 300 160' style='width:100%;max-height:180px'><path d='M150 12 L235 75 L150 145 L65 75 Z' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><path d='M150 12 V145 M65 75 H235' stroke='#f4b942' stroke-width='2' stroke-dasharray='5 3'/><text x='160' y='22' fill='currentColor'>a</text><text x='210' y='65' fill='currentColor'>b</text></svg>",
+ irregularQuad:"<svg viewBox='0 0 300 160' style='width:100%;max-height:180px'><path d='M45 125 L90 25 L245 45 L210 135 Z' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><path d='M45 125 L245 45' stroke='#f4b942' stroke-width='2' stroke-dasharray='5 3'/><text x='140' y='68' fill='currentColor'>e</text></svg>",
+ pentagon:"<svg viewBox='0 0 300 170' style='width:100%;max-height:180px'><path d='M150 15 L265 98 L221 155 L79 155 L35 98 Z' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><path d='M150 15 L221 155 M150 15 L79 155 M35 98 L221 155 M265 98 L79 155 M35 98 L150 15' stroke='#f4b942' stroke-width='1.6' stroke-dasharray='4 3'/></svg>",
+ hexagon:"<svg viewBox='0 0 300 170' style='width:100%;max-height:180px'><path d='M85 20 L215 20 L280 85 L215 150 L85 150 L20 85 Z' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><path d='M85 20 L215 150 M215 20 L85 150 M20 85 L215 150 M280 85 L85 150 M20 85 L215 20 M280 85 L85 20' stroke='#f4b942' stroke-width='1.5' stroke-dasharray='4 3'/></svg>",
+ regularPolygon:"<svg viewBox='0 0 300 170' style='width:100%;max-height:180px'><path d='M150 15 L265 85 L220 150 L80 150 L35 85 Z' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><path d='M150 15 L220 150 M150 15 L80 150 M35 85 L220 150 M265 85 L80 150' stroke='#f4b942' stroke-width='1.5' stroke-dasharray='4 3'/><text x='150' y='166' text-anchor='middle' fill='currentColor'>n ด้าน</text></svg>",
+ triangle:"<svg viewBox='0 0 300 150' style='width:100%;max-height:170px'><path d='M55 120 L245 120 L150 25 Z' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><text x='150' y='140' fill='currentColor' text-anchor='middle'>a</text><text x='85' y='67' fill='currentColor'>b</text><text x='210' y='67' fill='currentColor'>c</text></svg>",
+ cube:"<svg viewBox='0 0 300 160' style='width:100%;max-height:180px'><path d='M75 55 L165 55 L165 140 L75 140 Z M75 55 L115 20 L205 20 L165 55 M165 55 L205 20 L205 105 L165 140' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><text x='115' y='48' fill='currentColor'>a</text></svg>",
+ cuboid:"<svg viewBox='0 0 300 160' style='width:100%;max-height:180px'><path d='M55 60 L190 60 L190 135 L55 135 Z M55 60 L100 25 L235 25 L190 60 M190 60 L235 25 L235 100 L190 135' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><text x='120' y='52' fill='currentColor'>l</text><text x='195' y='105' fill='currentColor'>h</text><text x='38' y='100' fill='currentColor'>w</text></svg>",
+ cylinder:"<svg viewBox='0 0 300 170' style='width:100%;max-height:180px'><ellipse cx='150' cy='35' rx='65' ry='20' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><path d='M85 35 V130 M215 35 V130' stroke='#35c7ff' stroke-width='3'/><path d='M85 130 A65 20 0 0 0 215 130' fill='none' stroke='#35c7ff' stroke-width='3'/><path d='M150 35 V130 M150 35 H215' stroke='#f4b942' stroke-width='2'/><text x='180' y='28' fill='currentColor'>r</text><text x='160' y='90' fill='currentColor'>h</text></svg>",
+ cone:"<svg viewBox='0 0 300 170' style='width:100%;max-height:180px'><path d='M150 15 L80 135 M150 15 L220 135' stroke='#35c7ff' stroke-width='3'/><ellipse cx='150' cy='135' rx='70' ry='22' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><path d='M150 15 V135 H220' stroke='#f4b942' stroke-width='2'/><text x='158' y='80' fill='currentColor'>h</text><text x='184' y='128' fill='currentColor'>r</text></svg>",
+ sphere:"<svg viewBox='0 0 300 160' style='width:100%;max-height:180px'><circle cx='150' cy='80' r='60' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><ellipse cx='150' cy='80' rx='60' ry='20' fill='none' stroke='#35c7ff' stroke-dasharray='4 3'/><path d='M150 80 H210' stroke='#f4b942' stroke-width='3'/><text x='177' y='72' fill='currentColor'>r</text></svg>",
+ triPrism:"<svg viewBox='0 0 300 170' style='width:100%;max-height:180px'><path d='M55 130 L110 30 L165 130 Z M125 130 L180 30 L235 130 Z M55 130 L125 130 M110 30 L180 30 M165 130 L235 130' fill='#35c7ff22' stroke='#35c7ff' stroke-width='3'/><text x='150' y='155' fill='currentColor'>L</text></svg>"
+ };
+ const diagramBlock=diagrams[shape]||"";
+ $("geoInputs").innerHTML=`<div style="position:relative;width:100%;max-width:none;height:300px;min-height:300px;margin:0 auto;padding:8px 0 14px;box-sizing:border-box">${diagramBlock.replace(/max-height:\d+px/g,"height:auto;max-height:260px").replace("max-height:170px","height:auto;max-height:260px")} ${pins}</div><div class="side-color-legend"><span>กรอกค่าที่ช่องสีต่าง ๆ ซึ่งวางกำกับรอบรูป</span></div>`;
+ $("geoDiagram").innerHTML="<p class='muted'>กรอกค่าเพื่อดูภาพตัวอย่างแบบเรียลไทม์</p>";
+ updateGeoLivePreview();
+}
+
+
+
+function updateGeoLivePreview(){
+ const host=$("geoDiagram");if(!host)return;
+ const shape=$("geoShape")?.value||"";
+ if(shape==="irregularPolygon"){
+  const n=Number($("geoVertexCount")?.value||5),pts=[];
+  for(let i=0;i<n;i++){
+   const x=$("geo_px"+i),y=$("geo_py"+i);
+   if(!x||!y||x.value.trim()===""||y.value.trim()===""){host.innerHTML="<p class='muted'>กรอกพิกัด X,Y ของจุดยอดเพื่อดูภาพแบบเรียลไทม์</p>";return;}
+   pts.push({x:Number(x.value),y:Number(y.value),label:String.fromCharCode(65+i)});
+  }
+  if(pts.some(p=>!Number.isFinite(p.x)||!Number.isFinite(p.y))){host.innerHTML="<p class='muted'>กรุณากรอกพิกัดเป็นตัวเลข</p>";return;}
+  const minX=Math.min(...pts.map(p=>p.x)),maxX=Math.max(...pts.map(p=>p.x)),minY=Math.min(...pts.map(p=>p.y)),maxY=Math.max(...pts.map(p=>p.y));
+  const dx=maxX-minX||1,dy=maxY-minY||1,sc=Math.min(220/dx,180/dy);
+  const xy=p=>({x:40+(p.x-minX)*sc+(220-dx*sc)/2,y:215-(p.y-minY)*sc-(180-dy*sc)/2});
+  const path=pts.map((p,i)=>{const q=xy(p);return `${i?"L":"M"}${q.x},${q.y}`}).join(" ")+" Z";
+  const colors=["#f4b942","#ff6b8a","#7bd88f","#b794f6","#35c7ff","#ff9f43"];
+  let diagonals="";
+  for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){if(j===i+1||(i===0&&j===n-1))continue;const u=xy(pts[i]),v=xy(pts[j]);diagonals+=`<line x1="${u.x}" y1="${u.y}" x2="${v.x}" y2="${v.y}" stroke="${colors[(i+j)%colors.length]}" stroke-width="2" stroke-dasharray="5 4"/>`;}
+  const labels=pts.map(p=>{const q=xy(p);return `<circle cx="${q.x}" cy="${q.y}" r="4" fill="#35c7ff"/><text x="${q.x+6}" y="${q.y-6}" fill="#eaf4ff" font-size="11">${p.label}</text>`}).join("");
+  host.innerHTML=`<b style="color:#75baff">ภาพปรับตามพิกัดทุกครั้งที่กรอก</b><svg viewBox="0 0 300 240" style="width:100%;max-height:260px;background:#0e1d2e;border-radius:10px;margin-top:8px"><path d="${path}" fill="#35c7ff20" stroke="#35c7ff" stroke-width="3"/>${diagonals}${labels}</svg><small class="muted">เส้นประสีต่าง ๆ คือเส้นทแยงมุม</small>`;
+  return;
+ }
+ const defs=geoDefs[shape]||[];
+ const entries=defs.map(([label,id])=>({label,id,el:$("geo_"+id)})).filter(x=>x.el&&x.el.value.trim()!=="").map(x=>({...x,value:Number(x.el.value)}));
+ const source=$("geoInputs")?.querySelector("svg");
+ if(!source){host.innerHTML="<p class='muted'>ภาพตัวอย่างจะแสดงตามรูปทรงที่เลือก</p>";return;}
+ const baseMarkup=source.dataset.baseSvg||source.outerHTML;
+ source.dataset.baseSvg=baseMarkup;
+ const baseHolder=document.createElement("div");baseHolder.innerHTML=baseMarkup;
+ const svg=baseHolder.querySelector("svg");
+ if(!svg){host.innerHTML="<p class='muted'>ไม่พบภาพตัวอย่างของรูปทรงนี้</p>";return;}
+ const vb=(svg.getAttribute("viewBox")||"0 0 300 160").split(/\s+/).map(Number);
+ const cx=vb[0]+vb[2]/2,cy=vb[1]+vb[3]/2;
+ const positive=entries.filter(x=>x.value>0);
+ let sx=1,sy=1;
+ const val=id=>entries.find(x=>x.id===id)?.value;
+ const ratio=(x,y)=>x>0&&y>0?Math.max(.45,Math.min(2.1,x/y)):1;
+ const uniform=v=>Math.max(.55,Math.min(1.65,(v||2)/2));
+ const pair=(x,y)=>{const r=ratio(x,y);sx=Math.sqrt(r);sy=1/Math.sqrt(r);};
+ switch(shape){
+  case "rectangle": case "cuboid": pair(val("w")||val("l")||1,val("l")||val("h")||1);break;
+  case "square":case "cube":case "circle":case "sphere":case "pentagon":case "hexagon":case "cylinder":case "cone": uniform(positive[0]?.value||1);sx=sy=uniform(positive[0]?.value||1);break;
+  case "triangle": pair(val("b")||val("a")||1,val("c")||val("a")||1);break;
+  case "rhombus": pair(val("d1")||val("a")||1,val("a")||val("d1")||1);break;
+  case "parallelogram":case "kite": pair(val("a")||1,val("b")||1);break;
+  case "trapezoid": pair(val("a")||1,val("b")||1);break;
+  case "irregularQuad": pair(val("a")||val("c")||1,val("b")||val("d")||1);break;
+  case "regularPolygon": pair(val("s")||1,val("n")||1);break;
+  case "triPrism": pair(val("a")||1,val("b")||1);break;
+  default:
+   if(positive.length>=2)pair(positive[0].value,positive[1].value);
+   else {sx=sy=uniform(positive[0]?.value||1);}
+ }
+ // Make all additional dimensions contribute to the preview scale so no input is visually inert.
+ if(positive.length>2){
+  const extra=positive.slice(2).reduce((sum,x)=>sum+Math.log1p(x.value),0)/(positive.length-2);
+  const factor=Math.max(.88,Math.min(1.12,.94+.025*extra));
+  sx*=factor;sy*=factor;
+ }
+ // Keep the original drawing centered and morph its proportions continuously.
+ const g=document.createElementNS("http://www.w3.org/2000/svg","g");
+ while(svg.firstChild)g.appendChild(svg.firstChild);
+ g.setAttribute("transform",`translate(${cx} ${cy}) scale(${sx} ${sy}) translate(${-cx} ${-cy})`);
+ svg.appendChild(g);
+ svg.style.cssText="display:block;width:100%;height:auto;max-height:260px;transition:all .12s ease";
+ // Intentionally do not modify the SVG beside the input fields.
+ // Only the separate illustration panel (#geoDiagram) is refreshed in real time.
+ const palette=["#16a36a","#e3a13a","#a855f7","#35c7ff","#ff6b8a","#b794f6"];
+ const chips=entries.map((x,i)=>`<span style="display:inline-block;margin:3px;padding:5px 8px;border:1px solid ${palette[i%palette.length]};border-radius:8px;color:${palette[i%palette.length]}">${x.label}: ${x.value}</span>`).join("");
+ const completeness=entries.length===defs.length?"กรอกข้อมูลครบตามช่องที่กำหนด":"กำลังแสดงภาพจากค่าที่กรอก";
+ host.innerHTML=`<b style="color:#75baff">ภาพตัวอย่างปรับตามข้อมูลแบบเรียลไทม์</b><div style="background:#0e1d2e;border-radius:10px;padding:10px;margin-top:8px;overflow:hidden">${svg.outerHTML}</div><div style="margin-top:6px">${chips||"<span class='muted'>กรอกค่าเพื่อเริ่มแสดงภาพ</span>"}</div><small class="muted">${completeness} • ภาพช่วยแสดงแนวโน้มสัดส่วน ไม่ใช่แบบจำลองสเกลจริงทุกมิติ</small>`;
+}
+
+function geoCalculate(){
+ const shape=$("geoShape").value,iu=$("geoInputUnit").value,ou=$("geoOutputUnit").value;
+ const factors={m:1,cm:.01,mm:.001,km:1000,ft:.3048,in:.0254};
+ const scale=factors[iu]/factors[ou],f=n=>Number(n.toFixed(6)).toString();
+ const get=id=>{const el=$("geo_"+id);if(!el||el.value.trim()==="")throw Error("กรุณากรอกข้อมูลให้ครบทุกช่อง");const n=Number(el.value);if(!Number.isFinite(n)||n<=0)throw Error("ขนาดทุกค่าต้องเป็นตัวเลขที่มากกว่า 0");return n*scale};
+ const getInt=id=>{const el=$("geo_"+id);if(!el||el.value.trim()==="")throw Error("กรุณากรอกจำนวนด้าน");const n=Number(el.value);if(!Number.isInteger(n)||n<3||n>100)throw Error("จำนวนด้านต้องเป็นจำนวนเต็มตั้งแต่ 3 ถึง 100");return n};
+ let formula="",sub="",results=[],explain="";
+ const areaUnit=ou+"²",volUnit=ou+"³";
+ const heron=(a,b,c)=>{if(a+b<=c||a+c<=b||b+c<=a)throw Error("ด้านทั้งสามไม่ผ่านเงื่อนไขการสร้างสามเหลี่ยม");const s=(a+b+c)/2;return Math.sqrt(Math.max(0,s*(s-a)*(s-b)*(s-c)))};
+ const addDiagonal=(label,value)=>results.push([label,value,ou]);
+ if(shape==="rectangle"){
+  const w=get("w"),l=get("l"),diag=Math.hypot(w,l);
+  formula="A = wl ; P = 2(w+l) ; d = √(w²+l²)";
+  sub=`A=${f(w)}×${f(l)} ; d=√(${f(w)}²+${f(l)}²)`;
+  results=[["พื้นที่",w*l,areaUnit],["เส้นรอบรูป",2*(w+l),ou],["เส้นทแยงมุม",diag,ou]];
+  explain="สี่เหลี่ยมผืนผ้ามีเส้นทแยงมุมสองเส้นยาวเท่ากันและตัดกันครึ่งหนึ่ง";
+ }else if(shape==="square"){
+  const a=get("a"),diag=a*Math.SQRT2;
+  formula="A=a² ; P=4a ; d=a√2";
+  sub=`A=${f(a)}² ; d=${f(a)}×√2`;
+  results=[["พื้นที่",a*a,areaUnit],["เส้นรอบรูป",4*a,ou],["เส้นทแยงมุมทั้งสอง",diag,ou]];
+  explain="สี่เหลี่ยมจัตุรัสมีเส้นทแยงมุมสองเส้นยาวเท่ากันและตั้งฉากกัน";
+ }else if(shape==="rhombus"){
+  const a=get("a"),d1=get("d1");
+  if(d1>=2*a)throw Error("เส้นทแยงมุม d₁ ต้องมีค่าน้อยกว่า 2 เท่าของด้าน a");
+  const d2=2*Math.sqrt(a*a-d1*d1/4),A=d1*d2/2;
+  formula="d₂=2√[a²−(d₁/2)²] ; A=(d₁d₂)/2 ; P=4a";
+  sub=`d₂=2√[${f(a)}²−(${f(d1)}/2)²] ; A=(${f(d1)}×${f(d2)})/2`;
+  results=[["พื้นที่",A,areaUnit],["เส้นรอบรูป",4*a,ou],["เส้นทแยงมุม d₁",d1,ou],["เส้นทแยงมุม d₂",d2,ou]];
+  explain="สี่เหลี่ยมขนมเปียกปูนมีเส้นทแยงมุมตัดกันตั้งฉากและแบ่งครึ่งซึ่งกันและกัน";
+ }else if(shape==="parallelogram"){
+  const a=get("a"),b=get("b"),theta=get("theta");
+  if(theta<=0||theta>=180)throw Error("มุมระหว่างด้านต้องมากกว่า 0° และน้อยกว่า 180°");
+  const rad=theta*Math.PI/180,d1=Math.sqrt(a*a+b*b+2*a*b*Math.cos(rad)),d2=Math.sqrt(a*a+b*b-2*a*b*Math.cos(rad));
+  formula="A=ab sinθ ; P=2(a+b) ; d₁,₂=√(a²+b²±2ab cosθ)";
+  sub=`A=${f(a)}×${f(b)}×sin(${f(theta)}°) ; d₁=${f(d1)} ; d₂=${f(d2)}`;
+  results=[["พื้นที่",a*b*Math.sin(rad),areaUnit],["เส้นรอบรูป",2*(a+b),ou],["เส้นทแยงมุม d₁",d1,ou],["เส้นทแยงมุม d₂",d2,ou]];
+  explain="สี่เหลี่ยมด้านขนานมีด้านตรงข้ามขนานและยาวเท่ากัน";
+ }else if(shape==="trapezoid"){
+  const a=get("a"),b=get("b"),h=get("h"),x=get("x");
+  const d1=Math.hypot(x+b,h),d2=Math.hypot(a-x,h),side1=Math.hypot(x,h),side2=Math.hypot(x+b-a,h);
+  if(a<=0||b<=0||h<=0)throw Error("ฐานและความสูงต้องมากกว่า 0");
+  formula="A=(a+b)h/2 ; d₁=√[(x+b)²+h²] ; d₂=√[(a−x−b)²+h²]";
+  sub=`A=(${f(a)}+${f(b)})×${f(h)}/2 ; d₁=${f(d1)} ; d₂=${f(d2)}`;
+  results=[["พื้นที่",((a+b)*h)/2,areaUnit],["เส้นรอบรูป",a+b+side1+side2,ou],["เส้นทแยงมุม d₁",d1,ou],["เส้นทแยงมุม d₂",d2,ou]];
+  explain="กำหนดพิกัดฐานล่างจาก 0 ถึง a และฐานบนเริ่มที่ระยะเยื้อง x โดยฐานทั้งสองขนานกัน";
+ }else if(shape==="kite"){
+  const a=get("a"),b=get("b"),theta=get("theta");
+  if(theta<=0||theta>=180)throw Error("มุมระหว่างด้านต้องมากกว่า 0° และน้อยกว่า 180°");
+  const rad=theta*Math.PI/180,d1=Math.sqrt(a*a+b*b-2*a*b*Math.cos(rad)),d2=2*a*b*Math.sin(rad)/d1;
+  formula="d₁=√(a²+b²−2ab cosθ) ; d₂=2ab sinθ/d₁ ; A=d₁d₂/2";
+  sub=`d₁=${f(d1)} ; d₂=${f(d2)} ; A=(${f(d1)}×${f(d2)})/2`;
+  results=[["พื้นที่",d1*d2/2,areaUnit],["เส้นรอบรูป",2*(a+b),ou],["เส้นทแยงมุม d₁",d1,ou],["เส้นทแยงมุม d₂",d2,ou]];
+  explain="รูปว่าวมีด้านประชิดกันเป็นคู่ ๆ เท่ากัน และเส้นทแยงมุมตั้งฉากกัน";
+ }else if(shape==="irregularQuad"){
+  const a=get("a"),b=get("b"),c=get("c"),d=get("d"),e=get("e");
+  const A1=heron(a,b,e),A2=heron(c,d,e),xB=(a*a+e*e-b*b)/(2*e),xD=(d*d+e*e-c*c)/(2*e);
+  const yB=Math.sqrt(Math.max(0,a*a-xB*xB)),yD=-Math.sqrt(Math.max(0,d*d-xD*xD)),other=Math.hypot(xB-xD,yB-yD);
+  formula="A=A₁+A₂ (สูตรเฮรอน) ; เส้นทแยงมุมอีกเส้นคำนวณจากพิกัด";
+  sub=`A₁=${f(A1)} ; A₂=${f(A2)} ; A=${f(A1+A2)} ; BD=${f(other)}`;
+  results=[["พื้นที่",A1+A2,areaUnit],["เส้นรอบรูป",a+b+c+d,ou],["เส้นทแยงมุม AC",e,ou],["เส้นทแยงมุม BD",other,ou]];
+  explain="คำนวณโดยแบ่งสี่เหลี่ยมเป็นสามเหลี่ยมสองรูปด้วยเส้นทแยงมุม AC ต้องเป็นสี่เหลี่ยม凸 (convex) ตามลำดับด้าน AB, BC, CD, DA";
+ }else if(shape==="irregularPolygon"){
+  const n=Number($("geoVertexCount")?.value||0),pts=[];
+  if(!Number.isInteger(n)||n<3||n>12)throw Error("จำนวนจุดยอดต้องอยู่ระหว่าง 3 ถึง 12 จุด");
+  for(let i=0;i<n;i++){
+   const xel=$("geo_px"+i),yel=$("geo_py"+i);
+   if(!xel||!yel||xel.value.trim()===""||yel.value.trim()==="")throw Error("กรุณากรอกพิกัด X,Y ให้ครบทุกจุดยอด");
+   const x=Number(xel.value),y=Number(yel.value);
+   if(!Number.isFinite(x)||!Number.isFinite(y))throw Error("พิกัดต้องเป็นตัวเลขที่ถูกต้อง");
+   pts.push({x:x*scale,y:y*scale,label:String.fromCharCode(65+i)});
+  }
+  const cross=(a,b,c)=>(b.x-a.x)*(c.y-a.y)-(b.y-a.y)*(c.x-a.x);
+  const onSeg=(a,b,p)=>Math.min(a.x,b.x)-1e-9<=p.x&&p.x<=Math.max(a.x,b.x)+1e-9&&Math.min(a.y,b.y)-1e-9<=p.y&&p.y<=Math.max(a.y,b.y)+1e-9;
+  const intersects=(a,b,c,d)=>{
+   const o1=cross(a,b,c),o2=cross(a,b,d),o3=cross(c,d,a),o4=cross(c,d,b);
+   if(o1*o2<0&&o3*o4<0)return true;
+   return (Math.abs(o1)<1e-9&&onSeg(a,b,c))||(Math.abs(o2)<1e-9&&onSeg(a,b,d))||(Math.abs(o3)<1e-9&&onSeg(c,d,a))||(Math.abs(o4)<1e-9&&onSeg(c,d,b));
+  };
+  for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){
+   if(j===i+1||(i===0&&j===n-1))continue;
+   if(intersects(pts[i],pts[(i+1)%n],pts[j],pts[(j+1)%n]))throw Error("รูปหลายเหลี่ยมมีเส้นขอบตัดกันเอง กรุณาเรียงจุดยอดรอบรูปให้ถูกต้อง");
+  }
+  let twiceArea=0,perimeter=0;
+  for(let i=0;i<n;i++){const p=pts[i],q=pts[(i+1)%n];twiceArea+=p.x*q.y-q.x*p.y;perimeter+=Math.hypot(q.x-p.x,q.y-p.y);}
+  const area=Math.abs(twiceArea)/2;if(area<1e-10)throw Error("จุดยอดทั้งหมดอยู่ในแนวเส้นตรงหรือมีพื้นที่เป็นศูนย์");
+  const diagonals=[];
+  for(let i=0;i<n;i++)for(let j=i+1;j<n;j++){
+   if(j===i+1||(i===0&&j===n-1))continue;
+   diagonals.push({from:pts[i],to:pts[j],length:Math.hypot(pts[j].x-pts[i].x,pts[j].y-pts[i].y)});
+  }
+  formula="A = ½|Σ(xᵢyᵢ₊₁ − xᵢ₊₁yᵢ)| (สูตรเชือกรองเท้า) ; P = Σระยะด้าน ; D=n(n−3)/2";
+  sub=`A = ½|${f(twiceArea)}| = ${f(area)} ; P = ${f(perimeter)} ; D=${n}(${n}−3)/2=${diagonals.length}`;
+  results=[["พื้นที่",area,areaUnit],["เส้นรอบรูป",perimeter,ou],["จำนวนเส้นทแยงมุม",diagonals.length,"เส้น"]];
+  diagonals.forEach((d,i)=>results.push([`เส้นทแยงมุม ${d.from.label}${d.to.label}`,d.length,ou]));
+  explain="คำนวณจากพิกัดจุดยอดด้วยสูตรเชือกรองเท้า ตรวจสอบเส้นขอบไม่ให้ตัดกันเอง และแสดงความยาวเส้นทแยงมุมทุกเส้น";
+  const minX=Math.min(...pts.map(p=>p.x)),maxX=Math.max(...pts.map(p=>p.x)),minY=Math.min(...pts.map(p=>p.y)),maxY=Math.max(...pts.map(p=>p.y));
+  const sx=220/Math.max(maxX-minX,1e-9),sy=220/Math.max(maxY-minY,1e-9),sc=Math.min(sx,sy);
+  const xy=p=>({x:40+(p.x-minX)*sc+(220-(maxX-minX)*sc)/2,y:260-40-(p.y-minY)*sc-(220-(maxY-minY)*sc)/2});
+  const palette=["#f4b942","#ff6b8a","#7bd88f","#b794f6","#35c7ff","#ff9f43","#e879f9","#a3e635"];
+  const lineSvg=diagonals.map((d,i)=>{const a=xy(d.from),b=xy(d.to),m={x:(a.x+b.x)/2,y:(a.y+b.y)/2};return `<line x1="${a.x}" y1="${a.y}" x2="${b.x}" y2="${b.y}" stroke="${palette[i%palette.length]}" stroke-width="2" stroke-dasharray="5 3"/><text x="${m.x}" y="${m.y-4}" fill="${palette[i%palette.length]}" font-size="9">${f(d.length)}</text>`}).join("");
+  const boundary=pts.map((p,i)=>{const a=xy(p);return `${i?"L":"M"}${a.x},${a.y}`}).join(" ")+" Z";
+  const labels=pts.map(p=>{const a=xy(p);return `<circle cx="${a.x}" cy="${a.y}" r="4" fill="#35c7ff"/><text x="${a.x+6}" y="${a.y-6}" fill="currentColor" font-size="11">${p.label}</text>`}).join("");
+  $("geoDiagram").innerHTML=`<svg viewBox="0 0 300 300" style="width:100%;max-height:320px;background:rgba(30,55,82,.12);border-radius:12px"><path d="${boundary}" fill="#35c7ff18" stroke="#35c7ff" stroke-width="3"/>${lineSvg}${labels}</svg><small class="muted">เส้นประสีต่าง ๆ คือเส้นทแยงมุม พร้อมค่าความยาวกำกับ</small>`;
+ }else if(["pentagon","hexagon","regularPolygon"].includes(shape)){
+  const n=shape==="pentagon"?5:shape==="hexagon"?6:getInt("n"),s=get("s");
+  const perimeter=n*s,area=n*s*s/(4*Math.tan(Math.PI/n)),apothem=s/(2*Math.tan(Math.PI/n)),diagCount=n*(n-3)/2,diags=[];
+  for(let k=2;k<=Math.floor(n/2);k++)diags.push([k,s*Math.sin(k*Math.PI/n)/Math.sin(Math.PI/n)]);
+  formula="P=ns ; A=ns²/[4tan(π/n)] ; dₖ=s sin(kπ/n)/sin(π/n) ; จำนวนเส้นทแยงมุม=n(n−3)/2";
+  sub=`P=${n}×${f(s)} ; A=${n}×${f(s)}²/[4tan(π/${n})] ; r_apothem=${f(apothem)}`;
+  results=[["พื้นที่",area,areaUnit],["เส้นรอบรูป",perimeter,ou],["จำนวนเส้นทแยงมุม",diagCount,"เส้น"]];
+  diags.forEach(([k,len])=>results.push([`เส้นทแยงมุมชนิด k=${k}`,len,ou]));
+  explain=`รูปหลายเหลี่ยมด้านเท่ามี ${n} ด้าน มีเส้นทแยงมุมทั้งหมด ${diagCount} เส้น และมีความยาวเส้นทแยงมุมแตกต่างกัน ${diags.length} กลุ่ม`;
+ }else if(shape==="circle"){
+  const r=get("r");formula="A=πr² ; C=2πr";sub=`A=π×${f(r)}²`;results=[["พื้นที่วงกลม",Math.PI*r*r,areaUnit],["เส้นรอบวง",2*Math.PI*r,ou],["เส้นผ่านศูนย์กลาง",2*r,ou]];explain="วงกลมไม่มีเส้นทแยงมุมแบบรูปหลายเหลี่ยม แต่มีเส้นผ่านศูนย์กลาง";
+ }else if(shape==="triangle"){
+  const a=get("a"),b=get("b"),c=get("c"),A=heron(a,b,c);formula="s=(a+b+c)/2 ; A=√[s(s−a)(s−b)(s−c)]";sub=`s=(${f(a)}+${f(b)}+${f(c)})/2`;results=[["พื้นที่สามเหลี่ยม",A,areaUnit],["เส้นรอบรูป",a+b+c,ou]];explain="สามเหลี่ยมไม่มีเส้นทแยงมุม";
+ }else if(shape==="cube"){
+  const a=get("a");formula="V=a³ ; S=6a²";sub=`V=${f(a)}³`;results=[["ปริมาตร",a**3,volUnit],["พื้นที่ผิวทั้งหมด",6*a*a,areaUnit],["เส้นทแยงมุมภายใน",a*Math.sqrt(3),ou]];explain="เส้นทแยงมุมภายในลูกบาศก์เชื่อมจุดยอดตรงข้ามกัน";
+ }else if(shape==="cuboid"){
+  const w=get("w"),l=get("l"),h=get("h");formula="V=wlh ; S=2(wl+wh+lh) ; d=√(w²+l²+h²)";sub=`V=${f(w)}×${f(l)}×${f(h)}`;results=[["ปริมาตร",w*l*h,volUnit],["พื้นที่ผิวทั้งหมด",2*(w*l+w*h+l*h),areaUnit],["เส้นทแยงมุมภายใน",Math.hypot(w,l,h),ou]];explain="เส้นทแยงมุมภายในทรงสี่เหลี่ยมมุมฉากคำนวณด้วยทฤษฎีพีทาโกรัสสามมิติ";
+ }else if(shape==="cylinder"){
+  const r=get("r"),h=get("h");formula="V=πr²h ; S=2πr(r+h)";sub=`V=π×${f(r)}²×${f(h)}`;results=[["ปริมาตร",Math.PI*r*r*h,volUnit],["พื้นที่ผิวทั้งหมด",2*Math.PI*r*(r+h),areaUnit],["พื้นที่ผิวข้าง",2*Math.PI*r*h,areaUnit]];explain="ทรงกระบอกมีฐานวงกลมสองฐานและผิวข้างโค้ง";
+ }else if(shape==="cone"){
+  const r=get("r"),h=get("h"),slant=Math.hypot(r,h);formula="V=⅓πr²h ; S=πr(r+ℓ), ℓ=√(r²+h²)";sub=`ℓ=√(${f(r)}²+${f(h)}²)=${f(slant)} ; V=⅓π×${f(r)}²×${f(h)}`;results=[["ปริมาตร",Math.PI*r*r*h/3,volUnit],["พื้นที่ผิวทั้งหมด",Math.PI*r*(r+slant),areaUnit],["พื้นที่ผิวข้าง",Math.PI*r*slant,areaUnit]];explain="ทรงกรวยมีความสูงตั้งฉาก h และความสูงเอียง ℓ";
+ }else if(shape==="sphere"){
+  const r=get("r");formula="V=⁴⁄₃πr³ ; S=4πr²";sub=`V=⁴⁄₃π×${f(r)}³`;results=[["ปริมาตร",4*Math.PI*r**3/3,volUnit],["พื้นที่ผิว",4*Math.PI*r*r,areaUnit]];explain="ทรงกลมมีจุดทุกจุดบนผิวห่างจากจุดศูนย์กลางเท่ากัน";
+ }else if(shape==="triPrism"){
+  const a=get("a"),b=get("b"),c=get("c"),L=get("L"),A=heron(a,b,c);formula="V=Aฐาน×L ; S=2Aฐาน+(a+b+c)L";sub=`Aฐาน=${f(A)} ; V=${f(A)}×${f(L)}`;results=[["ปริมาตร",A*L,volUnit],["พื้นที่ผิวทั้งหมด",2*A+(a+b+c)*L,areaUnit]];explain="ปริซึมฐานสามเหลี่ยมมีฐานสามเหลี่ยมสองด้านที่เท่ากัน";
+ }
+ const unitNote=`แปลงหน่วยจาก ${iu} เป็น ${ou} ก่อนคำนวณ (ตัวคูณ ${f(scale)})`;
+ $("geoResult").innerHTML=`<h4>ผลการคำนวณ: ${$("geoShape").selectedOptions[0].text}</h4><div class="explain-line"><b>สูตรที่ใช้</b><br>${formula}</div><div class="explain-line"><b>การแทนค่า</b><br>${sub}</div><div class="explain-line"><b>การจัดการหน่วย</b><br>${unitNote}</div><div class="explain-line"><b>ผลลัพธ์</b><br>${results.map(([n,v,u])=>`<p><strong>${n}: ${f(v)} ${u}</strong></p>`).join("")}</div><div class="explain-line"><b>คำอธิบาย</b><br>${explain}</div>`;
+}
+// V12.0.0 Engineering 2D/3D module — isolated from legacy calculators.
+let engMode="distance",engDim=2;
+const engModes={distance:"ระยะทางระหว่างจุด",vector:"ขนาดเวกเตอร์",dot:"ผลคูณจุด (Dot Product)",angle:"มุมระหว่างเวกเตอร์",add:"การบวกเวกเตอร์",subtract:"การลบเวกเตอร์",cross:"Cross Product",projection:"Vector Projection"};
+
+let engTarget="P";
+function engTargetOptions(){
+ if(engMode==="distance")return [["P","จุด P"],["Q","จุด Q"]];
+ if(engMode==="vector")return [["u","เวกเตอร์ u"]];
+ return [["u","เวกเตอร์ u"],["v","เวกเตอร์ v"]];
+}
+function renderEngineeringVisual(){
+ const targets=engTargetOptions();
+ if(!targets.some(x=>x[0]===engTarget))engTarget=targets[0][0];
+ $("engVisualTargets").innerHTML=targets.map(([k,label])=>`<button type="button" data-eng-target="${k}" class="${engTarget===k?"active":""}">${label}</button>`).join("");
+ $("engVisualTargets").querySelectorAll("[data-eng-target]").forEach(b=>b.onclick=()=>{engTarget=b.dataset.engTarget;renderEngineeringVisual()});
+ const axis=`<path d="M25 110 H295 M160 200 V15" stroke="#7894b3" stroke-width="1.4"/><path d="M290 106 l7 4 -7 4 M156 22 l4 -7 4 7" fill="none" stroke="#7894b3"/><text x="300" y="125" fill="#9fb6ca" font-size="10">X</text><text x="170" y="18" fill="#9fb6ca" font-size="10">Y</text>`;
+ const grid=Array.from({length:11},(_,i)=>{let x=35+i*25,y=10+i*20,n=i-5;return `<path d="M${x} 15 V205 M25 ${y} H295" stroke="#34506c" stroke-width=".6" opacity=".6"/><text x="${x}" y="222" text-anchor="middle" fill="#8fa9c2" font-size="8">${n}</text><text x="18" y="${y+3}" text-anchor="end" fill="#8fa9c2" font-size="8">${5-i}</text>`}).join("");
+ const read=(prefix,d)=>{const el=$(prefix+d);return el&&el.value!==""?Number(el.value):0};
+ const pt=(prefix)=>({x:160+read(prefix,"x")*25,y:110-read(prefix,"y")*20});
+ let shapes="";
+ if(engMode==="distance"){
+  const P=pt("p"),Q=pt("q");
+  shapes=`<line x1="${P.x}" y1="${P.y}" x2="${Q.x}" y2="${Q.y}" stroke="#d7e8f8" stroke-width="2" stroke-dasharray="5 4"/><circle cx="${P.x}" cy="${P.y}" r="6" fill="#35c7ff"/><circle cx="${Q.x}" cy="${Q.y}" r="6" fill="#f4b942"/><text x="${P.x+8}" y="${P.y-9}" fill="#35c7ff" font-size="11">P</text><text x="${Q.x+8}" y="${Q.y-9}" fill="#f4b942" font-size="11">Q</text>`;
+ }else{
+  const U=pt("u"),V=pt("v");
+  shapes=`<line x1="160" y1="110" x2="${U.x}" y2="${U.y}" stroke="#35c7ff" stroke-width="3"/><circle cx="${U.x}" cy="${U.y}" r="6" fill="#35c7ff"/><text x="${U.x+8}" y="${U.y-8}" fill="#35c7ff" font-size="11">u</text>`;
+  if(["dot","angle","add","subtract","cross","projection"].includes(engMode))shapes+=`<line x1="160" y1="110" x2="${V.x}" y2="${V.y}" stroke="#f4b942" stroke-width="3"/><circle cx="${V.x}" cy="${V.y}" r="6" fill="#f4b942"/><text x="${V.x+8}" y="${V.y-8}" fill="#f4b942" font-size="11">v</text>`;
+  if(["add","subtract"].includes(engMode)){
+   const ux=U.x-160,uy=U.y-110,vx=V.x-160,vy=V.y-110;
+   const W={x:160+ux+(engMode==="add"?vx:-vx),y:110+uy+(engMode==="add"?vy:-vy)};
+   shapes+=`<line x1="160" y1="110" x2="${W.x}" y2="${W.y}" stroke="#61e6a8" stroke-width="3" stroke-dasharray="4 3"/><text x="${W.x+7}" y="${W.y+14}" fill="#61e6a8" font-size="11">w</text>`;
+  }
+ }
+ $("engineeringVisual").innerHTML=`<svg id="engCoordinateSvg" viewBox="0 0 320 220" role="img" aria-label="ภาพพิกัดสำหรับแตะกำหนดค่า" style="width:100%;max-height:260px;background:#101e32;border-radius:12px;touch-action:manipulation">${grid}${axis}${shapes}</svg>`;
+ $("engTapHint").textContent=engDim===2?"แตะภาพเพื่อกำหนด X,Y ของ "+(targets.find(x=>x[0]===engTarget)?.[1]||"จุด"):"แตะภาพกำหนด X,Y ของ "+(targets.find(x=>x[0]===engTarget)?.[1]||"เวกเตอร์")+" แล้วกรอก Z ด้านล่าง";
+ const svg=$("engCoordinateSvg");
+ svg.onclick=ev=>{
+  const rect=svg.getBoundingClientRect(),x=(ev.clientX-rect.left)/rect.width*320,y=(ev.clientY-rect.top)/rect.height*220;
+  const vx=Math.max(-5,Math.min(5,(x-160)/25)),vy=Math.max(-5,Math.min(5,(110-y)/20));
+  const prefix=engMode==="distance"?(engTarget==="P"?"p":"q"):engTarget;
+  const ex=$(prefix+"x"),ey=$(prefix+"y");
+  if(ex)ex.value=String(Number(vx.toFixed(2)));if(ey)ey.value=String(Number(vy.toFixed(2)));
+  renderEngineeringVisual();
+ };
+}
+
+function renderEngineeringInputs(){
+ const dims=engDim===2?["x","y"]:["x","y","z"];
+ const field=(label,id,unit)=>`<div class="eng-field"><label for="${id}">${label}</label><input type="number" step="any" id="${id}" inputmode="decimal" placeholder="กรอกค่า ${label}"><small>${unit||"หน่วยตามโจทย์"}</small></div>`;
+ const group=(title,color,fields)=>`<div class="eng-input-card"><div class="eng-input-heading" style="color:${color}">${title}</div><div class="eng-input-grid">${fields}</div></div>`;
+ const axisLabel={x:"X",y:"Y",z:"Z"};
+ let out="";
+ if(engMode==="distance"){
+  out+=group("จุด P","#35c7ff",dims.map(d=>field("พิกัด "+axisLabel[d],"p"+d)).join(""));
+  out+=group("จุด Q","#f4b942",dims.map(d=>field("พิกัด "+axisLabel[d],"q"+d)).join(""));
+ }else{
+  out+=group("เวกเตอร์ u","#35c7ff",dims.map(d=>field("องค์ประกอบ "+axisLabel[d],"u"+d)).join(""));
+  if(["dot","angle","add","subtract","cross","projection"].includes(engMode))
+   out+=group("เวกเตอร์ v","#f4b942",dims.map(d=>field("องค์ประกอบ "+axisLabel[d],"v"+d)).join(""));
+ }
+ $("engineeringInputs").innerHTML=out;
+ if(engMode==="cross"&&engDim===2){
+  $("engineeringInputs").insertAdjacentHTML("afterbegin","<p class='muted' style='grid-column:1/-1'>Cross Product ต้องใช้เวกเตอร์ 3 มิติ กรุณาเลือก 3D</p>");
+ }
+ renderEngineeringVisual();
+}
+function engineeringCalculate(){
+ const dims=engDim===2?["x","y"]:["x","y","z"];
+ const unitFactors={m:1,cm:0.01,mm:0.001,km:1000,ft:0.3048,in:0.0254,"หน่วย":1};
+ const inputUnit=$("engInputUnit")?.value||"m",outputUnit=$("engOutputUnit")?.value||"m";
+ if((inputUnit==="หน่วย")!==(outputUnit==="หน่วย"))throw Error("หน่วยทั่วไปไม่สามารถแปลงร่วมกับหน่วยมาตรฐานได้ กรุณาเลือกหน่วยมาตรฐานทั้งสองช่องหรือเลือกหน่วยทั่วไปทั้งคู่");
+ const convertFactor=unitFactors[inputUnit]/unitFactors[outputUnit];
+ const val=id=>{const el=$(id);if(!el||el.value.trim()==="")throw Error("กรุณากรอกข้อมูลให้ครบทุกช่อง");const n=Number(el.value);if(!Number.isFinite(n))throw Error("กรุณากรอกตัวเลขที่ถูกต้อง");return n*convertFactor};
+ const f=n=>Number(n.toFixed(6)).toString();
+ let formula="",sub="",answer="",explain="";
+ if(engMode==="cross"&&engDim!==3)throw Error("Cross Product ต้องเลือกพิกัด 3D");
+ if(engMode==="distance"){
+  const P=dims.map(d=>val("p"+d)),Q=dims.map(d=>val("q"+d));
+  const dif=Q.map((v,i)=>v-P[i]),sum=dif.reduce((s,v)=>s+v*v,0);
+  formula=engDim===2?"d = √[(x₂−x₁)² + (y₂−y₁)²]":"d = √[(x₂−x₁)² + (y₂−y₁)² + (z₂−z₁)²]";
+  sub="d = √("+dif.map(v=>f(v)+"²").join(" + ")+") = √"+f(sum);
+  answer="ระยะทาง PQ = "+f(Math.sqrt(sum));explain="ระยะทางเป็นขนาดของเวกเตอร์ PQ";
+ }else{
+  const u=dims.map(d=>val("u"+d)),mu=Math.hypot(...u);
+  if(engMode==="vector"){
+   formula="|u| = √("+dims.map(d=>d+"²").join(" + ")+")";sub="|u| = √("+u.map(v=>f(v)+"²").join(" + ")+")";
+   answer="u = ("+u.map(f).join(", ")+") ; |u| = "+f(mu);explain="ขนาดเวกเตอร์คือความยาวจากจุดกำเนิดถึงปลายเวกเตอร์";
+  }else{
+   const v=dims.map(d=>val("v"+d)),mv=Math.hypot(...v),dot=u.reduce((s,x,i)=>s+x*v[i],0);
+   if(engMode==="dot"){
+    formula="u·v = "+dims.map(d=>"u"+d+"v"+d).join(" + ");sub="u·v = "+u.map((x,i)=>f(x)+"×"+f(v[i])).join(" + ")+" = "+f(dot);
+    answer="u·v = "+f(dot);explain="ผลคูณจุดเป็นปริมาณสเกลาร์";
+   }else if(engMode==="angle"){
+    if(!mu||!mv)throw Error("ไม่สามารถหามุมเมื่อเวกเตอร์มีขนาดเป็นศูนย์");
+    const c=Math.max(-1,Math.min(1,dot/(mu*mv)));
+    formula="cos θ = (u·v) / (|u||v|)";sub="cos θ = "+f(dot)+" / ("+f(mu)+"×"+f(mv)+") = "+f(c);
+    answer="θ = "+f(Math.acos(c)*180/Math.PI)+"°";explain="มุมระหว่างเวกเตอร์คำนวณจากผลคูณจุดและขนาดเวกเตอร์";
+   }else if(engMode==="add"||engMode==="subtract"){
+    const sign=engMode==="add"?1:-1,w=u.map((x,i)=>x+sign*v[i]);
+    formula=sign===1?"w = u + v":"w = u − v";sub="w = ("+u.map(f).join(", ")+") "+(sign===1?"+":"−")+" ("+v.map(f).join(", ")+")";
+    answer="w = ("+w.map(f).join(", ")+") ; |w| = "+f(Math.hypot(...w));explain="บวกหรือลบองค์ประกอบตามแกนที่ตรงกัน";
+   }else if(engMode==="cross"){
+    const w=[u[1]*v[2]-u[2]*v[1],u[2]*v[0]-u[0]*v[2],u[0]*v[1]-u[1]*v[0]];
+    formula="u×v = (uᵧv_z−u_zvᵧ, u_zvₓ−uₓv_z, uₓvᵧ−uᵧvₓ)";
+    sub="u×v = ("+w.map(f).join(", ")+")";answer="u×v = ("+w.map(f).join(", ")+") ; |u×v| = "+f(Math.hypot(...w));
+    explain="ผลลัพธ์เป็นเวกเตอร์ตั้งฉากกับทั้ง u และ v ตามกฎมือขวา";
+   }else if(engMode==="projection"){
+    if(!mv)throw Error("ไม่สามารถฉายลงบนเวกเตอร์ v ที่มีขนาดเป็นศูนย์");
+    const k=dot/(mv*mv),w=v.map(x=>k*x);
+    formula="projᵥu = [(u·v)/|v|²]v";sub="projᵥu = ("+f(dot)+"/"+f(mv*mv)+")("+v.map(f).join(", ")+")";
+    answer="projᵥu = ("+w.map(f).join(", ")+") ; |projᵥu| = "+f(Math.hypot(...w));
+    explain="Projection คือองค์ประกอบของ u ในทิศทางของ v";
+   }
+  }
+ }
+ const unit=outputUnit;
+ const resultUnit=engMode==="angle"?"°":(["dot","cross"].includes(engMode)?unit+"²":unit);
+ if(engMode==="angle")answer=answer.replace(/°+$/,"")+"°";
+ else answer+=" "+resultUnit;
+ const conversionNote=inputUnit===outputUnit
+  ? "หน่วยข้อมูลและหน่วยผลลัพธ์ตรงกัน ("+inputUnit+")"
+  : "แปลงหน่วยอัตโนมัติ: "+inputUnit+" → "+outputUnit+" (ตัวคูณ "+f(convertFactor)+")";
+ $("engineeringResult").innerHTML=`<h4>${engModes[engMode]} • ${engDim}D</h4><div class="explain-line"><b>การจัดการหน่วย</b><br>${conversionNote}</div><div class="explain-line"><b>ขั้นที่ 1 สูตร</b><br>${formula}</div><div class="explain-line"><b>ขั้นที่ 2 แทนค่า</b><br>${sub}</div><div class="explain-line"><b>ขั้นที่ 3 คำตอบ</b><br><strong>${answer}</strong></div><div class="explain-line"><b>คำอธิบาย</b><br>${explain}</div>`;
+}
+$("navf").onclick=()=>{$("functions").classList.remove("hidden");$("triangles").classList.add("hidden");$("navf").classList.add("active");$("navt").classList.remove("active")};$("navt").onclick=()=>{$("functions").classList.add("hidden");$("triangles").classList.remove("hidden");$("navt").classList.add("active");$("navf").classList.remove("active")};
+const appSections=["functions","triangles","graph","history","engineering","solidGeometry","unitConverter","constructionCalc"];
+function showEngineering(){appSections.forEach(id=>{const el=$(id);if(el)el.classList.toggle("hidden",id!=="engineering")});document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));$("nave").classList.add("active");}
+$("nave").onclick=showEngineering;
+function showGeometry(){appSections.forEach(id=>{const el=$(id);if(el)el.classList.toggle("hidden",id!=="solidGeometry")});document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));$("navgeo").classList.add("active");}
+$("navgeo").onclick=showGeometry;
+function showUnitConverter(){appSections.forEach(id=>{const el=$(id);if(el)el.classList.toggle("hidden",id!=="unitConverter")});document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));$("navunit").classList.add("active");}
+$("navunit").onclick=showUnitConverter;
+function showConstructionCalc(){appSections.forEach(id=>{const el=$(id);if(el)el.classList.toggle("hidden",id!=="constructionCalc")});document.querySelectorAll(".nav button").forEach(b=>b.classList.remove("active"));$("navbuild").classList.add("active");}
+$("navbuild").onclick=showConstructionCalc;
+
+
+$("geo2d").onclick=()=>{geoDim=2;$("geo2d").classList.add("active");$("geo3d").classList.remove("active");geoRenderShapes();$("geoResult").innerHTML="<p class='muted'>กรอกขนาดแล้วกดคำนวณ</p>"};
+$("geo3d").onclick=()=>{geoDim=3;$("geo3d").classList.add("active");$("geo2d").classList.remove("active");geoRenderShapes();$("geoResult").innerHTML="<p class='muted'>กรอกขนาดแล้วกดคำนวณ</p>"};
+$("geoShape").onchange=()=>{geoRenderInputs();$("geoResult").innerHTML="<p class='muted'>กรอกขนาดแล้วกดคำนวณ</p>";updateGeoLivePreview()};
+$("geoInputs").addEventListener("input",ev=>{if(ev.target&&ev.target.matches("input")){updateGeoLivePreview();$("geoResult").innerHTML="<p class='muted'>ข้อมูลเปลี่ยนแล้ว กดคำนวณเพื่ออัปเดตผลลัพธ์</p>"}});
+$("geoInputs").addEventListener("change",ev=>{if(ev.target&&ev.target.matches("input,select"))updateGeoLivePreview()});
+$("geoCalc").onclick=()=>{try{geoCalculate()}catch(e){$("geoResult").innerHTML="<p style='color:#ff9b9b'>"+e.message+"</p>"}};
+$("geoClear").onclick=()=>{geoRenderInputs();$("geoResult").innerHTML="<p class='muted'>ล้างค่าแล้ว</p>";updateGeoLivePreview()};
+geoRenderShapes();
+document.querySelectorAll("[data-eng-mode]").forEach(b=>b.onclick=()=>{engMode=b.dataset.engMode;document.querySelectorAll("[data-eng-mode]").forEach(x=>x.classList.toggle("active",x===b));renderEngineeringInputs();$("engineeringResult").innerHTML="<p class='muted'>กรอกข้อมูลแล้วกดคำนวณ</p>"});
+$("eng2d").onclick=()=>{engDim=2;$("eng2d").classList.add("active");$("eng3d").classList.remove("active");renderEngineeringInputs()};
+$("eng3d").onclick=()=>{engDim=3;$("eng3d").classList.add("active");$("eng2d").classList.remove("active");renderEngineeringInputs()};
+$("eng2d").onclick=()=>{engDim=2;$("eng2d").classList.add("active");$("eng3d").classList.remove("active");renderEngineeringInputs()};
+$("engineeringCalc").onclick=()=>{try{engineeringCalculate()}catch(e){$("engineeringResult").innerHTML="<p style='color:#ff9b9b'>"+e.message+"</p>"}};
+$("engineeringClear").onclick=()=>{renderEngineeringInputs();$("engineeringResult").innerHTML="<p class='muted'>ล้างข้อมูลแล้ว</p>"};
+$("engineeringInputs").addEventListener("input",()=>renderEngineeringVisual());
+renderEngineeringInputs();
+
+$("general").onclick=()=>setTri("general");$("right").onclick=()=>setTri("right");$("method").onchange=()=>{clearTri();renderTri()};$("tricalc").onclick=runTri;$("clear").onclick=clearTri;
+["a","b","c","A","B","C"].forEach(k=>{const el=$(k);if(el)el.addEventListener("input",updateLiveTrianglePreview)});
+$("deg").onclick=()=>{tu="deg";$("deg").classList.add("active");$("rad").classList.remove("active");updateLiveTrianglePreview()};$("rad").onclick=()=>{tu="rad";$("rad").classList.add("active");$("deg").classList.remove("active");updateLiveTrianglePreview()};
+$("inputdiagram").addEventListener("input",ev=>{
+ if(ev.target&&["a","b","c","A","B","C"].includes(ev.target.id))updateLiveTrianglePreview();
+});
+function setTri(t){
+ tri=t;
+ $("general").classList.toggle("active",t==="general");
+ $("right").classList.toggle("active",t==="right");
+ $("methodbox").classList.toggle("hidden",t==="right");
+ $("triheading").textContent=t==="right"?"กรอกค่าบนรูปสามเหลี่ยมมุมฉาก":"กรอกค่าบนรูปสามเหลี่ยมทั่วไป";
+ renderTri();
+ clearTri();
+ $("inputdiagram").setAttribute("data-triangle-mode",t);
+}
+
+function activeScreen(which){
+ ["functions","triangles","graphs","history"].forEach(id=>$(id).classList.toggle("hidden",id!==which));
+ ["navf","navt","navg","navh"].forEach(id=>$(id).classList.toggle("active",id===({functions:"navf",triangles:"navt",graphs:"navg",history:"navh"})[which]));
+ if(which==="graphs")drawGraph();
+ if(which==="history")renderHistory();
+}
+$("navf").onclick=()=>activeScreen("functions");
+$("navt").onclick=()=>activeScreen("triangles");
+$("navg").onclick=()=>activeScreen("graphs");
+$("navh").onclick=()=>activeScreen("history");
+
+function saveHistory(entry){
+ try{
+  const list=JSON.parse(localStorage.getItem("trigpro_v10_history")||"[]");
+  list.unshift({...entry,time:new Date().toLocaleString("th-TH")});
+  localStorage.setItem("trigpro_v10_history",JSON.stringify(list.slice(0,100)));
+ }catch(e){}
+}
+function renderHistory(){
+ let list=[];try{list=JSON.parse(localStorage.getItem("trigpro_v10_history")||"[]")}catch(e){}
+ $("historyList").innerHTML=list.length?list.map((v,i)=>`<div class="history-item"><b>${v.title}</b><div>${v.result}</div><div class="muted">${v.time}</div></div>`).join(""):'<p class="muted">ยังไม่มีประวัติการคำนวณ</p>';
+}
+$("historyRefresh").onclick=renderHistory;
+$("historyClear").onclick=()=>{if(confirm("ต้องการล้างประวัติทั้งหมดหรือไม่?")){localStorage.removeItem("trigpro_v10_history");renderHistory()}};
+
+function graphValue(f,deg){
+ const rad=deg*Math.PI/180,s=Math.sin(rad),c=Math.cos(rad);
+ if(f==="sin")return s;
+ if(f==="cos")return c;
+ if(f==="tan")return Math.abs(c)<1e-10?NaN:s/c;
+ if(f==="csc")return Math.abs(s)<1e-10?NaN:1/s;
+ if(f==="sec")return Math.abs(c)<1e-10?NaN:1/c;
+ if(f==="cot")return Math.abs(s)<1e-10?NaN:c/s;
+ return NaN;
+}
+const graphColors={sin:"#69b9ff",cos:"#f4b942",tan:"#16c58b",csc:"#e879f9",sec:"#fb923c",cot:"#22d3ee"};
+function drawGraph(){
+ const f=$("graphFn").value,range=Number($("graphRange").value),slider=$("graphAngle");
+ slider.min=-range;slider.max=range;
+ let angle=Math.max(-range,Math.min(range,Number(slider.value)||0));slider.value=angle;
+ const selected=[...document.querySelectorAll(".graphCompare:checked")].map(e=>e.value).filter(v=>v!==f);
+ const funcs=[f,...selected],W=680,H=340,L=48,R=18,T=18,B=38,ymin=-3,ymax=3;
+ const X=x=>L+(x+range)/(2*range)*(W-L-R),Y=y=>T+(ymax-y)/(ymax-ymin)*(H-T-B);
+ const clamp=y=>Math.max(ymin,Math.min(ymax,y));
+ let allPaths=[];
+ for(const name of funcs){
+  let paths=[],segment="",pen=false,prev=null;
+  const samples=Math.max(1400,Math.round(range*6));
+  for(let i=0;i<=samples;i++){
+   const deg=-range+2*range*i/samples,val=graphValue(name,deg);
+   const valid=Number.isFinite(val)&&Math.abs(val)<=ymax;
+   if(!valid||(prev!==null&&Math.abs(val-prev)>1.2)){
+    if(segment)paths.push(segment);segment="";pen=false;prev=null;
+    if(!valid)continue;
+   }
+   segment+=(pen?"L":"M")+X(deg).toFixed(2)+" "+Y(clamp(val)).toFixed(2)+" ";
+   pen=true;prev=val;
+  }
+  if(segment)paths.push(segment);
+  allPaths.push(`<g fill="none" stroke="${graphColors[name]}" stroke-width="${name===f?3:2.2}" stroke-linejoin="round" stroke-linecap="round">${paths.map(d=>`<path d="${d}"/>`).join("")}</g>`);
+ }
+ const xTicks=[];
+ for(let d=-range;d<=range+1e-8;d+=range/4)xTicks.push(`<line x1="${X(d)}" y1="${T}" x2="${X(d)}" y2="${H-B}" class="graph-grid"/><text x="${X(d)}" y="${H-12}" text-anchor="middle" class="graph-label">${d}°</text>`);
+ const yTicks=[-3,-2,-1,0,1,2,3].map(v=>`<line x1="${L}" y1="${Y(v)}" x2="${W-R}" y2="${Y(v)}" class="graph-grid"/><text x="${L-9}" y="${Y(v)+4}" text-anchor="end" class="graph-label">${v}</text>`).join("");
+ const value=graphValue(f,angle),valid=Number.isFinite(value)&&Math.abs(value)<=ymax;
+ const marker=valid?`<line x1="${X(angle)}" y1="${T}" x2="${X(angle)}" y2="${H-B}" stroke="#f4b942" stroke-width="2" stroke-dasharray="5 4"/><line x1="${L}" y1="${Y(value)}" x2="${W-R}" y2="${Y(value)}" stroke="#22d3ee" stroke-width="2" stroke-dasharray="5 4"/><circle cx="${X(angle)}" cy="${Y(value)}" r="7" class="graph-marker"/><circle cx="${X(angle)}" cy="${Y(value)}" r="11" fill="none" stroke="#f4b942" stroke-width="1.5"/>`:"";
+ const formula={sin:"y = sin(x)",cos:"y = cos(x)",tan:"y = tan(x)",csc:"y = cosec(x)",sec:"y = sec(x)",cot:"y = cot(x)"}[f];
+ $("graphFormula").textContent=formula;$("graphCurrent").textContent=`x = ${angle}°`;
+ $("graphAngleLabel").textContent=`${angle}°`;$("graphXValue").textContent=`${angle}°`;
+ $("graphYValue").textContent=valid?fmt(value):"ไม่มีนิยาม / อยู่นอกช่วงกราฟ";
+ const graphExplain={
+  sin:`สูตร: y = sin(x) • แทนค่า: y = sin(${angle}°) • คำตอบ: ${valid?fmt(value):"ไม่มีนิยาม"}`,
+  cos:`สูตร: y = cos(x) • แทนค่า: y = cos(${angle}°) • คำตอบ: ${valid?fmt(value):"ไม่มีนิยาม"}`,
+  tan:`สูตร: y = tan(x) = sin(x)/cos(x) • แทนค่า x = ${angle}° • คำตอบ: ${valid?fmt(value):"ไม่มีนิยาม"}`,
+  csc:`สูตร: y = cosec(x) = 1/sin(x) • แทนค่า x = ${angle}° • คำตอบ: ${valid?fmt(value):"ไม่มีนิยาม"}`,
+  sec:`สูตร: y = sec(x) = 1/cos(x) • แทนค่า x = ${angle}° • คำตอบ: ${valid?fmt(value):"ไม่มีนิยาม"}`,
+  cot:`สูตร: y = cot(x) = cos(x)/sin(x) • แทนค่า x = ${angle}° • คำตอบ: ${valid?fmt(value):"ไม่มีนิยาม"}`
+ }[f];
+ $("graphSteps").innerHTML=`<h4>สูตรและวิธีคำนวณจุดบนกราฟ</h4><div class="explain-line">${graphExplain}</div><div class="explain-line">อ่านกราฟ: เส้นตั้งระบุมุม x = ${angle}° และเส้นนอนระบุค่า y = ${valid?fmt(value):"ไม่มีนิยาม"} จุดตัดคือพิกัด (${angle}, ${valid?fmt(value):"—"})</div>`;
+ $("graphPlot").innerHTML=`<svg id="interactiveGraph" class="graph-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="กราฟ ${formula} ตั้งแต่ ${-range} ถึง ${range} องศ"><rect x="${L}" y="${T}" width="${W-L-R}" height="${H-T-B}" fill="#0a1726" stroke="#29435e"/>${xTicks.join("")}${yTicks}<line x1="${L}" y1="${Y(0)}" x2="${W-R}" y2="${Y(0)}" class="graph-axis"/><line x1="${X(0)}" y1="${T}" x2="${X(0)}" y2="${H-B}" class="graph-axis"/>${allPaths.join("")}${marker}<text x="${W-R-4}" y="${T+12}" text-anchor="end" class="graph-label">y</text><text x="${W-R}" y="${H-12}" text-anchor="end" class="graph-label">x</text></svg>
+ <div class="graph-legend">${funcs.map(n=>`<span style="color:${graphColors[n]}">━ ${n}</span>`).join("")}</div>`;
+ const svg=$("interactiveGraph");
+ const pick=ev=>{
+  const pt=svg.createSVGPoint();pt.x=ev.clientX;pt.y=ev.clientY;
+  const ctm=svg.getScreenCTM();if(!ctm)return;
+  const q=pt.matrixTransform(ctm.inverse());
+  const deg=Math.max(-range,Math.min(range,((q.x-L)/(W-L-R))*2*range-range));
+  slider.value=Math.round(deg);drawGraph();
+ };
+ svg.addEventListener("click",pick);
+ svg.addEventListener("pointerdown",ev=>{if(ev.pointerType!=="mouse"){ev.preventDefault();pick(ev)}});
+}
+$("graphFn").onchange=drawGraph;$("graphRange").onchange=drawGraph;$("graphAngle").oninput=drawGraph;
+document.querySelectorAll(".graphCompare").forEach(el=>el.addEventListener("change",drawGraph));
+
+
+// UNIT CONVERTER — exact base-unit factors for standard Thai and international units.
+const unitCatalog={
+ length:{title:"ความยาว",base:"เมตร (m)",units:[
+  ["mm","มิลลิเมตร (mm)",0.001],["cm","เซนติเมตร (cm)",0.01],["m","เมตร (m)",1],
+  ["km","กิโลเมตร (km)",1000],["in","นิ้ว (in)",0.0254],["ft","ฟุต (ft)",0.3048],
+  ["yd","หลา (yd)",0.9144],["mi","ไมล์ (mi)",1609.344],["wa","วา (วา)",2],
+  ["sok","ศอก (ศอก)",0.5],["khuep","คืบ (คืบ)",0.25],["sen","เส้น (เส้น)",20]
+ ]},
+ area:{title:"พื้นที่",base:"ตารางเมตร (m²)",units:[
+  ["mm2","ตารางมิลลิเมตร (mm²)",0.000001],["cm2","ตารางเซนติเมตร (cm²)",0.0001],
+  ["m2","ตารางเมตร (m²)",1],["km2","ตารางกิโลเมตร (km²)",1000000],
+  ["sqft","ตารางฟุต (ft²)",0.09290304],["sqyd","ตารางหลา (yd²)",0.83612736],
+  ["acre","เอเคอร์ (acre)",4046.8564224],["ha","เฮกตาร์ (ha)",10000],
+  ["sqwa","ตารางวา (ตร.ว.)",4],["ngan","งาน (งาน)",400],["rai","ไร่ (ไร่)",1600]
+ ]},
+ volume:{title:"ปริมาตร",base:"ลูกบาศก์เมตร (m³)",units:[
+  ["ml","มิลลิลิตร (mL)",0.000001],["l","ลิตร (L)",0.001],["m3","ลูกบาศก์เมตร (m³)",1],
+  ["cm3","ลูกบาศก์เซนติเมตร (cm³)",0.000001],["ft3","ลูกบาศก์ฟุต (ft³)",0.028316846592],
+  ["in3","ลูกบาศก์นิ้ว (in³)",0.000016387064],["galus","แกลลอนสหรัฐ (US gal)",0.003785411784],
+  ["galuk","แกลลอนอังกฤษ (Imp gal)",0.00454609]
+ ]},
+ mass:{title:"มวล / น้ำหนัก",base:"กิโลกรัม (kg)",units:[
+  ["mg","มิลลิกรัม (mg)",0.000001],["g","กรัม (g)",0.001],["kg","กิโลกรัม (kg)",1],
+  ["t","ตันเมตริก (t)",1000],["oz","ออนซ์ (oz)",0.028349523125],["lb","ปอนด์ (lb)",0.45359237]
+ ]},
+ temperature:{title:"อุณหภูมิ",base:"องศาเซลเซียส (°C)",units:[
+  ["C","เซลเซียส (°C)"],["F","ฟาเรนไฮต์ (°F)"],["K","เคลวิน (K)"]
+ ]},
+ speed:{title:"ความเร็ว",base:"เมตรต่อวินาที (m/s)",units:[
+  ["ms","เมตร/วินาที (m/s)",1],["kmh","กิโลเมตร/ชั่วโมง (km/h)",1/3.6],
+  ["mph","ไมล์/ชั่วโมง (mph)",0.44704],["knot","นอต (kn)",0.514444444444]
+ ]},
+ time:{title:"เวลา",base:"วินาที (s)",units:[
+  ["s","วินาที (s)",1],["min","นาที (min)",60],["h","ชั่วโมง (h)",3600],
+  ["day","วัน (day)",86400],["week","สัปดาห์",604800]
+ ]},
+ force:{title:"แรง",base:"นิวตัน (N)",units:[
+  ["N","นิวตัน (N)",1],["kN","กิโลนิวตัน (kN)",1000],["kgf","กิโลกรัมแรง (kgf)",9.80665],
+  ["lbf","ปอนด์แรง (lbf)",4.4482216152605]
+ ]},
+ pressure:{title:"ความดัน",base:"ปาสกาล (Pa)",units:[
+  ["Pa","ปาสกาล (Pa)",1],["kPa","กิโลปาสกาล (kPa)",1000],["MPa","เมกะปาสกาล (MPa)",1000000],
+  ["bar","บาร์ (bar)",100000],["atm","บรรยากาศมาตรฐาน (atm)",101325],
+  ["psi","ปอนด์ต่อตารางนิ้ว (psi)",6894.757293168]
+ ]},
+ energy:{title:"พลังงาน",base:"จูล (J)",units:[
+  ["J","จูล (J)",1],["kJ","กิโลจูล (kJ)",1000],["cal","แคลอรี (cal)",4.184],
+  ["kcal","กิโลแคลอรี (kcal)",4184],["Wh","วัตต์-ชั่วโมง (Wh)",3600],["kWh","กิโลวัตต์-ชั่วโมง (kWh)",3600000]
+ ]}
+};
+const uc=$=>document.getElementById($);
+const ucFmt=n=>{if(!Number.isFinite(n))return "—";if(n===0)return "0";return Number(n.toPrecision(12)).toLocaleString("en-US",{maximumFractionDigits:10})};
+function ucTempToC(v,u){return u==="C"?v:u==="F"?(v-32)*5/9:v-273.15}
+function ucCToTemp(v,u){return u==="C"?v:u==="F"?v*9/5+32:v+273.15}
+
+function ucRenderAllResults(categoryKey,cat,inputValue,fromUnit){
+ const host=uc("ucAllResults");
+ if(!host)return;
+ if(!Number.isFinite(inputValue)){
+  host.innerHTML="<p class='muted'>กรอกตัวเลขเพื่อแสดงผลเทียบทุกหน่วย</p>";return;
+ }
+ const baseValue=categoryKey==="temperature"?ucTempToC(inputValue,fromUnit[0]):inputValue*fromUnit[2];
+ const thaiUnits={
+  length:new Set(["wa","sok","khuep","sen"]),
+  area:new Set(["rai","ngan","sqwa"]),
+  volume:new Set([]),mass:new Set([]),temperature:new Set([]),
+  speed:new Set([]),time:new Set([]),force:new Set([]),pressure:new Set([]),energy:new Set([])
+ };
+ const priority={
+  area:["rai","ngan","sqwa","m2","ha","acre","km2","sqft","sqyd","cm2","mm2"],
+  length:["wa","sen","sok","khuep","m","km","cm","mm","in","ft","yd","mi"],
+  volume:["m3","l","ml","cm3","ft3","in3","galus","galuk"]
+ };
+ let units=[...cat.units];
+ if(priority[categoryKey]){
+  const order=priority[categoryKey];
+  units.sort((a,b)=>order.indexOf(a[0])-order.indexOf(b[0]));
+ }
+ host.innerHTML=units.map(unit=>{
+  let value=categoryKey==="temperature"?ucCToTemp(baseValue,unit[0]):baseValue/unit[2];
+  const isThai=thaiUnits[categoryKey]?.has(unit[0])||false;
+  const isSelected=unit[0]===fromUnit[0];
+  const badge=isThai?"หน่วยไทย":isSelected?"หน่วยต้นทาง":"เทียบเท่า";
+  return `<div class="uc-result-card ${isThai?"uc-thai":""}"><div class="uc-unit-name">${unit[1]}</div><strong>${ucFmt(value)}</strong><small>${badge}</small></div>`;
+ }).join("");
+}
+
+
+function ucRenderThaiLandBreakdown(categoryKey,inputValue,fromUnit){
+ const host=uc("ucThaiLandBreakdown");if(!host)return;
+ if(categoryKey!=="area"||!Number.isFinite(inputValue)){host.style.display="none";host.innerHTML="";return;}
+ const sqm=inputValue*fromUnit[2];
+ if(sqm<0){host.style.display="block";host.innerHTML="<div class='uc-land-title'>การแปลงพื้นที่ไทย</div><div>กรุณากรอกค่าพื้นที่เป็นศูนย์หรือจำนวนบวก</div>";return;}
+ const rai=Math.floor(sqm/1600+1e-12);
+ let remainder=sqm-rai*1600;
+ const ngan=Math.floor(remainder/400+1e-12);
+ remainder-=ngan*400;
+ const sqwa=remainder/4;
+ const fmt=n=>ucFmt(n);
+ host.style.display="block";
+ host.innerHTML=`<div class='uc-land-title'>แปลงเป็นหน่วยที่ดินไทยพร้อมกัน (ไร่–งาน–ตารางวา)</div>
+ <div class='uc-land-values'>
+ <div class='uc-land-item'><strong>${fmt(rai)}</strong><span>ไร่</span></div>
+ <div class='uc-land-item'><strong>${fmt(ngan)}</strong><span>งาน</span></div>
+ <div class='uc-land-item'><strong>${fmt(sqwa)}</strong><span>ตารางวา</span></div></div>
+ <div class='uc-land-total'>${fmt(sqm)} ตารางเมตร = ${fmt(rai)} ไร่ ${fmt(ngan)} งาน ${fmt(sqwa)} ตารางวา</div>
+ <div class='muted' style='font-size:11px;margin-top:5px'>1 ไร่ = 400 ตารางวา, 1 งาน = 100 ตารางวา, 1 ตารางวา = 4 ตารางเมตร</div>`;
+}
+
+
+function ucRenderLandPrice(categoryKey,inputValue,fromUnit){
+ const panel=uc("ucLandPricePanel");
+ if(!panel)return;
+ panel.style.display=categoryKey==="area"?"block":"none";
+ if(categoryKey!=="area")return;
+ const raw=uc("ucLandPrice").value.trim(),price=Number(raw);
+ const totalEl=uc("ucLandTotal"),detail=uc("ucLandPriceDetail");
+ if(raw===""||!Number.isFinite(price)||price<0||!Number.isFinite(inputValue)||inputValue<0){
+  totalEl.textContent="กรอกราคาต่อหน่วย";
+  detail.textContent="ระบบจะคำนวณเมื่อมีพื้นที่และราคาที่ถูกต้อง";
+  return;
+ }
+ const areaSqm=inputValue*fromUnit[2];
+ const unitSqm=Number(uc("ucLandPriceUnit").value);
+ const total=areaSqm/unitSqm*price;
+ totalEl.textContent=ucFmt(total)+" บาท";
+ detail.textContent=`พื้นที่ ${ucFmt(areaSqm)} ตารางเมตร × ${ucFmt(price)} บาทต่อ ${uc("ucLandPriceUnit").selectedOptions[0].text}`;
+}
+
+function ucConvert(){
+ const cat=unitCatalog[uc("ucCategory").value],from=cat.units.find(x=>x[0]===uc("ucFrom").value),to=cat.units.find(x=>x[0]===uc("ucTo").value);
+ const raw=uc("ucValue").value.trim(),v=Number(raw);
+ if(raw===""||!Number.isFinite(v)){uc("ucResult").textContent="กรอกตัวเลข";uc("ucResultUnit").textContent="";uc("ucEquation").textContent="กรุณากรอกค่าที่ต้องการแปลง";ucRenderAllResults(uc("ucCategory").value,cat,NaN,from);return}
+ let out,detail;
+ if(uc("ucCategory").value==="temperature"){
+  const c=ucTempToC(v,from[0]);out=ucCToTemp(c,to[0]);
+  detail=`แปลง ${from[1]} → ${cat.base} → ${to[1]} โดยใช้สูตรแปลงอุณหภูมิ`;
+ }else{
+  out=v*from[2]/to[2];
+  const factor=from[2]/to[2];
+  detail=`${ucFmt(v)} × (${ucFmt(from[2])} ÷ ${ucFmt(to[2])}) = ${ucFmt(out)} ${to[1]}`;
+ }
+ uc("ucResult").textContent=ucFmt(out);uc("ucResultUnit").textContent=to[1];
+ uc("ucEquation").innerHTML=`<div class="explain-line"><b>วิธีแปลง</b><br>${detail}</div><div class="explain-line"><b>หน่วยฐาน</b><br>${cat.base}</div>`;
+ uc("ucInfo").textContent=uc("ucCategory").value==="area"?"มาตราหน่วยที่ดินไทย: 1 ไร่ = 4 งาน = 400 ตารางวา = 1,600 ตารางเมตร และ 1 งาน = 100 ตารางวา":uc("ucCategory").value==="length"?"หน่วยไทยที่ใช้: 1 วา = 2 เมตร, 1 ศอก = 0.5 เมตร, 1 คืบ = 0.25 เมตร, 1 เส้น = 20 เมตร":"คำนวณจากค่าคงที่การแปลงหน่วยของระบบมาตรฐาน";
+ ucRenderAllResults(uc("ucCategory").value,cat,v,from);
+ ucRenderThaiLandBreakdown(uc("ucCategory").value,v,from);
+ ucRenderLandPrice(uc("ucCategory").value,v,from);
+}
+function ucRenderUnits(){
+ const cat=unitCatalog[uc("ucCategory").value],opts=cat.units.map(u=>`<option value="${u[0]}">${u[1]}</option>`).join("");
+ uc("ucFrom").innerHTML=opts;uc("ucTo").innerHTML=opts;
+ const defaults={length:["m","cm"],area:["rai","m2"],volume:["l","m3"],mass:["kg","g"],temperature:["C","F"],speed:["kmh","ms"],time:["h","min"],force:["kN","N"],pressure:["bar","kPa"],energy:["kWh","J"]};
+ uc("ucFrom").value=defaults[uc("ucCategory").value][0];uc("ucTo").value=defaults[uc("ucCategory").value][1];
+ uc("ucReference").innerHTML=`<div class="explain-line">หน่วยฐาน: <b>${cat.base}</b></div>`+cat.units.map(u=>`<div class="step">${u[1]}${uc("ucCategory").value==="temperature"?"":" = "+ucFmt(u[2])+" "+cat.base}</div>`).join("");
+ ucConvert();
+}
+function ucInit(){
+ uc("ucCategory").innerHTML=Object.entries(unitCatalog).map(([k,v])=>`<option value="${k}">${v.title}</option>`).join("");
+ uc("ucCategory").onchange=ucRenderUnits;
+ ["ucValue","ucFrom","ucTo"].forEach(id=>uc(id).addEventListener(id==="ucValue"?"input":"change",ucConvert));
+ uc("ucSwap").onclick=()=>{const a=uc("ucFrom").value;uc("ucFrom").value=uc("ucTo").value;uc("ucTo").value=a;ucConvert()};
+ uc("ucClear").onclick=()=>{uc("ucValue").value="";ucConvert()};
+ ["ucLandPrice","ucLandPriceUnit"].forEach(id=>uc(id).addEventListener(id==="ucLandPrice"?"input":"change",ucConvert));
+ ucRenderUnits();
+}
+ucInit();
+
+
+// CONSTRUCTION MATERIAL ESTIMATOR — preliminary quantity take-off.
+function ccNum(id){const el=$(id);return el?Number(el.value):NaN}
+const ccLinearIds=["ccLength","ccWidth","ccThick","ccWallLength","ccWallHeight","ccBlockLength","ccBlockHeight","ccFloorLength","ccFloorWidth","ccTileLength","ccTileWidth"];
+const ccUnitFactors={m:1,cm:0.01,mm:0.001};
+function ccMeters(id){return ccNum(id)*ccUnitFactors[$("ccLengthUnit")?.value||"m"]}
+function ccUpdateUnitLabels(){
+ const unit=$("ccLengthUnit").value;
+ const names={m:"เมตร (m)",cm:"เซนติเมตร (cm)",mm:"มิลลิเมตร (mm)"};
+ document.querySelectorAll("#constructionCalc label[for]").forEach(label=>{
+  if(ccLinearIds.includes(label.htmlFor)) label.dataset.baseText=label.dataset.baseText||label.textContent.replace(/\s*\([^)]*\)\s*$/,"");
+  if(ccLinearIds.includes(label.htmlFor)) label.textContent=label.dataset.baseText+" ("+unit+")";
+ });
+}
+function ccCard(label,value,unit){return `<div class="uc-result-card"><div class="uc-unit-name">${label}</div><strong>${value}</strong><small>${unit}</small></div>`}
+function ccShowError(message){$("ccResults").innerHTML=`<div class="muted">${message}</div>`;$("ccFormula").textContent="ตรวจสอบค่าที่กรอกแล้วลองใหม่"}
+function ccCalculate(){
+ const type=$("ccType").value,results=[];
+ if(type==="concrete"){
+  const L=ccMeters("ccLength"),W=ccMeters("ccWidth"),T=ccMeters("ccThick"),waste=ccNum("ccWaste")/100;
+  const cp=ccNum("ccCementPart"),sp=ccNum("ccSandPart"),gp=ccNum("ccStonePart"),bag=ccNum("ccBagKg");
+  if([L,W,T,waste,cp,sp,gp,bag].some(x=>!Number.isFinite(x)||x<0)||L===0||W===0||T===0||cp+sp+gp===0||bag===0){ccShowError("กรุณากรอกขนาดและอัตราส่วนให้ถูกต้อง โดยขนาดหลักต้องมากกว่า 0");return}
+  const wet=L*W*T*(1+waste),dry=wet*1.54,sum=cp+sp+gp;
+  const cementVol=dry*cp/sum,sandVol=dry*sp/sum,stoneVol=dry*gp/sum;
+  const bags=cementVol*1440/bag;
+  results.push(ccCard("ปริมาตรคอนกรีต (รวมเผื่อ) ",wet.toFixed(3),"ลูกบาศก์เมตร"));
+  results.push(ccCard("ปูนซีเมนต์",bags.toFixed(2),"ถุง (ประมาณการ)"));
+  results.push(ccCard("ทราย",sandVol.toFixed(3),"ลูกบาศก์เมตร"));
+  results.push(ccCard("หิน",stoneVol.toFixed(3),"ลูกบาศก์เมตร"));
+  $("ccFormula").innerHTML=`<b>วิธีคำนวณ</b><br>ปริมาตรเปียก = ${L} × ${W} × ${T.toFixed(3)} × (1 + ${waste*100}%) = ${wet.toFixed(3)} ม³<br>ปริมาตรแห้งประมาณ = ${wet.toFixed(3)} × 1.54 = ${dry.toFixed(3)} ม³<br>อัตราส่วนปูน : ทราย : หิน = ${cp} : ${sp} : ${gp}<br>จำนวนถุงปูน = ${cementVol.toFixed(3)} × 1,440 ÷ ${bag} = ${bags.toFixed(2)} ถุง`;
+ }else if(type==="block"){
+  const L=ccMeters("ccWallLength"),H=ccMeters("ccWallHeight"),bl=ccMeters("ccBlockLength"),bh=ccMeters("ccBlockHeight"),opening=ccNum("ccOpening"),waste=ccNum("ccBlockWaste")/100;
+  if([L,H,bl,bh,opening,waste].some(x=>!Number.isFinite(x)||x<0)||L===0||H===0||bl===0||bh===0||opening>L*H){ccShowError("กรุณาตรวจสอบขนาดผนัง ขนาดก้อน และพื้นที่ช่องเปิด");return}
+  const area=L*H-opening,face=bl*bh,count=Math.ceil(area/face*(1+waste));
+  results.push(ccCard("พื้นที่ผนังสุทธิ",area.toFixed(3),"ตารางเมตร"));
+  results.push(ccCard("จำนวนอิฐ/บล็อก",count.toLocaleString("en-US"),"ก้อน"));
+  results.push(ccCard("พื้นที่หน้าก้อน",face.toFixed(4),"ตารางเมตร/ก้อน"));
+  $("ccFormula").innerHTML=`พื้นที่ผนังสุทธิ = (${L} × ${H}) − ${opening} = ${area.toFixed(3)} ม²<br>จำนวนก้อน = ${area.toFixed(3)} ÷ ${face.toFixed(4)} × (1 + ${waste*100}%) = ${count.toLocaleString("en-US")} ก้อน`;
+ }else{
+  const L=ccMeters("ccFloorLength"),W=ccMeters("ccFloorWidth"),tl=ccMeters("ccTileLength"),tw=ccMeters("ccTileWidth"),waste=ccNum("ccTileWaste")/100;
+  if([L,W,tl,tw,waste].some(x=>!Number.isFinite(x)||x<0)||L===0||W===0||tl===0||tw===0){ccShowError("กรุณากรอกขนาดพื้นที่และกระเบื้องให้มากกว่า 0");return}
+  const area=L*W,tileArea=tl*tw,count=Math.ceil(area/tileArea*(1+waste));
+  results.push(ccCard("พื้นที่ปู",area.toFixed(3),"ตารางเมตร"));
+  results.push(ccCard("จำนวนกระเบื้อง",count.toLocaleString("en-US"),"แผ่น (รวมเผื่อ)"));
+  results.push(ccCard("พื้นที่ต่อแผ่น",tileArea.toFixed(4),"ตารางเมตร"));
+  $("ccFormula").innerHTML=`พื้นที่ปู = ${L} × ${W} = ${area.toFixed(3)} ม²<br>จำนวนแผ่น = ${area.toFixed(3)} ÷ ${tileArea.toFixed(4)} × (1 + ${waste*100}%) = ${count.toLocaleString("en-US")} แผ่น`;
+ }
+ $("ccResults").innerHTML=results.join("");
+}
+function ccInit(){
+ $("ccLengthUnit").onchange=()=>{
+  const previous=ccUnitFactors[$("ccLengthUnit").dataset.previousUnit||"m"];
+  const current=ccUnitFactors[$("ccLengthUnit").value];
+  ccLinearIds.forEach(id=>{const el=$(id);if(el&&el.value.trim()!==""){const converted=Number(el.value)*previous/current;el.value=Number(converted.toPrecision(10)).toString();}});
+  $("ccLengthUnit").dataset.previousUnit=$("ccLengthUnit").value;
+  ccUpdateUnitLabels();
+  ccCalculate();
+ };
+ $("ccLengthUnit").dataset.previousUnit="m";
+ ccUpdateUnitLabels();
+ $("ccType").onchange=()=>{
+  const t=$("ccType").value;
+  $("ccConcrete").classList.toggle("hidden",t!=="concrete");
+  $("ccBlock").classList.toggle("hidden",t!=="block");
+  $("ccTile").classList.toggle("hidden",t!=="tile");
+  ccCalculate();
+ };
+ $("constructionCalc").querySelectorAll("input").forEach(el=>el.addEventListener("input",ccCalculate));
+ ccCalculate();
+}
+ccInit();
+
+groupSet("basic");selectFn("sin");setTri("right");updateLiveTrianglePreview();
+if ("serviceWorker" in navigator) { window.addEventListener("load",()=>navigator.serviceWorker.register("./sw.js").catch(()=>{})); }
+</script></body></html>

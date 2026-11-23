@@ -1,0 +1,29 @@
+TRIGONOMETRY PRO V12.8.0 — IRREGULAR POLYGONS & DIAGONAL VISUALS
+
+ต่อยอดจาก V12.7.0
+
+เพิ่ม:
+- รูปหลายเหลี่ยมไม่สม่ำเสมอแบบกำหนดพิกัดจุดยอด 3–12 จุด
+- เลือกจำนวนจุดยอดได้ แล้วกรอก X,Y ของแต่ละจุดตามลำดับรอบรูป
+- คำนวณพื้นที่ด้วยสูตรเชือกรองเท้า (Shoelace formula)
+- คำนวณเส้นรอบรูปจากระยะระหว่างจุดยอดต่อเนื่อง
+- คำนวณจำนวนเส้นทแยงมุม n(n−3)/2
+- คำนวณความยาวเส้นทแยงมุมทุกเส้น และแสดงชื่อคู่จุด เช่น AC, AD
+- วาดรูปจากพิกัดที่กรอก พร้อมแสดงเส้นทแยงมุมเป็นเส้นประคนละสีและตัวเลขความยาว
+- ตรวจสอบเส้นขอบตัดกันเองและพื้นที่ศูนย์
+- ใช้หน่วย input/output conversion เดิม
+
+รูปแบบข้อมูล:
+- กรอกพิกัดจุดยอดตามลำดับรอบรูป (ตามเข็มหรือทวนเข็ม)
+- ค่าพิกัดทุกจุดใช้หน่วยเดียวกัน
+- รูปต้องไม่ตัดขอบตัวเอง (simple polygon)
+
+คงฟังก์ชันเดิม:
+- 2D shapes, regular polygons, 3D solids, volume, surface area, diagonal calculations
+- Engineering/vector/trigonometry modules
+
+ตรวจสอบ:
+- JavaScript syntax ผ่าน
+- Shoelace test: rectangle 4×3 yields area 12
+- Both diagonals of that rectangle yield length 5
+- ต้องทดสอบการกรอกข้อมูลและแสดงภาพบน Android จริงเพิ่มเติม

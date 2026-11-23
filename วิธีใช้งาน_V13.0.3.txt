@@ -1,0 +1,17 @@
+TRIGONOMETRY PRO V13.0.3 — LIVE INPUT DIAGRAM UPDATE
+
+Root cause addressed:
+V13.0.1/V13.0.2 updated the separate lower preview panel, but the diagram beside the input fields stayed static. This made the live feature appear not to work in the actual input workflow.
+
+Fix:
+- Update the SVG diagram in the input panel itself whenever a numeric input changes.
+- Also update the separate geometry preview panel.
+- Rebuild each preview from a saved pristine SVG so repeated edits do not accumulate scaling.
+- All regular 2D and 3D diagram shapes use the common input preview updater.
+- Stronger visible scaling response to dimension changes.
+- Irregular polygon preview continues to draw from actual X,Y coordinates and its diagonals.
+- Calculation and step-by-step result logic remains unchanged.
+
+Validation:
+- JavaScript syntax passed with node --check.
+- Browser/Android interaction still requires real-device testing.

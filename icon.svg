@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+<defs>
+ <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#10243c"/><stop offset="1" stop-color="#071321"/></linearGradient>
+ <linearGradient id="blue" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#75c8ff"/><stop offset="1" stop-color="#2478c7"/></linearGradient>
+ <filter id="shadow" x="-30%" y="-30%" width="160%" height="160%"><feGaussianBlur stdDeviation="8"/></filter>
+</defs>
+<rect width="512" height="512" rx="112" fill="url(#bg)"/>
+<circle cx="256" cy="230" r="166" fill="#1c6fb3" opacity=".10"/>
+<path d="M95 365 L414 365 L414 103 Z" fill="#2b8ed0" fill-opacity=".12" stroke="url(#blue)" stroke-width="19" stroke-linejoin="round"/>
+<path d="M374 365 V326 H414" fill="none" stroke="#f2b84b" stroke-width="15" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M95 390 H414" stroke="#f2b84b" stroke-width="8" stroke-linecap="round" opacity=".9"/>
+<g fill="#eaf6ff">
+ <circle cx="95" cy="365" r="10"/><circle cx="414" cy="365" r="10"/><circle cx="414" cy="103" r="10"/>
+</g>
+<text x="256" y="266" text-anchor="middle" font-family="Arial,sans-serif" font-size="88" font-weight="800" letter-spacing="2" fill="#ffffff">TRIG</text>
+<text x="256" y="316" text-anchor="middle" font-family="Arial,sans-serif" font-size="31" font-weight="700" letter-spacing="8" fill="#8fd0ff">PRO</text>
+<path d="M157 427 H355" stroke="#4c7396" stroke-width="3" stroke-linecap="round"/>
+<text x="256" y="466" text-anchor="middle" font-family="Arial,sans-serif" font-size="25" font-weight="700" fill="#dceeff">13.2</text>
+</svg>
